@@ -47,12 +47,13 @@ Plug 'sheerun/vim-polyglot'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'kyazdani42/nvim-tree.lua'
-" Plug 'scrooloose/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'kyazdani42/nvim-tree.lua'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-commentary'
-Plug 'hoob3rt/lualine.nvim'
+" Plug 'hoob3rt/lualine.nvim'
+Plug 'itchyny/lightline.vim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
 Plug 'lewis6991/gitsigns.nvim'
@@ -93,13 +94,13 @@ endif
 nnoremap <leader>v :e $MYVIMRC<CR>
 
 " 'hoob3rt/lualine.nvim'
-lua << EOF
-  require('lualine').setup({
-  options = {
-    theme = "nightfly"
-   }
-  })
-EOF
+" lua << EOF
+"   require('lualine').setup({
+"   options = {
+"     theme = "nightfly"
+"    }
+"   })
+" EOF
 
 " lewis6991/gitsigns.nvim
 lua << EOF
@@ -186,17 +187,17 @@ nnoremap <leader>= :wincmd =<cr>
 nnoremap <leader>vw :VimwikiIndex<CR>
 
 " kyazdani42/nvim-tree.lua
-nnoremap <C-n> :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
-let g:nvim_tree_gitignore = 1 "0 by default
-let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
-let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
-let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
-let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
+" nnoremap <C-n> :NvimTreeToggle<CR>
+" nnoremap <leader>r :NvimTreeRefresh<CR>
+" nnoremap <leader>n :NvimTreeFindFile<CR>
+" let g:nvim_tree_gitignore = 1 "0 by default
+" let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+" let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
+" let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
+" let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
+" let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+" let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+" let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
 
 
 let s:header = [
@@ -224,23 +225,23 @@ let g:startify_custom_header = startify#center(s:header)
 let g:startify_custom_footer = startify#center(s:footer)
 
 " scrooloose/nerdtree
-" let NERDTreeShowHidden=1
-" let g:NERDTreeMinimalUI = 1
+let NERDTreeShowHidden=1
+let g:NERDTreeMinimalUI = 1
 " Start NERDTree when Vim is started without file arguments.
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 " Exit Vim if NERDTree is the only window left.
-" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-"     \ quit | endif
-" function MyNerdToggle()
-"     if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
-"         :NERDTreeToggle
-"     else
-"         :NERDTreeFind
-"     endif
-" endfunction
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+    \ quit | endif
+function MyNerdToggle()
+    if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
+        :NERDTreeToggle
+    else
+        :NERDTreeFind
+    endif
+endfunction
 " Toggle (find current buffer in tree when opening)
-" nnoremap <leader>n :call MyNerdToggle()<CR>
+nnoremap <leader>n :call MyNerdToggle()<CR>
 
 " tpope/vim-commentary
 nnoremap <leader>/ :Commentary<CR>
