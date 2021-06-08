@@ -20,8 +20,7 @@ set noshowmode
 set completeopt=menuone,noinsert,noselect " what?
 set signcolumn=yes
 set number
-" set cmdheight=2
-set updatetime=750 " was set to 50... which is better?
+set updatetime=50 " 50 or 750
 set encoding=UTF-8
 set clipboard=unnamedplus " Copy paste between vim and everything else
 filetype plugin indent on
@@ -47,12 +46,10 @@ Plug 'sheerun/vim-polyglot'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
-" Plug 'kyazdani42/nvim-tree.lua'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-commentary'
-" Plug 'hoob3rt/lualine.nvim'
 Plug 'itchyny/lightline.vim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
@@ -92,15 +89,6 @@ if exists('+termguicolors')
 endif
 
 nnoremap <leader>v :e $MYVIMRC<CR>
-
-" 'hoob3rt/lualine.nvim'
-" lua << EOF
-"   require('lualine').setup({
-"   options = {
-"     theme = "nightfly"
-"    }
-"   })
-" EOF
 
 " lewis6991/gitsigns.nvim
 lua << EOF
@@ -176,9 +164,6 @@ let g:airline#extensions#tabline#enabled = 1
 " peitalin/vim-jsx-typescript
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
-" automatically rebalance windows on vim resize
-" autocmd VimResized * :wincmd =
-
 " zoom a vim pane, <C-w>= to re-balance
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>
@@ -186,38 +171,22 @@ nnoremap <leader>= :wincmd =<cr>
 " vimwiki/vimwiki
 nnoremap <leader>vw :VimwikiIndex<CR>
 
-" kyazdani42/nvim-tree.lua
-" nnoremap <C-n> :NvimTreeToggle<CR>
-" nnoremap <leader>r :NvimTreeRefresh<CR>
-" nnoremap <leader>n :NvimTreeFindFile<CR>
-" let g:nvim_tree_gitignore = 1 "0 by default
-" let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
-" let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
-" let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
-" let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
-" let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
-" let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
-" let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
-
-
 let s:header = [
       \ '',
-      \ '__      _______  __      ___           ',
-      \ '\ \    / / ____| \ \    / (_)          ',
-      \ ' \ \  / / (___    \ \  / / _ _ __ ___  ',
-      \ '  \ \/ / \___ \    \ \/ / | | ''_ ` _ \ ',
-      \ '   \  /  ____) |    \  /  | | | | | | |',
-      \ '    \/  |_____/      \/   |_|_| |_| |_|',
+      \ '__      _______    _____          _      ',
+      \ '\ \    / / ____|  / ____|        | |     ',
+      \ ' \ \  / / (___   | |     ___   __| | ___ ',
+      \ '  \ \/ / \___ \  | |    / _ \ / _` |/ _ \',
+      \ '   \  /  ____) | | |___| (_) | (_| |  __/',
+      \ '    \/  |_____/   \_____\___/ \__,_|\___|',
       \ '',
       \ '            [ @elijahmanor ]           ',
       \ '',
       \ ]
 
-
-
 let s:footer = [
       \ '+-----------------------------------------+',
-      \ '|    Talk is cheap Show me the code       |',
+      \ '|    Doug, this is VS Code... see!?!      |',
       \ '+-----------------------------------------+',
       \ ]
 
@@ -275,17 +244,13 @@ nnoremap <M-Down> :resize -5<cr>
 nnoremap <M-Left> :vertical resize +5<cr>
 
 " Display extra whitespace
-" set listchars=nbsp:⦸,tab:>-,extends:»,precedes:«,trail:•
-" set listchars=tab:▸\ ,trail:·,precedes:←,extends:→
-" set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
-" set listchars=eol:§,tab:¤›,extends:»,precedes:«,nbsp:‡
-" set listchars=tab:»·,nbsp:+,trail:·,extends:→,precedes:←
 set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
 
 " Make it obvious where 80 characters is
-" set textwidth=80
-" set colorcolumn=+1
-" set colorcolumn=80
+set textwidth=80
+set colorcolumn=+1
+set colorcolumn=80
+highlight ColorColumn guibg=Black
 
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
