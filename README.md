@@ -13,6 +13,12 @@
 git clone git@github.com:thnukid/dotfiles.git ~/.dotfiles
 ```
 
+## List Files
+
+```
+tree -a -I '.git|.DS_Store'
+```
+
 ## Install Packages
 
 ```
@@ -22,6 +28,6 @@ brew bundle
 ### Symlink dotfiles
 
 ```
-stow git neovim zsh
+stow alacritty git kitty nvim tmux zsh
 ```
 

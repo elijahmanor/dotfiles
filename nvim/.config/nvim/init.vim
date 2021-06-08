@@ -17,12 +17,13 @@ set incsearch
 set termguicolors
 set scrolloff=8
 set noshowmode
-set completeopt=menuone,noinsert,noselect
+set completeopt=menuone,noinsert,noselect " what?
 set signcolumn=yes
 set number
-set updatetime=750 
+" set cmdheight=2
+set updatetime=750 " was set to 50... which is better?
 set encoding=UTF-8
-set clipboard=unnamedplus
+set clipboard=unnamedplus " Copy paste between vim and everything else
 filetype plugin indent on
 
 let g:netrw_banner=0 " disable banner in netrw
@@ -30,41 +31,36 @@ let g:netrw_liststyle=3 " tree view in netrw
 
 if has('folding')
   if has('windows')
-    let &fillchars='vert: ' " less cluttered vertical window separators
+    let &fillchars='vert: '           " less cluttered vertical window separators
   endif
-  set foldmethod=indent " not as cool as syntax, but faster
-  set foldlevelstart=1 " start folded
+  set foldmethod=indent               " not as cool as syntax, but faster
+  set foldlevelstart=1                " start folded
 endif
 
 call plug#begin('~/.vim/plugged')
+
+Plug 'mhinz/vim-startify'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-
 Plug 'sheerun/vim-polyglot'
-
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-
+Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'tpope/vim-commentary'
-
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
-
 Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
 Plug 'lewis6991/gitsigns.nvim'
-
 Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
-
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
-
 Plug 'wesQ3/vim-windowswap'
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-fugitive'
@@ -72,22 +68,17 @@ Plug 'psliwka/vim-smoothie'
 Plug 'vimwiki/vimwiki'
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-surround'
-" Plug 'liuchengxu/vim-which-key'
+Plug 'liuchengxu/vim-which-key'
 Plug 'tpope/vim-repeat'
 Plug 'machakann/vim-highlightedyank'
 Plug 'vim-test/vim-test'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-" Plug 'morhetz/gruvbox'
 Plug 'charliesbot/night-owl.vim'
-
-Plug 'yggdroot/indentline'
-
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-
 Plug 'tpope/vim-speeddating'
-
 Plug 'ThePrimeagen/harpoon'
+Plug 'francoiscabrol/ranger.vim'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'yamatsum/nvim-cursorline'
 
 call plug#end()
 
@@ -123,20 +114,12 @@ lua require'lspconfig'.tsserver.setup{}
 
 nnoremap <Leader>ha :lua require("harpoon.mark").add_file()<CR>
 nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
-nnoremap <C-h> :lua require("harpoon.ui").nav_file(1)<CR>
-nnoremap <C-t> :lua require("harpoon.ui").nav_file(2)<CR>
-nnoremap <C-n> :lua require("harpoon.ui").nav_file(3)<CR>
-nnoremap <C-s> :lua require("harpoon.ui").nav_file(4)<CR>
-nnoremap <leader>tu :lua require("harpoon.term").gotoTerminal(1)<CR>
-nnoremap <leader>te :lua require("harpoon.term").gotoTerminal(2)<CR>
-nnoremap <leader>cu :lua require("harpoon.term").sendCommand(1, 1)<CR>
-nnoremap <leader>ce :lua require("harpoon.term").sendCommand(1, 2)<CR>
 
 " === vim-jsx === "
 " Highlight jsx syntax even in non .jsx files
 let g:jsx_ext_required = 0
 
-" nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
+nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
 " justinmk/vim-sneak
 let g:sneak#label = 1
@@ -193,7 +176,7 @@ let g:airline#extensions#tabline#enabled = 1
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 " automatically rebalance windows on vim resize
-autocmd VimResized * :wincmd =
+" autocmd VimResized * :wincmd =
 
 " zoom a vim pane, <C-w>= to re-balance
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
@@ -202,24 +185,62 @@ nnoremap <leader>= :wincmd =<cr>
 " vimwiki/vimwiki
 nnoremap <leader>vw :VimwikiIndex<CR>
 
+" kyazdani42/nvim-tree.lua
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
+let g:nvim_tree_gitignore = 1 "0 by default
+let g:nvim_tree_auto_open = 1 "0 by default, opens the tree when typing `vim $DIR` or `vim`
+let g:nvim_tree_auto_close = 1 "0 by default, closes the tree when it's the last window
+let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ] "empty by default, don't auto open tree on specific filetypes.
+let g:nvim_tree_follow = 1 "0 by default, this option allows the cursor to be updated when entering a buffer
+let g:nvim_tree_indent_markers = 1 "0 by default, this option shows indent markers when folders are open
+let g:nvim_tree_git_hl = 1 "0 by default, will enable file highlight for git attributes (can be used without the icons).
+let g:nvim_tree_highlight_opened_files = 1 "0 by default, will enable folder and file icon highlight for opened files/directories.
+
+
+let s:header = [
+      \ '',
+      \ '__      _______  __      ___           ',
+      \ '\ \    / / ____| \ \    / (_)          ',
+      \ ' \ \  / / (___    \ \  / / _ _ __ ___  ',
+      \ '  \ \/ / \___ \    \ \/ / | | ''_ ` _ \ ',
+      \ '   \  /  ____) |    \  /  | | | | | | |',
+      \ '    \/  |_____/      \/   |_|_| |_| |_|',
+      \ '',
+      \ '            [ @elijahmanor ]           ',
+      \ '',
+      \ ]
+
+
+
+let s:footer = [
+      \ '+-----------------------------------------+',
+      \ '|    Talk is cheap Show me the code       |',
+      \ '+-----------------------------------------+',
+      \ ]
+
+let g:startify_custom_header = startify#center(s:header)
+let g:startify_custom_footer = startify#center(s:footer)
+
 " scrooloose/nerdtree
-let NERDTreeShowHidden=1
-let g:NERDTreeMinimalUI = 1
+" let NERDTreeShowHidden=1
+" let g:NERDTreeMinimalUI = 1
 " Start NERDTree when Vim is started without file arguments.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 " Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
-function MyNerdToggle()
-    if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
-        :NERDTreeToggle
-    else
-        :NERDTreeFind
-    endif
-endfunction
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+"     \ quit | endif
+" function MyNerdToggle()
+"     if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
+"         :NERDTreeToggle
+"     else
+"         :NERDTreeFind
+"     endif
+" endfunction
 " Toggle (find current buffer in tree when opening)
-nnoremap <leader>n :call MyNerdToggle()<CR>
+" nnoremap <leader>n :call MyNerdToggle()<CR>
 
 " tpope/vim-commentary
 nnoremap <leader>/ :Commentary<CR>
@@ -253,13 +274,12 @@ nnoremap <M-Down> :resize -5<cr>
 nnoremap <M-Left> :vertical resize +5<cr>
 
 " Display extra whitespace
-set list
 " set listchars=nbsp:⦸,tab:>-,extends:»,precedes:«,trail:•
 " set listchars=tab:▸\ ,trail:·,precedes:←,extends:→
 " set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 " set listchars=eol:§,tab:¤›,extends:»,precedes:«,nbsp:‡
 " set listchars=tab:»·,nbsp:+,trail:·,extends:→,precedes:←
-set listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
 
 " Make it obvious where 80 characters is
 " set textwidth=80
