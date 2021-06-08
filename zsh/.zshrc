@@ -56,3 +56,6 @@ nvm use v14 --silent
 
 export PATH=/Users/emanor/bin:$PATH
 
+[ -r ~/private/.zshrc ] && source ~/private/.zshrc
+
+
