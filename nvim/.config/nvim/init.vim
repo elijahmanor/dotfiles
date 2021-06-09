@@ -158,11 +158,10 @@ function! s:RunVimTest(cmd)
 
     execute a:cmd
 endfunction
-nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
-nnoremap <leader>tn :call <SID>RunVimTest('TestNearest')<cr>
-nnoremap <leader>tf :call <SID>RunVimTest('TestSuite')<cr>
-nnoremap <leader>ts :call <SID>RunVimTest('TestFile')<cr>
+nnoremap <leader>tt :call <SID>RunVimTest('TestNearest')<cr>
 nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
+nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
+nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
 nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
 
 " 'hrsh7th/nvim-compe'
@@ -193,6 +192,9 @@ autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 " zoom a vim pane, <C-w>= to re-balance
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>
+
+" Escape terminal mode
+tnoremap <Esc> <C-\><C-n>
 
 " vimwiki/vimwiki
 nnoremap <leader>vw :VimwikiIndex<CR>
