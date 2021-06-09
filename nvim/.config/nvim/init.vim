@@ -80,7 +80,9 @@ Plug 'yamatsum/nvim-cursorline'
 
 call plug#end()
 
+" Leader {{{
 let mapleader = " "
+"}}}
 
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -95,14 +97,18 @@ lua << EOF
  require('gitsigns').setup({})
 EOF
 
-" tpope/vim-fugitive
+" tpope/vim-fugitive {{{
 nnoremap <leader>gg :G<cr>
+"}}}
 
-" neovim/nvim-lspconfig
+" neovim/nvim-lspconfig {{{
 lua require'lspconfig'.tsserver.setup{}
+"}}}
 
+" ThePrimeagen/harpoon {{{
 nnoremap <Leader>ha :lua require("harpoon.mark").add_file()<CR>
 nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+"}}}
 
 " === vim-jsx === "
 " Highlight jsx syntax even in non .jsx files
@@ -130,14 +136,34 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
 
 " janko/vim-test
-nnoremap <silent> tt :TestNearest<CR>
-nnoremap <silent> tf :TestFile<CR>
-nnoremap <silent> ts :TestSuite<CR>
-nnoremap <silent> t_ :TestLast<CR>
 let test#strategy = "neovim"
 let test#neovim#term_position = "vertical"
 let g:test#javascript#runner = 'jest'
-let g:test#javascript#jest#executable = 'npx jest --config ./config/jest/jest.config.json'
+" https://github.com/vim-test/vim-test/issues/272
+let g:root_markers = ['package.json', '.git/']
+function! s:RunVimTest(cmd)
+    " I guess this part could be replaced by projectionist#project_root
+    for marker in g:root_markers
+        let marker_file = findfile(marker, expand('%:p:h') . ';')
+        if strlen(marker_file) > 0
+            let g:test#project_root = fnamemodify(marker_file, ":p:h")
+            break
+        endif
+        let marker_dir = finddir(marker, expand('%:p:h') . ';')
+        if strlen(marker_dir) > 0
+            let g:test#project_root = fnamemodify(marker_dir, ":p:h")
+            break
+        endif
+    endfor
+
+    execute a:cmd
+endfunction
+nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
+nnoremap <leader>tn :call <SID>RunVimTest('TestNearest')<cr>
+nnoremap <leader>tf :call <SID>RunVimTest('TestSuite')<cr>
+nnoremap <leader>ts :call <SID>RunVimTest('TestFile')<cr>
+nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
+nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
 
 " 'hrsh7th/nvim-compe'
 lua << EOF
@@ -255,3 +281,5 @@ highlight ColorColumn guibg=Black
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
 
+" https://vi.stackexchange.com/questions/3814/is-there-a-best-practice-to-fold-a-vimrc-file
+" vim: filetype=vim foldmethod=marker foldlevel=0 foldcolumn=3
