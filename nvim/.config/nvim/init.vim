@@ -20,7 +20,7 @@ set noshowmode
 set completeopt=menuone,noinsert,noselect " what?
 set signcolumn=yes
 set number
-set updatetime=50 " 50 or 750
+set updatetime=100
 set encoding=UTF-8
 set clipboard=unnamedplus " Copy paste between vim and everything else
 filetype plugin indent on
@@ -46,22 +46,36 @@ Plug 'sheerun/vim-polyglot'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+" Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'kyazdani42/nvim-tree.lua'
+
 Plug 'tpope/vim-commentary'
-Plug 'itchyny/lightline.vim'
+
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+
 Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
-Plug 'lewis6991/gitsigns.nvim'
+
 Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
+Plug 'edkolev/tmuxline.vim'
+
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
+
 Plug 'wesQ3/vim-windowswap'
 Plug 'tpope/vim-projectionist'
+
 Plug 'tpope/vim-fugitive'
+Plug 'lewis6991/gitsigns.nvim'
+
 Plug 'psliwka/vim-smoothie'
 Plug 'vimwiki/vimwiki'
 Plug 'ap/vim-css-color'
@@ -70,19 +84,70 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'tpope/vim-repeat'
 Plug 'machakann/vim-highlightedyank'
 Plug 'vim-test/vim-test'
-Plug 'charliesbot/night-owl.vim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 Plug 'tpope/vim-speeddating'
 Plug 'ThePrimeagen/harpoon'
-Plug 'francoiscabrol/ranger.vim'
 Plug 'rbgrouleff/bclose.vim'
-Plug 'yamatsum/nvim-cursorline'
 
+" Plug 'mhartington/formatter.nvim'
+" Plug 'AndrewRadev/switch.vim'
+" Plug 'mattn/emmet-vim'
+" Plug 'rstacruz/vim-closer'
+" Plug 'tweekmonster/startuptime.vim'
+
+Plug 'joshdick/onedark.vim'
+" Plug 'lifepillar/vim-gruvbox8'
+" Plug 'tjdevries/colorbuddy.vim'
+" Plug 'tjdevries/gruvbuddy.nvim'
+
+" And then somewhere in your vimrc, to set the colorscheme
 call plug#end()
+
+" lua require('colorbuddy').colorscheme('gruvbuddy')
+
+colorscheme onedark
+" colorscheme gruvbox8
+" set background=dark
+" colorscheme gruvbuddy
+"
+let g:airline_theme='onedark'
+let g:tmuxline_theme = 'airline'
+
+" lua << EOF
+" require('lualine').setup {
+"   options = { theme = 'onedark' }
+" }
+" EOF
+
+" Allow crosshair cursor highlighting.
+set cursorline    " enable the horizontal line
+set cursorcolumn  " enable the vertical line
+highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
+highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
+" Make it obvious where 80 characters is
+set textwidth=80
+set colorcolumn=+1
+set colorcolumn=80
+highlight ColorColumn guibg=#181818
+
+" When highlighting search terms, make sure text is contrasting color
+" :highlight Search ctermbg=yellow ctermfg=black
+" :highlight Search guibg=yellow guifg=black
+
+if (has("termguicolors"))
+  set termguicolors     " enable true colors support
+endif
+" `:hi Normal` and replace guibg with none
+highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
+
 
 " Leader {{{
 let mapleader = " "
 "}}}
+
+let g:user_emmet_leader_key='<C-Z>'
 
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -92,10 +157,42 @@ endif
 
 nnoremap <leader>v :e $MYVIMRC<CR>
 
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
+
 " lewis6991/gitsigns.nvim
 lua << EOF
  require('gitsigns').setup({})
 EOF
+
+" mhartington/formatter.nvim {{{
+" lua << EOF
+" local eslint = function()
+"   return {
+"     exe = "npx eslint",
+"     args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
+"     stdin = false
+"   }
+" end
+" require('formatter').setup({
+"   logging = true,
+"   filetype = {
+"     typescriptreact = { eslint },
+"     javascript = { eslint },
+" 	}
+" })
+" vim.api.nvim_exec([[
+" augroup FormatAutogroup
+"   autocmd!
+"   autocmd BufWritePost *.js,*.rs,*.lua FormatWrite
+" augroup END
+" ]], true)
+" EOF
+nnoremap <silent> <leader>fo :Format<CR>
+"}}}
 
 " tpope/vim-fugitive {{{
 nnoremap <leader>gg :G<cr>
@@ -110,14 +207,22 @@ nnoremap <Leader>ha :lua require("harpoon.mark").add_file()<CR>
 nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 "}}}
 
+inoremap jj <ESC> " jj to Escape
+
 " === vim-jsx === "
 " Highlight jsx syntax even in non .jsx files
 let g:jsx_ext_required = 0
 
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
 
+
 " justinmk/vim-sneak
 let g:sneak#label = 1
+
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+iabbrev @@ emanor@planview.com
 
 " nvim-telescope/telescope.nvim
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -184,7 +289,7 @@ inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 " vim-airline/vim-airline
 let g:airline_theme='molokai'
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
 
 " peitalin/vim-jsx-typescript
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
@@ -222,39 +327,33 @@ let g:startify_custom_header = startify#center(s:header)
 let g:startify_custom_footer = startify#center(s:footer)
 
 " scrooloose/nerdtree
-let NERDTreeShowHidden=1
-let g:NERDTreeMinimalUI = 1
+" let NERDTreeShowHidden=1
+" let g:NERDTreeMinimalUI = 1
 " Start NERDTree when Vim is started without file arguments.
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 " Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
-function MyNerdToggle()
-    if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
-        :NERDTreeToggle
-    else
-        :NERDTreeFind
-    endif
-endfunction
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+"     \ quit | endif
+" function MyNerdToggle()
+"     if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
+"         :NERDTreeToggle
+"     else
+"         :NERDTreeFind
+"     endif
+" endfunction
 " Toggle (find current buffer in tree when opening)
-nnoremap <leader>n :call MyNerdToggle()<CR>
+" nnoremap <leader>n :call MyNerdToggle()<CR>
+
+" kyazdani42/nvim-tree.lua
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
 
 " tpope/vim-commentary
 nnoremap <leader>/ :Commentary<CR>
 vnoremap <leader>/ :Commentary<CR>
 
-" When highlighting search terms, make sure text is contrasting color
-:highlight Search ctermbg=yellow ctermfg=black
-:highlight Search guibg=yellow guifg=black
-
-if (has("termguicolors"))
-  set termguicolors     " enable true colors support
-endif
-" `:hi Normal` and replace guibg with none
-highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
-
-colorscheme night-owl
 
 " Our remaps
 nnoremap <leader>pv :Vex<CR>
@@ -274,11 +373,6 @@ nnoremap <M-Left> :vertical resize +5<cr>
 " Display extra whitespace
 set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
 
-" Make it obvious where 80 characters is
-set textwidth=80
-set colorcolumn=+1
-set colorcolumn=80
-highlight ColorColumn guibg=Black
 
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
