@@ -67,6 +67,7 @@ Plug 'kyazdani42/nvim-tree.lua'
 " Plug 'hoob3rt/lualine.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" Plug 'beauwilliams/statusline.lua'
 Plug 'kyazdani42/nvim-web-devicons'
 
 " tmux plugins
@@ -74,7 +75,6 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
 Plug 'edkolev/tmuxline.vim'
-
 
 Plug 'wesQ3/vim-windowswap'
 
@@ -91,10 +91,13 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'psliwka/vim-smoothie'
 Plug 'vimwiki/vimwiki'
 Plug 'ap/vim-css-color'
-Plug 'liuchengxu/vim-which-key'
 Plug 'machakann/vim-highlightedyank'
 Plug 'vim-test/vim-test'
+Plug 'folke/which-key.nvim'
+
 Plug 'ThePrimeagen/harpoon'
+Plug 'rbgrouleff/bclose.vim'
+Plug 'vim-test/vim-test'
 Plug 'rbgrouleff/bclose.vim'
 
 " Plug 'mhartington/formatter.nvim'
@@ -104,15 +107,14 @@ Plug 'rbgrouleff/bclose.vim'
 "
 Plug 'tweekmonster/startuptime.vim'
 
-" Plug 'joshdick/onedark.vim' " This is slow...
-Plug 'lifepillar/vim-gruvbox8'
+" Plug 'lifepillar/vim-gruvbox8'
+Plug 'tanvirtin/monokai.nvim'
 
 " And then somewhere in your vimrc, to set the colorscheme
 call plug#end()
 
-colorscheme gruvbox8
-"
-let g:airline_theme='onedark'
+colorscheme monokai
+let g:airline_theme='molokai'
 let g:tmuxline_theme = 'airline'
 
 " lua << EOF
@@ -264,8 +266,10 @@ inoremap jj <ESC> " jj to Escape
 " Highlight jsx syntax even in non .jsx files
 let g:jsx_ext_required = 0
 
-nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
-
+" folke/wich-key.nvim
+lua << EOF
+require("which-key").setup {}
+EOF
 
 " justinmk/vim-sneak
 let g:sneak#label = 1
