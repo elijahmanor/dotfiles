@@ -1,3 +1,13 @@
+"         _
+"        (_)
+"  __   ___ _ __ ___  _ __ ___
+"  \ \ / / | '_ ` _ \| '__/ __|
+"   \ V /| | | | | | | | | (__
+"    \_/ |_|_| |_| |_|_|  \___|
+"
+"         @elijahmanor
+
+" Sets {{{
 set exrc
 set relativenumber
 set nu
@@ -17,17 +27,15 @@ set incsearch
 set termguicolors
 set scrolloff=8
 set noshowmode
-set completeopt=menuone,noinsert,noselect " what?
+set completeopt=menuone,noinsert,noselect
 set signcolumn=yes
 set number
 set updatetime=100
 set encoding=UTF-8
 set clipboard=unnamedplus " Copy paste between vim and everything else
-filetype plugin indent on
-
-let g:netrw_banner=0 " disable banner in netrw
-let g:netrw_liststyle=3 " tree view in netrw
-
+set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
+set showcmd " extra info at end of command line
+set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
 if has('folding')
   if has('windows')
     let &fillchars='vert: '           " less cluttered vertical window separators
@@ -35,7 +43,10 @@ if has('folding')
   set foldmethod=indent               " not as cool as syntax, but faster
   set foldlevelstart=1                " start folded
 endif
+filetype plugin indent on
+" }}}
 
+" Plugins {{{
 call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify'
@@ -112,7 +123,9 @@ Plug 'tanvirtin/monokai.nvim'
 
 " And then somewhere in your vimrc, to set the colorscheme
 call plug#end()
+" }}}
 
+" Colors {{{
 colorscheme monokai
 let g:airline_theme='molokai'
 let g:tmuxline_theme = 'airline'
@@ -145,32 +158,26 @@ if (has("termguicolors"))
 endif
 " `:hi Normal` and replace guibg with none
 highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
-
+" }}}
 
 " Leader {{{
 let mapleader = " "
 "}}}
 
+" mattn/emmet-vim {{{
 let g:user_emmet_leader_key='<C-Z>'
-
-if exists('+termguicolors')
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
-endif
-
-nnoremap <leader>v :e $MYVIMRC<CR>
-
 let g:user_emmet_settings = {
 \  'javascript' : {
 \      'extends' : 'jsx',
 \  },
 \}
+" }}}
 
-" lewis6991/gitsigns.nvim
+" lewis6991/gitsigns.nvim {{{
 lua << EOF
  require('gitsigns').setup({})
 EOF
+" }}}
 
 " mhartington/formatter.nvim {{{
 " lua << EOF
@@ -196,11 +203,11 @@ EOF
 " ]], true)
 " EOF
 nnoremap <silent> <leader>fo :Format<CR>
-"}}}
+" }}}
 
 " tpope/vim-fugitive {{{
 nnoremap <leader>gg :G<cr>
-"}}}
+" }}}
 
 " neovim/nvim-lspconfig {{{
 lua require 'lspconfig'.tsserver.setup{}
@@ -253,33 +260,24 @@ nnoremap <leader>xd <cmd>TroubleToggle lsp_document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
-"}}}
+" }}}
 
 " ThePrimeagen/harpoon {{{
 nnoremap <Leader>ha :lua require("harpoon.mark").add_file()<CR>
 nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
-"}}}
+" }}}
 
-inoremap jj <ESC> " jj to Escape
-
-" === vim-jsx === "
-" Highlight jsx syntax even in non .jsx files
-let g:jsx_ext_required = 0
-
-" folke/wich-key.nvim
+" folke/wich-key.nvim {{{
 lua << EOF
 require("which-key").setup {}
 EOF
+" }}}
 
-" justinmk/vim-sneak
+" justinmk/vim-sneak {{{
 let g:sneak#label = 1
+" }}}
 
-nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-
-iabbrev @@ emanor@planview.com
-
-" nvim-telescope/telescope.nvim
+" nvim-telescope/telescope.nvim {{{
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -294,8 +292,9 @@ nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
+"}}}
 
-" janko/vim-test
+" janko/vim-test {{{
 let test#strategy = "neovim"
 let test#neovim#term_position = "vertical"
 let g:test#javascript#runner = 'jest'
@@ -323,8 +322,9 @@ nnoremap <leader>tl :call <SID>RunVimTest('TestLast')<cr>
 nnoremap <leader>tf :call <SID>RunVimTest('TestFile')<cr>
 nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
 nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
+"}}}
 
-" 'hrsh7th/nvim-compe'
+" 'hrsh7th/nvim-compe' {{{
 lua << EOF
 require'compe'.setup {
   enabled = true;
@@ -340,7 +340,9 @@ require'compe'.setup {
 EOF
 inoremap <silent><expr> <C-Space> compe#complete()
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+"}}}
 
+" nvim-treesitter {{{
 " lua <<EOF
 " require'nvim-treesitter.configs'.setup {
 "   ensure_installed = {
@@ -355,25 +357,23 @@ inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 "   }
 " }
 " EOF
+" }}}
 
-" vim-airline/vim-airline
+" vim-airline/vim-airline {{{
 let g:airline_theme='molokai'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 0
+"}}}
 
-" peitalin/vim-jsx-typescript
+" peitalin/vim-jsx-typescript {{{
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+" }}}
 
-" zoom a vim pane, <C-w>= to re-balance
-nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
-nnoremap <leader>= :wincmd =<cr>
-
-" Escape terminal mode
-tnoremap <Esc> <C-\><C-n>
-
-" vimwiki/vimwiki
+" vimwiki/vimwiki {{{
 nnoremap <leader>vw :VimwikiIndex<CR>
+"}}}
 
+" 'tweekmonster/startuptime.vim' {{{
 let s:header = [
       \ '',
       \ '__      _______    _____          _      ',
@@ -386,17 +386,16 @@ let s:header = [
       \ '            [ @elijahmanor ]           ',
       \ '',
       \ ]
-
 let s:footer = [
       \ '+-----------------------------------------+',
       \ '|    Doug, this is VS Code... see!?!      |',
       \ '+-----------------------------------------+',
       \ ]
-
 let g:startify_custom_header = startify#center(s:header)
 let g:startify_custom_footer = startify#center(s:footer)
+"}}}
 
-" scrooloose/nerdtree
+" scrooloose/nerdtree {{{
 " let NERDTreeShowHidden=1
 " let g:NERDTreeMinimalUI = 1
 " Start NERDTree when Vim is started without file arguments.
@@ -414,22 +413,33 @@ let g:startify_custom_footer = startify#center(s:footer)
 " endfunction
 " Toggle (find current buffer in tree when opening)
 " nnoremap <leader>n :call MyNerdToggle()<CR>
+"}}}
 
-" kyazdani42/nvim-tree.lua
+" kyazdani42/nvim-tree.lua {{{
 nnoremap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
+"}}}
 
-" tpope/vim-commentary
+" tpope/vim-commentary {{{
 nnoremap <leader>/ :Commentary<CR>
 vnoremap <leader>/ :Commentary<CR>
+"}}}
 
+" Remaps {{{
+inoremap jj <ESC> " jj to Escape
 
-" Our remaps
-nnoremap <leader>pv :Vex<CR>
+" zoom a vim pane, <C-w>= to re-balance
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>
+
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Escape terminal mode
+tnoremap <Esc> <C-\><C-n>
+
 nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <C-p> :GFiles<CR>
-nnoremap <leader>pf :Files<CR>
 vnoremap <leader>y "+y
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
@@ -439,13 +449,11 @@ nnoremap <M-Right> :vertical resize -5<cr>
 nnoremap <M-Up> :resize +5<cr>
 nnoremap <M-Down> :resize -5<cr>
 nnoremap <M-Left> :vertical resize +5<cr>
+" }}}
 
-" Display extra whitespace
-set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
-
-
-set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
-set showcmd " extra info at end of command line
+" Abbreviations {{{
+iabbrev @@ emanor@planview.com
+" }}}
 
 " https://vi.stackexchange.com/questions/3814/is-there-a-best-practice-to-fold-a-vimrc-file
 " vim: filetype=vim foldmethod=marker foldlevel=0 foldcolumn=3
