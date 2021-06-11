@@ -39,11 +39,17 @@ endif
 call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify'
+
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'sheerun/vim-polyglot'
+
+" Switch to nvim-treesitter once it supports styled-components
+Plug 'pangloss/vim-javascript'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
 
@@ -52,16 +58,13 @@ Plug 'editorconfig/editorconfig-vim'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'kyazdani42/nvim-tree.lua'
 
-Plug 'tpope/vim-commentary'
-
 " Plug 'itchyny/lightline.vim'
+" Plug 'hoob3rt/lualine.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
-Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
-
+" tmux plugins
 Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
@@ -71,21 +74,23 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 
 Plug 'wesQ3/vim-windowswap'
+
+" tpope plugins
 Plug 'tpope/vim-projectionist'
-
+Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
 Plug 'tpope/vim-fugitive'
-Plug 'lewis6991/gitsigns.nvim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-commentary'
 
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'psliwka/vim-smoothie'
 Plug 'vimwiki/vimwiki'
 Plug 'ap/vim-css-color'
-Plug 'tpope/vim-surround'
 Plug 'liuchengxu/vim-which-key'
-Plug 'tpope/vim-repeat'
 Plug 'machakann/vim-highlightedyank'
 Plug 'vim-test/vim-test'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
-Plug 'tpope/vim-speeddating'
 Plug 'ThePrimeagen/harpoon'
 Plug 'rbgrouleff/bclose.vim'
 
@@ -93,22 +98,16 @@ Plug 'rbgrouleff/bclose.vim'
 " Plug 'AndrewRadev/switch.vim'
 " Plug 'mattn/emmet-vim'
 " Plug 'rstacruz/vim-closer'
-" Plug 'tweekmonster/startuptime.vim'
+"
+Plug 'tweekmonster/startuptime.vim'
 
-Plug 'joshdick/onedark.vim'
-" Plug 'lifepillar/vim-gruvbox8'
-" Plug 'tjdevries/colorbuddy.vim'
-" Plug 'tjdevries/gruvbuddy.nvim'
+" Plug 'joshdick/onedark.vim' " This is slow...
+Plug 'lifepillar/vim-gruvbox8'
 
 " And then somewhere in your vimrc, to set the colorscheme
 call plug#end()
 
-" lua require('colorbuddy').colorscheme('gruvbuddy')
-
-colorscheme onedark
-" colorscheme gruvbox8
-" set background=dark
-" colorscheme gruvbuddy
+colorscheme gruvbox8
 "
 let g:airline_theme='onedark'
 let g:tmuxline_theme = 'airline'
@@ -285,6 +284,21 @@ require'compe'.setup {
 EOF
 inoremap <silent><expr> <C-Space> compe#complete()
 inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   ensure_installed = {
+"     'html', 'javascript', 'typescript'
+"   },
+"   highlight = {
+"     enable = true,
+"     additional_vim_regex_highlighting = true
+"   },
+"   indent = {
+"     enable = false
+"   }
+" }
+" EOF
 
 " vim-airline/vim-airline
 let g:airline_theme='molokai'
