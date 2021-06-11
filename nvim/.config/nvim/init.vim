@@ -40,6 +40,11 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'mhinz/vim-startify'
 
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-compe'
+Plug 'glepnir/lspsaga.nvim'
+Plug 'folke/trouble.nvim'
+
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -70,8 +75,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
 Plug 'edkolev/tmuxline.vim'
 
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
 
 Plug 'wesQ3/vim-windowswap'
 
@@ -198,7 +201,56 @@ nnoremap <leader>gg :G<cr>
 "}}}
 
 " neovim/nvim-lspconfig {{{
-lua require'lspconfig'.tsserver.setup{}
+lua require 'lspconfig'.tsserver.setup{}
+lua << EOF
+local eslint = {
+    lintCommand = "./node_modules/.bin/eslint -f unix --stdin --stdin-filename ${INPUT}",
+    lintIgnoreExitCode = true,
+    lintStdin = true,
+    lintFormats = {"%f:%l:%c: %m"},
+    formatCommand = "./node_modules/.bin/eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatStdin = true
+}
+require "lspconfig".efm.setup {
+    init_options = {documentFormatting = true, codeAction = true},
+    filetypes = {"javascriptreact", "javascript", "typescript", "typescriptreact"},
+    settings = {
+        rootMarkers = {".git/"},
+        languages = {
+            javascript = {eslint},
+            javascriptreact = {eslint},
+        }
+    }
+}
+EOF
+lua << EOF
+require 'lspsaga'.init_lsp_saga()
+EOF
+nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
+nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
+vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
+nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
+nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
+nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
+nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
+nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent> <A-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR> -- or open_float_terminal('lazygit')<CR>
+tnoremap <silent> <A-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
+nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
+nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
+nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
+nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+lua << EOF
+require 'trouble'.setup {}
+EOF
+nnoremap <leader>xx <cmd>TroubleToggle<cr>
+nnoremap <leader>xw <cmd>TroubleToggle lsp_workspace_diagnostics<cr>
+nnoremap <leader>xd <cmd>TroubleToggle lsp_document_diagnostics<cr>
+nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
+nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
+nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 "}}}
 
 " ThePrimeagen/harpoon {{{
