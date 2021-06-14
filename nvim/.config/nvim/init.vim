@@ -49,7 +49,8 @@ filetype plugin indent on
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
 
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
+Plug 'glepnir/dashboard-nvim'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
@@ -294,12 +295,12 @@ let g:sneak#label = 1
 " }}}
 
 " nvim-telescope/telescope.nvim {{{
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>ff <cmd>Telescope find_files<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-nnoremap <Leader>fgs :lua require'telescope.builtin'.git_status{}<cr>
-nnoremap <Leader>ffb :lua require'telescope.builtin'.file_browser{}<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" nnoremap <Leader>fgs :lua require'telescope.builtin'.git_status{}<cr>
+" nnoremap <Leader>ffb :lua require'telescope.builtin'.file_browser{}<cr>
 
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -407,9 +408,59 @@ let s:footer = [
       \ '|    Doug, this is VS Code... see!?!      |',
       \ '+-----------------------------------------+',
       \ ]
-let g:startify_custom_header = startify#center(s:header)
-let g:startify_custom_footer = startify#center(s:footer)
+" let g:startify_custom_header = startify#center(s:header)
+" let g:startify_custom_footer = startify#center(s:footer)
 "}}}
+
+" 'glephir/dashboard-nvim' {{{
+let g:dashboard_default_executive ='telescope'
+nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
+nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
+nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
+nnoremap <silent> <Leader>fg :DashboardFindWord<CR>
+nnoremap <silent> <Leader>fm :DashboardJumpMark<CR>
+nnoremap <silent> <Leader>nf :DashboardNewFile<CR>
+let g:dashboard_custom_shortcut={
+\ 'last_session'       : 'SPC s l',
+\ 'find_history'       : 'SPC f h',
+\ 'find_file'          : 'SPC f f',
+\ 'new_file'           : 'SPC n f',
+\ 'change_colorscheme' : 'SPC t c',
+\ 'find_word'          : 'SPC f g',
+\ 'book_marks'         : 'SPC f m',
+\ }
+" let s:header = [
+"       \ '',
+"       \ '__      _______    _____          _      ',
+"       \ '\ \    / / ____|  / ____|        | |     ',
+"       \ ' \ \  / / (___   | |     ___   __| | ___ ',
+"       \ '  \ \/ / \___ \  | |    / _ \ / _` |/ _ \',
+"       \ '   \  /  ____) | | |___| (_) | (_| |  __/',
+"       \ '    \/  |_____/   \_____\___/ \__,_|\___|',
+"       \ '',
+"       \ '            [ @elijahmanor ]           ',
+"       \ '',
+"       \ ]
+let s:header = [
+      \ '',
+      \ '██╗   ██╗███████╗     ██████╗ ██████╗ ██████╗ ███████╗',
+      \ '██║   ██║██╔════╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝',
+      \ '██║   ██║███████╗    ██║     ██║   ██║██║  ██║█████╗  ',
+      \ '╚██╗ ██╔╝╚════██║    ██║     ██║   ██║██║  ██║██╔══╝  ',
+      \ ' ╚████╔╝ ███████║    ╚██████╗╚██████╔╝██████╔╝███████╗',
+      \ '  ╚═══╝  ╚══════╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝',
+      \ '',
+      \ '                   [ @elijahmanor ]                   ',
+      \ ]
+let s:footer = [
+      \ '+-----------------------------------------------------+',
+      \ '|                   😀 Hello Doug 👋                  |',
+      \ '+-----------------------------------------------------+',
+      \ '',
+      \ ]
+let g:dashboard_custom_header = s:header
+let g:dashboard_custom_footer = s:footer
+" }}}
 
 " scrooloose/nerdtree {{{
 " let NERDTreeShowHidden=1
