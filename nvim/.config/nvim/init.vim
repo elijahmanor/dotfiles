@@ -64,6 +64,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'pangloss/vim-javascript'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jxnblk/vim-mdx-js'
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 " Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
@@ -172,6 +173,8 @@ let mapleader = " "
 tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
 nnoremap <silent> <M-o> :RnvimrToggle<CR>
 tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
+let g:rnvimr_enable_picker = 1
+let g:rnvimr_hide_gitignore = 1
 " }}}
 
 " norcalli/nvim-colorizer.lua {{{
@@ -234,6 +237,7 @@ local eslint = {
     formatCommand = "./node_modules/.bin/eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
     formatStdin = true
 }
+-- brew install efm-langserver
 require "lspconfig".efm.setup {
     init_options = {documentFormatting = true, codeAction = true},
     filetypes = {"javascriptreact", "javascript", "typescript", "typescriptreact"},
@@ -246,9 +250,7 @@ require "lspconfig".efm.setup {
     }
 }
 EOF
-lua << EOF
-require 'lspsaga'.init_lsp_saga()
-EOF
+lua require 'lspsaga'.init_lsp_saga()
 nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
 vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
