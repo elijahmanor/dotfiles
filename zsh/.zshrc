@@ -50,12 +50,12 @@ export NVM_DIR="$HOME/.nvm"
 
 nvm use v14 --silent
 
-# begin lks completion
-. <(lks --completion)
-# end lks completion
-
 export PATH=/Users/emanor/bin:$PATH
 
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 
 
+
+# begin lks completion
+. <(lks --completion)
+# end lks completion

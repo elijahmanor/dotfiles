@@ -72,10 +72,10 @@ Plug 'jxnblk/vim-mdx-js'
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
 
-" Plug 'scrooloose/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'kyazdani42/nvim-tree.lua'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'kyazdani42/nvim-tree.lua'
 
 " Plug 'itchyny/lightline.vim'
 " Plug 'hoob3rt/lualine.nvim'
@@ -85,10 +85,9 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'kyazdani42/nvim-web-devicons'
 
 " tmux plugins
-Plug 'edkolev/tmuxline.vim'
+" Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
-Plug 'edkolev/tmuxline.vim'
 
 Plug 'wesQ3/vim-windowswap'
 
@@ -127,6 +126,8 @@ Plug 'tanvirtin/monokai.nvim'
 
 Plug 'kevinhwang91/rnvimr'
 
+" Helpful commands: PlugInstall PlugClean PlugUpdate
+
 " And then somewhere in your vimrc, to set the colorscheme
 call plug#end()
 " }}}
@@ -134,7 +135,7 @@ call plug#end()
 " Colors {{{
 colorscheme monokai
 let g:airline_theme='molokai'
-let g:tmuxline_theme = 'airline'
+" let g:tmuxline_theme = 'airline'
 
 " lua << EOF
 " require('lualine').setup {
@@ -180,6 +181,15 @@ let g:rnvimr_hide_gitignore = 1
 
 " norcalli/nvim-colorizer.lua {{{
 lua require'colorizer'.setup()
+" }}}
+
+" edkolev/tmuxline.vim {{{
+" let g:tmuxline_preset = {
+"       \'a'    : '#S',
+"       \'win'  : ['#I', '#W'],
+"       \'cwin' : ['#I', '#W', '#F'],
+"       \'y'    : ['#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage}', '#{ram_bg_color} RAM: #{ram_icon} #{ram_percentage}'],
+"       \'z'    : '%a %h-%d %H:%M'}
 " }}}
 
 " mattn/emmet-vim {{{
@@ -463,29 +473,29 @@ let g:dashboard_custom_footer = s:footer
 " }}}
 
 " scrooloose/nerdtree {{{
-" let NERDTreeShowHidden=1
-" let g:NERDTreeMinimalUI = 1
+let NERDTreeShowHidden=1
+let g:NERDTreeMinimalUI = 1
 " Start NERDTree when Vim is started without file arguments.
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 " Exit Vim if NERDTree is the only window left.
-" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-"     \ quit | endif
-" function MyNerdToggle()
-"     if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
-"         :NERDTreeToggle
-"     else
-"         :NERDTreeFind
-"     endif
-" endfunction
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+    \ quit | endif
+function MyNerdToggle()
+    if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
+        :NERDTreeToggle
+    else
+        :NERDTreeFind
+    endif
+endfunction
 " Toggle (find current buffer in tree when opening)
-" nnoremap <leader>n :call MyNerdToggle()<CR>
+nnoremap <leader>n :call MyNerdToggle()<CR>
 "}}}
 
 " kyazdani42/nvim-tree.lua {{{
-nnoremap <C-n> :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>n :NvimTreeFindFile<CR>
+" nnoremap <C-n> :NvimTreeToggle<CR>
+" nnoremap <leader>r :NvimTreeRefresh<CR>
+" nnoremap <leader>n :NvimTreeFindFile<CR>
 "}}}
 
 " tpope/vim-commentary {{{
