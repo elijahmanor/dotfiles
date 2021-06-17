@@ -36,6 +36,7 @@ alias yo='play-sound ~/manorisms/mp3s/hour_chime.mp3'
 # npm i -g node-notifier-cli
 alias alert='notify -t "Status" -m "Finished" -s Glass'
 alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad News)"'
+alias mux=tmuxinator
 
 export GIT_EDITOR='vim'
 export VISUAL='vim'
@@ -50,11 +51,12 @@ export NVM_DIR="$HOME/.nvm"
 
 nvm use v14 --silent
 
+export TMUXP_CONFIGDIR=$HOME/.config/tmuxp
+export DISABLE_AUTO_TITLE='true'
+
 export PATH=/Users/emanor/bin:$PATH
 
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
-
-
 
 # begin lks completion
 . <(lks --completion)

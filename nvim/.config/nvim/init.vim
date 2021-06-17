@@ -56,18 +56,20 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'folke/trouble.nvim'
+Plug 'mhartington/formatter.nvim'
+
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
 " Switch to nvim-treesitter once it supports styled-components
-Plug 'pangloss/vim-javascript'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'jxnblk/vim-mdx-js'
+" Plug 'pangloss/vim-javascript'
+" Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Plug 'jxnblk/vim-mdx-js'
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
@@ -122,7 +124,9 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'tweekmonster/startuptime.vim'
 
 " Plug 'lifepillar/vim-gruvbox8'
-Plug 'tanvirtin/monokai.nvim'
+" Plug 'tanvirtin/monokai.nvim'
+Plug 'patstockwell/vim-monokai-tasty'
+" Plug 'sainnhe/sonokai'
 
 Plug 'kevinhwang91/rnvimr'
 
@@ -133,8 +137,19 @@ call plug#end()
 " }}}
 
 " Colors {{{
-colorscheme monokai
-let g:airline_theme='molokai'
+" The configuration options should be placed before `colorscheme sonokai`.
+" let g:sonokai_style = 'andromeda'
+" let g:sonokai_enable_italic = 1
+" let g:sonokai_disable_italic_comment = 1
+" colorscheme sonokai
+let g:vim_monokai_tasty_italic = 1
+colorscheme vim-monokai-tasty
+let g:airline_theme='monokai_tasty'
+let g:lightline = {
+\ 'colorscheme': 'monokai_tasty',
+\ }
+" colorscheme monokai
+" let g:airline_theme='molokai'
 " let g:tmuxline_theme = 'airline'
 
 " lua << EOF
@@ -142,6 +157,8 @@ let g:airline_theme='molokai'
 "   options = { theme = 'onedark' }
 " }
 " EOF
+
+highlight Comment cterm=italic gui=italic
 
 " Allow crosshair cursor highlighting.
 set cursorline    " enable the horizontal line
@@ -170,6 +187,41 @@ highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
 " Leader {{{
 let mapleader = " "
 "}}}
+
+" mhartington/formatter.nvim {{{
+lua << EOF
+require('formatter').setup({
+  logging = false,
+  filetype = {
+    javascript = {
+	function()
+          return {
+	    exe = "npx eslint",
+            args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
+            stdin = false
+          }
+        end
+    },
+    typescriptreact = {
+	function()
+          return {
+	    exe = "npx eslint",
+            args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
+            stdin = false
+          }
+        end
+    },
+  }
+})
+vim.api.nvim_exec([[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost *.js,*.ts FormatWrite
+augroup END
+]], true)
+EOF
+nnoremap <silent> <leader>es :Format<CR>
+" }}}
 
 " kevinhwang91/rnvimr {{{
 tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
@@ -241,11 +293,11 @@ nnoremap <leader>gg :G<cr>
 lua require 'lspconfig'.tsserver.setup{}
 lua << EOF
 local eslint = {
-    lintCommand = "./node_modules/.bin/eslint -f unix --stdin --stdin-filename ${INPUT}",
+    lintCommand = "npx eslint -f unix --stdin --stdin-filename ${INPUT}",
     lintIgnoreExitCode = true,
     lintStdin = true,
     lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "./node_modules/.bin/eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatCommand = "npx eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
     formatStdin = true
 }
 -- brew install efm-langserver
@@ -261,6 +313,7 @@ require "lspconfig".efm.setup {
     }
 }
 EOF
+
 lua require 'lspsaga'.init_lsp_saga()
 nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
@@ -272,12 +325,14 @@ nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<
 nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
 nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
+nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
 tnoremap <silent><M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
 nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
 nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
 nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
 nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
 lua << EOF
 require 'trouble'.setup {}
 EOF
@@ -287,6 +342,10 @@ nnoremap <leader>xd <cmd>TroubleToggle lsp_document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+
+" nnoremap <silent>es <cmd>lua vim.lsp.buf.formatting()<CR>
+" autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 5000)
+" autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 5000)
 " }}}
 
 " ThePrimeagen/harpoon {{{
