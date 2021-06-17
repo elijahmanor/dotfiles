@@ -36,7 +36,7 @@ alias yo='play-sound ~/manorisms/mp3s/hour_chime.mp3'
 # npm i -g node-notifier-cli
 alias alert='notify -t "Status" -m "Finished" -s Glass'
 alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad News)"'
-alias mux=tmuxinator
+alias mux=tmux
 
 export GIT_EDITOR='vim'
 export VISUAL='vim'
