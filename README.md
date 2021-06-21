@@ -28,6 +28,6 @@ brew bundle
 ### Symlink dotfiles
 
 ```
-stow kitty nvim tmux zsh
+stow bin kitty nvim tmux zsh
 ```
 

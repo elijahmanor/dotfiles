@@ -48,36 +48,42 @@ filetype plugin indent on
 
 " Plugins {{{
 call plug#begin('~/.vim/plugged')
+" PlugInstall PlugClean PlugUpdate
 
-" Plug 'mhinz/vim-startify'
+" Dashboard
 Plug 'glepnir/dashboard-nvim'
 
+" Language Server Protocol
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'folke/trouble.nvim'
 Plug 'mhartington/formatter.nvim'
 
-
+" File Management
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'kevinhwang91/rnvimr'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Plug 'kyazdani42/nvim-tree.lua'
 
-" Switch to nvim-treesitter once it supports styled-components
-" Plug 'pangloss/vim-javascript'
-" Plug 'MaxMEllon/vim-jsx-pretty'
-" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-" Plug 'jxnblk/vim-mdx-js'
+" Custom Text Objects
+Plug 'michaeljsmith/vim-indent-object' " gcii gcaI
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-line' " yil yal
+
+" Custom Motions
+Plug 'christoomey/vim-sort-motion' " gsip gsii
+Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
+
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'justinmk/vim-sneak'
 Plug 'editorconfig/editorconfig-vim'
-
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'kyazdani42/nvim-tree.lua'
 
 " Plug 'itchyny/lightline.vim'
 " Plug 'hoob3rt/lualine.nvim'
@@ -105,7 +111,6 @@ Plug 'tpope/vim-commentary'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'psliwka/vim-smoothie'
 Plug 'vimwiki/vimwiki'
-" Plug 'ap/vim-css-color'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 Plug 'vim-test/vim-test'
@@ -115,48 +120,20 @@ Plug 'ThePrimeagen/harpoon'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'vim-test/vim-test'
 Plug 'rbgrouleff/bclose.vim'
-
-" Plug 'mhartington/formatter.nvim'
-" Plug 'AndrewRadev/switch.vim'
-" Plug 'mattn/emmet-vim'
-" Plug 'rstacruz/vim-closer'
-"
 Plug 'tweekmonster/startuptime.vim'
 
-" Plug 'lifepillar/vim-gruvbox8'
-" Plug 'tanvirtin/monokai.nvim'
 Plug 'patstockwell/vim-monokai-tasty'
-" Plug 'sainnhe/sonokai'
 
-Plug 'kevinhwang91/rnvimr'
 
-" Helpful commands: PlugInstall PlugClean PlugUpdate
-
-" And then somewhere in your vimrc, to set the colorscheme
 call plug#end()
 " }}}
 
 " Colors {{{
-" The configuration options should be placed before `colorscheme sonokai`.
-" let g:sonokai_style = 'andromeda'
-" let g:sonokai_enable_italic = 1
-" let g:sonokai_disable_italic_comment = 1
-" colorscheme sonokai
 let g:vim_monokai_tasty_italic = 1
 colorscheme vim-monokai-tasty
-let g:airline_theme='monokai_tasty'
 let g:lightline = {
 \ 'colorscheme': 'monokai_tasty',
 \ }
-" colorscheme monokai
-" let g:airline_theme='molokai'
-" let g:tmuxline_theme = 'airline'
-
-" lua << EOF
-" require('lualine').setup {
-"   options = { theme = 'onedark' }
-" }
-" EOF
 
 highlight Comment cterm=italic gui=italic
 
@@ -173,10 +150,6 @@ set colorcolumn=+1
 set colorcolumn=80
 highlight ColorColumn guibg=#181818
 
-" When highlighting search terms, make sure text is contrasting color
-" :highlight Search ctermbg=yellow ctermfg=black
-" :highlight Search guibg=yellow guifg=black
-
 if (has("termguicolors"))
   set termguicolors     " enable true colors support
 endif
@@ -187,77 +160,6 @@ highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
 " Leader {{{
 let mapleader = " "
 "}}}
-
-" mhartington/formatter.nvim {{{
-lua << EOF
-require('formatter').setup({
-  logging = false,
-  filetype = {
-    javascript = {
-	function()
-          return {
-	    exe = "npx eslint",
-            args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
-            stdin = false
-          }
-        end
-    },
-    typescriptreact = {
-	function()
-          return {
-	    exe = "npx eslint",
-            args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
-            stdin = false
-          }
-        end
-    },
-  }
-})
-vim.api.nvim_exec([[
-augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost *.js,*.ts FormatWrite
-augroup END
-]], true)
-EOF
-nnoremap <silent> <leader>es :Format<CR>
-" }}}
-
-" kevinhwang91/rnvimr {{{
-tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
-nnoremap <silent> <M-o> :RnvimrToggle<CR>
-tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
-let g:rnvimr_enable_picker = 1
-let g:rnvimr_hide_gitignore = 1
-" }}}
-
-" norcalli/nvim-colorizer.lua {{{
-lua require'colorizer'.setup()
-" }}}
-
-" edkolev/tmuxline.vim {{{
-" let g:tmuxline_preset = {
-"       \'a'    : '#S',
-"       \'win'  : ['#I', '#W'],
-"       \'cwin' : ['#I', '#W', '#F'],
-"       \'y'    : ['#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage}', '#{ram_bg_color} RAM: #{ram_icon} #{ram_percentage}'],
-"       \'z'    : '%a %h-%d %H:%M'}
-" }}}
-
-" mattn/emmet-vim {{{
-let g:user_emmet_leader_key='<C-Z>'
-let g:user_emmet_settings = {
-\  'javascript' : {
-\      'extends' : 'jsx',
-\  },
-\}
-" }}}
-
-" lewis6991/gitsigns.nvim {{{
-lua << EOF
- require('gitsigns').setup({})
-EOF
-" }}}
 
 " mhartington/formatter.nvim {{{
 " lua << EOF
@@ -283,6 +185,24 @@ EOF
 " ]], true)
 " EOF
 nnoremap <silent> <leader>fo :Format<CR>
+" }}}
+
+" kevinhwang91/rnvimr {{{
+tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
+nnoremap <silent> <M-o> :RnvimrToggle<CR>
+tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
+let g:rnvimr_enable_picker = 1
+let g:rnvimr_hide_gitignore = 1
+" }}}
+
+" norcalli/nvim-colorizer.lua {{{
+lua require'colorizer'.setup()
+" }}}
+
+" lewis6991/gitsigns.nvim {{{
+lua << EOF
+ require('gitsigns').setup({})
+EOF
 " }}}
 
 " tpope/vim-fugitive {{{
@@ -321,7 +241,7 @@ vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_a
 nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
 nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
 nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
+" nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
 nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
@@ -364,12 +284,12 @@ let g:sneak#label = 1
 " }}}
 
 " nvim-telescope/telescope.nvim {{{
-" nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 " nnoremap <Leader>fgs :lua require'telescope.builtin'.git_status{}<cr>
-" nnoremap <Leader>ffb :lua require'telescope.builtin'.file_browser{}<cr>
+nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
 
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -429,26 +349,26 @@ inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 "}}}
 
 " nvim-treesitter {{{
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"   ensure_installed = {
-"     'html', 'javascript', 'typescript'
-"   },
-"   highlight = {
-"     enable = true,
-"     additional_vim_regex_highlighting = true
-"   },
-"   indent = {
-"     enable = false
-"   }
-" }
-" EOF
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = {
+    'html', 'javascript', 'typescript'
+  },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = true
+  },
+  indent = {
+    enable = false
+  }
+}
+EOF
 " }}}
 
 " vim-airline/vim-airline {{{
-let g:airline_theme='molokai'
+let g:airline_theme='monokai_tasty'
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
 "}}}
 
 " peitalin/vim-jsx-typescript {{{
@@ -459,33 +379,11 @@ autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 nnoremap <leader>vw :VimwikiIndex<CR>
 "}}}
 
-" 'tweekmonster/startuptime.vim' {{{
-let s:header = [
-      \ '',
-      \ '__      _______    _____          _      ',
-      \ '\ \    / / ____|  / ____|        | |     ',
-      \ ' \ \  / / (___   | |     ___   __| | ___ ',
-      \ '  \ \/ / \___ \  | |    / _ \ / _` |/ _ \',
-      \ '   \  /  ____) | | |___| (_) | (_| |  __/',
-      \ '    \/  |_____/   \_____\___/ \__,_|\___|',
-      \ '',
-      \ '            [ @elijahmanor ]           ',
-      \ '',
-      \ ]
-let s:footer = [
-      \ '+-----------------------------------------+',
-      \ '|    Doug, this is VS Code... see!?!      |',
-      \ '+-----------------------------------------+',
-      \ ]
-" let g:startify_custom_header = startify#center(s:header)
-" let g:startify_custom_footer = startify#center(s:footer)
-"}}}
-
 " 'glephir/dashboard-nvim' {{{
 let g:dashboard_default_executive ='telescope'
 nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
-nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
-nnoremap <silent> <Leader>tc :DashboardChangeColorscheme<CR>
+" nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
+nnoremap <silent> <Leader>ct :DashboardChangeColorscheme<CR>
 nnoremap <silent> <Leader>fg :DashboardFindWord<CR>
 nnoremap <silent> <Leader>fm :DashboardJumpMark<CR>
 nnoremap <silent> <Leader>nf :DashboardNewFile<CR>
@@ -494,7 +392,7 @@ let g:dashboard_custom_shortcut={
 \ 'find_history'       : 'SPC f h',
 \ 'find_file'          : 'SPC f f',
 \ 'new_file'           : 'SPC n f',
-\ 'change_colorscheme' : 'SPC t c',
+\ 'change_colorscheme' : 'SPC c t',
 \ 'find_word'          : 'SPC f g',
 \ 'book_marks'         : 'SPC f m',
 \ }
