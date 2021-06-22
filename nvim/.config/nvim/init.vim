@@ -114,7 +114,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 Plug 'vim-test/vim-test'
-Plug 'folke/which-key.nvim'
+" Plug 'folke/which-key.nvim'
 
 Plug 'ThePrimeagen/harpoon'
 Plug 'rbgrouleff/bclose.vim'
@@ -184,7 +184,7 @@ let mapleader = " "
 " augroup END
 " ]], true)
 " EOF
-nnoremap <silent> <leader>fo :Format<CR>
+" nnoremap <silent> <leader>fo :Format<CR>
 " }}}
 
 " kevinhwang91/rnvimr {{{
@@ -213,11 +213,11 @@ nnoremap <leader>gg :G<cr>
 lua require 'lspconfig'.tsserver.setup{}
 lua << EOF
 local eslint = {
-    lintCommand = "npx eslint -f unix --stdin --stdin-filename ${INPUT}",
+    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
     lintIgnoreExitCode = true,
     lintStdin = true,
     lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "npx eslint --fix-to-stdout --stdin --stdin-filename=${INPUT}",
+    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
     formatStdin = true
 }
 -- brew install efm-langserver
@@ -263,7 +263,7 @@ nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 
-" nnoremap <silent>es <cmd>lua vim.lsp.buf.formatting()<CR>
+nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>
 " autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 5000)
 " autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 5000)
 " }}}
@@ -274,9 +274,9 @@ nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 " }}}
 
 " folke/wich-key.nvim {{{
-lua << EOF
-require("which-key").setup {}
-EOF
+" lua << EOF
+" require("which-key").setup {}
+" EOF
 " }}}
 
 " justinmk/vim-sneak {{{
