@@ -212,6 +212,7 @@ nnoremap <leader>gg :G<cr>
 " neovim/nvim-lspconfig {{{
 lua require 'lspconfig'.tsserver.setup{}
 lua << EOF
+-- npm install -g eslint_d
 local eslint = {
     lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
     lintIgnoreExitCode = true,
