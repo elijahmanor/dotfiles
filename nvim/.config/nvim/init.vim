@@ -17,6 +17,7 @@ set splitright
 set splitbelow
 set noerrorbells
 set nowrap
+set formatoptions-=t
 set ignorecase
 set smartcase
 set noswapfile
@@ -64,6 +65,7 @@ Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'kevinhwang91/rnvimr'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -82,7 +84,8 @@ Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-Plug 'justinmk/vim-sneak'
+" Plug 'justinmk/vim-sneak'
+Plug 'phaazon/hop.nvim'
 Plug 'editorconfig/editorconfig-vim'
 
 " Plug 'itchyny/lightline.vim'
@@ -122,15 +125,16 @@ Plug 'vim-test/vim-test'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'tweekmonster/startuptime.vim'
 
-Plug 'patstockwell/vim-monokai-tasty'
-
+" Plug 'patstockwell/vim-monokai-tasty'
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 call plug#end()
 " }}}
 
 " Colors {{{
 let g:vim_monokai_tasty_italic = 1
-colorscheme vim-monokai-tasty
+" colorscheme vim-monokai-tasty
+colorscheme dracula
 let g:lightline = {
 \ 'colorscheme': 'monokai_tasty',
 \ }
@@ -145,7 +149,7 @@ highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " Make it obvious where 80 characters is
-set textwidth=80
+" set textwidth=80
 set colorcolumn=+1
 set colorcolumn=80
 highlight ColorColumn guibg=#181818
@@ -281,16 +285,37 @@ nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 " }}}
 
 " justinmk/vim-sneak {{{
-let g:sneak#label = 1
+" let g:sneak#label = 1
+" }}}
+
+" phaazon/hop.nvim {{{
+lua << EOF
+require'hop'.setup {}
+EOF
+nnoremap <silent>s <cmd>HopChar2<cr>
+nnoremap <silent>S <cmd>HopWord<cr>
 " }}}
 
 " nvim-telescope/telescope.nvim {{{
+lua << EOF
+require('telescope').setup {
+    extensions = {
+        fzy_native = {
+            override_generic_sorter = false,
+            override_file_sorter = true,
+        }
+    }
+}
+require('telescope').load_extension('fzy_native')
+EOF
 nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 " nnoremap <Leader>fgs :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
+nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
+nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
@@ -367,9 +392,10 @@ EOF
 " }}}
 
 " vim-airline/vim-airline {{{
-let g:airline_theme='monokai_tasty'
+let g:airline_theme='dracula'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 "}}}
 
 " peitalin/vim-jsx-typescript {{{
