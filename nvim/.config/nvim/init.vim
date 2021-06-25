@@ -40,10 +40,10 @@ set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
 set nrformats+=alpha
 if has('folding')
   if has('windows')
-    let &fillchars='vert: '           " less cluttered vertical window separators
+    let &fillchars='vert: ' " less cluttered vertical window separators
   endif
-  set foldmethod=indent               " not as cool as syntax, but faster
-  set foldlevelstart=1                " start folded
+  set foldmethod=indent " not as cool as syntax, but faster
+  set foldlevelstart=1 " start folded
 endif
 filetype plugin indent on
 " }}}
@@ -68,10 +68,10 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'kevinhwang91/rnvimr'
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'kyazdani42/nvim-tree.lua'
 
 " Custom Text Objects
 Plug 'michaeljsmith/vim-indent-object' " gcii gcaI
@@ -97,7 +97,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'kyazdani42/nvim-web-devicons'
 
 " tmux plugins
-" Plug 'edkolev/tmuxline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
 
@@ -118,7 +117,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 Plug 'vim-test/vim-test'
-" Plug 'folke/which-key.nvim'
+Plug 'folke/which-key.nvim'
 
 Plug 'ThePrimeagen/harpoon'
 Plug 'rbgrouleff/bclose.vim'
@@ -127,70 +126,42 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'tweekmonster/startuptime.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
-" Plug 'patstockwell/vim-monokai-tasty'
 Plug 'dracula/vim', { 'as': 'dracula' }
-
 call plug#end()
 " }}}
 
 " Colors {{{
-" let g:vim_monokai_tasty_italic = 1
-" colorscheme vim-monokai-tasty
-
-" highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
-" highlight Comment cterm=italic gui=italic
 let g:dracula_colorterm = 0
+let g:dracula_italic = 1
+colorscheme dracula
+
+highlight Normal guifg=#e6e1de ctermfg=NONE guibg=NONE
+highlight Comment cterm=italic gui=italic
 
 " Allow crosshair cursor highlighting.
-" set cursorline    " enable the horizontal line
-" set cursorcolumn  " enable the vertical line
-" highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
-" highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
-" nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
-
+highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
+highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
+set cursorline " enable the horizontal line
+set cursorcolumn " enable the vertical line
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " Make it obvious where 80 characters is
-" set textwidth=80
-" set colorcolumn=+1
-" set colorcolumn=80
-" highlight ColorColumn guibg=#181818
+set textwidth=80
+set colorcolumn=+1
+set colorcolumn=80
+highlight ColorColumn guibg=#181818
 
-colorscheme dracula
 if (has("termguicolors"))
-  set termguicolors     " enable true colors support
+  set termguicolors " enable true colors support
 endif
 
+" transparent bg
+autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
 " }}}
 
 " Leader {{{
 let mapleader = " "
 "}}}
-
-" mhartington/formatter.nvim {{{
-" lua << EOF
-" local eslint = function()
-"   return {
-"     exe = "npx eslint",
-"     args = {"--stdin-filename", vim.api.nvim_buf_get_name(0), "--fix", "--cache"},
-"     stdin = false
-"   }
-" end
-" require('formatter').setup({
-"   logging = true,
-"   filetype = {
-"     typescriptreact = { eslint },
-"     javascript = { eslint },
-" 	}
-" })
-" vim.api.nvim_exec([[
-" augroup FormatAutogroup
-"   autocmd!
-"   autocmd BufWritePost *.js,*.rs,*.lua FormatWrite
-" augroup END
-" ]], true)
-" EOF
-" nnoremap <silent> <leader>fo :Format<CR>
-" }}}
 
 " kevinhwang91/rnvimr {{{
 tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
@@ -292,12 +263,8 @@ nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 " folke/wich-key.nvim {{{
 " lua << EOF
-" require("which-key").setup {}
+require("which-key").setup {}
 " EOF
-" }}}
-
-" justinmk/vim-sneak {{{
-" let g:sneak#label = 1
 " }}}
 
 " phaazon/hop.nvim {{{
@@ -321,16 +288,15 @@ require('telescope').setup {
 require('telescope').load_extension('fzy_native')
 EOF
 nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
-" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
-" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-" nnoremap <Leader>fgs :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
 nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
+" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
-nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gh     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
@@ -435,18 +401,6 @@ let g:dashboard_custom_shortcut={
 \ 'find_word'          : 'SPC f g',
 \ 'book_marks'         : 'SPC f m',
 \ }
-" let s:header = [
-"       \ '',
-"       \ '__      _______    _____          _      ',
-"       \ '\ \    / / ____|  / ____|        | |     ',
-"       \ ' \ \  / / (___   | |     ___   __| | ___ ',
-"       \ '  \ \/ / \___ \  | |    / _ \ / _` |/ _ \',
-"       \ '   \  /  ____) | | |___| (_) | (_| |  __/',
-"       \ '    \/  |_____/   \_____\___/ \__,_|\___|',
-"       \ '',
-"       \ '            [ @elijahmanor ]           ',
-"       \ '',
-"       \ ]
 let s:header = [
       \ '',
       \ '██╗   ██╗███████╗     ██████╗ ██████╗ ██████╗ ███████╗',
@@ -469,14 +423,14 @@ let g:dashboard_custom_footer = s:footer
 " }}}
 
 " scrooloose/nerdtree {{{
-let NERDTreeShowHidden=1
-let g:NERDTreeMinimalUI = 1
+" let NERDTreeShowHidden=1
+" let g:NERDTreeMinimalUI = 1
 " Start NERDTree when Vim is started without file arguments.
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
 " Exit Vim if NERDTree is the only window left.
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-    \ quit | endif
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
+"     \ quit | endif
 function MyNerdToggle()
     if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
         :NERDTreeToggle
@@ -489,9 +443,19 @@ nnoremap <leader>n :call MyNerdToggle()<CR>
 "}}}
 
 " kyazdani42/nvim-tree.lua {{{
-" nnoremap <C-n> :NvimTreeToggle<CR>
-" nnoremap <leader>r :NvimTreeRefresh<CR>
-" nnoremap <leader>n :NvimTreeFindFile<CR>
+let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ]
+let g:nvim_tree_gitignore = 1
+let g:nvim_tree_auto_close = 1
+let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ]
+let g:nvim_tree_quit_on_open = 1
+let g:nvim_tree_indent_markers = 1
+let g:nvim_tree_git_hl = 1
+let g:nvim_tree_highlight_opened_files = 1
+let g:nvim_tree_group_empty = 1
+let g:nvim_tree_lsp_diagnostics = 1
+nnoremap <C-n> :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>n :NvimTreeFindFile<CR>
 "}}}
 
 " tpope/vim-commentary {{{
