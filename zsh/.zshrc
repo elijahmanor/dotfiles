@@ -8,6 +8,8 @@ plugins=(git npm z node brew zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
+export COLORTERM=truecolor
+
 autoload -U promptinit; promptinit
 prompt pure
 

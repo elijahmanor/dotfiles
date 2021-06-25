@@ -33,10 +33,11 @@ set signcolumn=yes
 set number
 set updatetime=100
 set encoding=UTF-8
-set clipboard=unnamedplus " Copy paste between vim and everything else
+set clipboard+=unnamedplus " Copy paste between vim and everything else
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
 set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+set nrformats+=alpha
 if has('folding')
   if has('windows')
     let &fillchars='vert: '           " less cluttered vertical window separators
@@ -87,8 +88,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'justinmk/vim-sneak'
 Plug 'phaazon/hop.nvim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'APZelos/blamer.nvim'
 
-" Plug 'itchyny/lightline.vim'
 " Plug 'hoob3rt/lualine.nvim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -124,6 +125,7 @@ Plug 'rbgrouleff/bclose.vim'
 Plug 'vim-test/vim-test'
 Plug 'rbgrouleff/bclose.vim'
 Plug 'tweekmonster/startuptime.vim'
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 " Plug 'patstockwell/vim-monokai-tasty'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -132,33 +134,32 @@ call plug#end()
 " }}}
 
 " Colors {{{
-let g:vim_monokai_tasty_italic = 1
+" let g:vim_monokai_tasty_italic = 1
 " colorscheme vim-monokai-tasty
-colorscheme dracula
-let g:lightline = {
-\ 'colorscheme': 'monokai_tasty',
-\ }
 
-highlight Comment cterm=italic gui=italic
+" highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
+" highlight Comment cterm=italic gui=italic
+let g:dracula_colorterm = 0
 
 " Allow crosshair cursor highlighting.
-set cursorline    " enable the horizontal line
-set cursorcolumn  " enable the vertical line
-highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
-highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
-nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+" set cursorline    " enable the horizontal line
+" set cursorcolumn  " enable the vertical line
+" highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
+" highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
+" nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+
 
 " Make it obvious where 80 characters is
 " set textwidth=80
-set colorcolumn=+1
-set colorcolumn=80
-highlight ColorColumn guibg=#181818
+" set colorcolumn=+1
+" set colorcolumn=80
+" highlight ColorColumn guibg=#181818
 
+colorscheme dracula
 if (has("termguicolors"))
   set termguicolors     " enable true colors support
 endif
-" `:hi Normal` and replace guibg with none
-highlight Normal           guifg=#e6e1de ctermfg=none guibg=none
+
 " }}}
 
 " Leader {{{
@@ -199,6 +200,11 @@ let g:rnvimr_enable_picker = 1
 let g:rnvimr_hide_gitignore = 1
 " }}}
 
+" Plug 'APZelos/blamer.nvim' {{{
+let g:blamer_enabled = 1
+nnoremap <silent> <leader>bt :BlamerToggle<CR>
+" }}}
+
 " norcalli/nvim-colorizer.lua {{{
 lua require'colorizer'.setup()
 " }}}
@@ -214,7 +220,13 @@ nnoremap <leader>gg :G<cr>
 " }}}
 
 " neovim/nvim-lspconfig {{{
-lua require 'lspconfig'.tsserver.setup{}
+lua << EOF
+require 'lspconfig'.tsserver.setup{
+    on_attach = function(client)
+        client.resolved_capabilities.document_formatting = false
+    end
+}
+EOF
 lua << EOF
 -- npm install -g eslint_d
 local eslint = {
@@ -510,6 +522,13 @@ nnoremap <M-Right> :vertical resize -5<cr>
 nnoremap <M-Up> :resize +5<cr>
 nnoremap <M-Down> :resize -5<cr>
 nnoremap <M-Left> :vertical resize +5<cr>
+
+" toggle relativenumber
+nnoremap <leader>tn :set invrelativenumber<cr>
+
+" toggle word wrap
+nnoremap <leader>tw :set wrap!<cr>
+
 " }}}
 
 " Abbreviations {{{
