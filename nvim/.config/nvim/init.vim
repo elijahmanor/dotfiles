@@ -262,9 +262,9 @@ nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 " }}}
 
 " folke/wich-key.nvim {{{
-" lua << EOF
+lua << EOF
 require("which-key").setup {}
-" EOF
+EOF
 " }}}
 
 " phaazon/hop.nvim {{{
