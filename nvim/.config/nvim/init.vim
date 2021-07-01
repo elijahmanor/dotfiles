@@ -36,16 +36,27 @@ set encoding=UTF-8
 set clipboard+=unnamedplus " Copy paste between vim and everything else
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
-set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+" set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+set list                                " show whitespace
+set listchars=nbsp:⦸                    " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+set listchars+=tab:▷┅                   " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
+                                        " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
+set listchars+=extends:»                " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+set listchars+=precedes:«               " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+set listchars+=trail:•                  " BULLET (U+2022, UTF-8: E2 80 A2)
 set nrformats+=alpha
-if has('folding')
-  if has('windows')
-    let &fillchars='vert: ' " less cluttered vertical window separators
-  endif
-  set foldmethod=indent " not as cool as syntax, but faster
-  set foldlevelstart=1 " start folded
-endif
+" if has('folding')
+"   if has('windows')
+"     let &fillchars='vert: ' " less cluttered vertical window separators
+"   endif
+"   set foldmethod=indent " not as cool as syntax, but faster
+"   set foldlevelstart=1 " start folded
+" endif
 filetype plugin indent on
+
+" attempt to speed-up vim
+set ttyfast
+set lazyredraw
 " }}}
 
 " Plugins {{{
@@ -66,8 +77,9 @@ Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzy-native.nvim'
-Plug 'kevinhwang91/rnvimr'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+" Plug 'kevinhwang91/rnvimr'
 " Plug 'scrooloose/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 " Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -76,19 +88,20 @@ Plug 'kyazdani42/nvim-tree.lua'
 " Custom Text Objects
 Plug 'michaeljsmith/vim-indent-object' " gcii gcaI
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-line' " yil yal
+" Plug 'kana/vim-textobj-line' " yil yal
 
 " Custom Motions
-Plug 'christoomey/vim-sort-motion' " gsip gsii
-Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
+" Plug 'christoomey/vim-sort-motion' " gsip gsii
+" Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
 
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Plug 'justinmk/vim-sneak'
-Plug 'phaazon/hop.nvim'
+" Plug 'phaazon/hop.nvim'
+Plug 'ggandor/lightspeed.nvim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'APZelos/blamer.nvim'
+" Plug 'APZelos/blamer.nvim'
 
 " Plug 'hoob3rt/lualine.nvim'
 Plug 'vim-airline/vim-airline'
@@ -100,31 +113,35 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
 
-Plug 'wesQ3/vim-windowswap'
+" Plug 'wesQ3/vim-windowswap'
 
 " tpope plugins
-Plug 'tpope/vim-projectionist'
+" Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive', { 'on': ['Git'] }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-speeddating'
+" Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-commentary'
 
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'psliwka/vim-smoothie'
-Plug 'vimwiki/vimwiki'
+" Plug 'vimwiki/vimwiki'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
-Plug 'vim-test/vim-test'
 Plug 'folke/which-key.nvim'
 
 Plug 'ThePrimeagen/harpoon'
-Plug 'rbgrouleff/bclose.vim'
+" Plug 'rbgrouleff/bclose.vim'
 Plug 'vim-test/vim-test'
-Plug 'rbgrouleff/bclose.vim'
-Plug 'tweekmonster/startuptime.vim'
+" Plug 'tweekmonster/startuptime.vim'
+Plug 'dstein64/vim-startuptime'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
+" Plug 'sindrets/diffview.nvim'
+" Plug 'pwntester/octo.nvim', { 'on': 'Octo' }
+Plug 'wellle/context.vim'
+Plug 'akinsho/nvim-bufferline.lua'
+Plug 'ojroques/nvim-bufdel'
 
 Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
@@ -136,11 +153,12 @@ let g:dracula_italic = 1
 colorscheme dracula
 
 highlight Normal guifg=#e6e1de ctermfg=NONE guibg=NONE
+" autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
 highlight Comment cterm=italic gui=italic
 
 " Allow crosshair cursor highlighting.
-highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
-highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#17222E guifg=NONE
+highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#333333 guifg=NONE blend=85
+highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#333333 guifg=NONE
 set cursorline " enable the horizontal line
 set cursorcolumn " enable the vertical line
 nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
@@ -154,21 +172,34 @@ highlight ColorColumn guibg=#181818
 if (has("termguicolors"))
   set termguicolors " enable true colors support
 endif
-
-" transparent bg
-autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
 " }}}
 
 " Leader {{{
 let mapleader = " "
 "}}}
 
+" 'wellle/context.vim' {{{
+let g:context_enabled = 0
+nnoremap <silent> <M-c> :ContextToggle<CR>
+" }}}
+
+" Plug 'ojroques/nvim-bufdel' {{{
+nnoremap <silent> <leader>db :BufDel<CR>
+" }}}
+
+" 'akinsho/nvim-bufferline.lua' {{{
+lua << EOF
+require("bufferline").setup{}
+EOF
+nnoremap <silent> gb :BufferLinePick<CR>
+" }}}
+
 " kevinhwang91/rnvimr {{{
-tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
-nnoremap <silent> <M-o> :RnvimrToggle<CR>
-tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
-let g:rnvimr_enable_picker = 1
-let g:rnvimr_hide_gitignore = 1
+" tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
+" nnoremap <silent> <M-o> :RnvimrToggle<CR>
+" tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
+" let g:rnvimr_enable_picker = 1
+" let g:rnvimr_hide_gitignore = 1
 " }}}
 
 " Plug 'APZelos/blamer.nvim' {{{
@@ -269,29 +300,32 @@ EOF
 
 " phaazon/hop.nvim {{{
 lua << EOF
-require'hop'.setup {}
+-- require'hop'.setup {}
 EOF
-nnoremap <silent>s <cmd>HopChar2<cr>
-nnoremap <silent>S <cmd>HopWord<cr>
+" nnoremap <silent>s <cmd>HopChar2<cr>
+" nnoremap <silent>S <cmd>HopWord<cr>
 " }}}
 
 " nvim-telescope/telescope.nvim {{{
 lua << EOF
 require('telescope').setup {
     extensions = {
-        fzy_native = {
+        fzf = {
+            fuzzy = true,
             override_generic_sorter = false,
             override_file_sorter = true,
+	    case_mode = "smart_case"
         }
     }
 }
-require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('fzf')
 EOF
 nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
 nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
+nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
 " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
@@ -372,7 +406,7 @@ EOF
 " vim-airline/vim-airline {{{
 let g:airline_theme='dracula'
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 "}}}
 
@@ -493,6 +527,12 @@ nnoremap <leader>tn :set invrelativenumber<cr>
 " toggle word wrap
 nnoremap <leader>tw :set wrap!<cr>
 
+" }}}
+
+" Autocmd {{{
+" set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+autocmd InsertEnter * set list
+autocmd InsertLeave * set nolist
 " }}}
 
 " Abbreviations {{{
