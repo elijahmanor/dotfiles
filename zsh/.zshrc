@@ -20,6 +20,7 @@ function shorten() {
 alias weather="curl -4 wttr.in/nashville"
 alias rob="say 'How many Lowes could Rob Lowe rob if Rob Lowe could rob Lowes?'"
 alias git-init-commit="git reset $(git commit-tree HEAD^{tree} -m 'Initial commit')"
+alias ls="exa"
 alias ll="exa --long --header --git --icons"
 alias tree="ll --tree --level=4 -a -I=.git --git-ignore"
 alias vim="nvim"
