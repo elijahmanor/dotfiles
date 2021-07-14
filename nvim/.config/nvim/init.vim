@@ -1,10 +1,11 @@
-"         _
-"        (_)
-"  __   ___ _ __ ___  _ __ ___
-"  \ \ / / | '_ ` _ \| '__/ __|
-"   \ V /| | | | | | | | | (__
-"    \_/ |_|_| |_| |_|_|  \___|
-"
+"         
+" ██╗███╗   ██╗██╗████████╗██╗   ██╗██╗███╗   ███╗
+" ██║████╗  ██║██║╚══██╔══╝██║   ██║██║████╗ ████║
+" ██║██╔██╗ ██║██║   ██║   ██║   ██║██║██╔████╔██║
+" ██║██║╚██╗██║██║   ██║   ╚██╗ ██╔╝██║██║╚██╔╝██║
+" ██║██║ ╚████║██║   ██║██╗ ╚████╔╝ ██║██║ ╚═╝ ██║
+" ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝
+" 
 "         @elijahmanor
 
 " Sets {{{
@@ -36,15 +37,6 @@ set encoding=UTF-8
 set clipboard+=unnamedplus " Copy paste between vim and everything else
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
-" set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
-set list                                " show whitespace
-set listchars=nbsp:⦸                    " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-set listchars+=tab:▷┅                   " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
-                                        " + BOX DRAWINGS HEAVY TRIPLE DASH HORIZONTAL (U+2505, UTF-8: E2 94 85)
-set listchars+=extends:»                " RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-set listchars+=precedes:«               " LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-set listchars+=trail:•                  " BULLET (U+2022, UTF-8: E2 80 A2)
-set nrformats+=alpha
 " if has('folding')
 "   if has('windows')
 "     let &fillchars='vert: ' " less cluttered vertical window separators
@@ -103,9 +95,10 @@ Plug 'ggandor/lightspeed.nvim'
 Plug 'editorconfig/editorconfig-vim'
 " Plug 'APZelos/blamer.nvim'
 
-" Plug 'hoob3rt/lualine.nvim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'hoob3rt/lualine.nvim'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'famiu/feline.nvim'
 " Plug 'beauwilliams/statusline.lua'
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -126,22 +119,24 @@ Plug 'tpope/vim-commentary'
 
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'psliwka/vim-smoothie'
-" Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 Plug 'folke/which-key.nvim'
 
 Plug 'ThePrimeagen/harpoon'
 " Plug 'rbgrouleff/bclose.vim'
-Plug 'vim-test/vim-test'
-" Plug 'tweekmonster/startuptime.vim'
-Plug 'dstein64/vim-startuptime'
+Plug 'vim-test/vim-test', { 'on': ['TestNearest', 'TestLast', 'TestFile', 'TestSuite', 'TestVisit'] }
+Plug 'tweekmonster/startuptime.vim'
+" Plug 'dstein64/vim-startuptime'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 " Plug 'sindrets/diffview.nvim'
 " Plug 'pwntester/octo.nvim', { 'on': 'Octo' }
 Plug 'wellle/context.vim'
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'ojroques/nvim-bufdel'
+
+Plug 'windwp/nvim-autopairs'
 
 Plug 'dracula/vim', { 'as': 'dracula' }
 call plug#end()
@@ -152,12 +147,18 @@ let g:dracula_colorterm = 0
 let g:dracula_italic = 1
 colorscheme dracula
 
-highlight Normal guifg=#e6e1de ctermfg=NONE guibg=NONE
-" autocmd vimenter * hi Normal guibg=NONE ctermbg=NONE
+highlight Normal guifg=#e6e1de ctermfg=NONE guibg=NONE ctermbg=NONE
+" autocmd VimEnter,WinEnter,BufEnter,BufWinEnter,FocusGained * hi Normal guibg=NONE ctermbg=NONE
+autocmd FocusGained * :redraw!
 highlight Comment cterm=italic gui=italic
 
+hi ActiveWindow ctermbg=00 | hi InactiveWindow ctermbg=235
+set winhighlight=Normal:ActiveWindow,NormalNC:InactiveWindow
+" au VimEnter,WinEnter,BufEnter,BufWinEnter,FocusGained * hi ActiveWindow ctermbg=00 | hi InactiveWindow ctermbg=235
+" au VimLeave,WinLeave,BufLeave,BufWinLeave,FocusLost * hi ActiveWindow ctermbg=235 | hi InactiveWindow ctermbg=235
+
 " Allow crosshair cursor highlighting.
-highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#333333 guifg=NONE blend=85
+highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#333333 guifg=NONE
 highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#333333 guifg=NONE
 set cursorline " enable the horizontal line
 set cursorcolumn " enable the vertical line
@@ -185,6 +186,12 @@ nnoremap <silent> <M-c> :ContextToggle<CR>
 
 " Plug 'ojroques/nvim-bufdel' {{{
 nnoremap <silent> <leader>db :BufDel<CR>
+" }}}
+
+" Plug 'windwp/nvim-autopairs' {{{
+lua << EOF
+require('nvim-autopairs').setup()
+EOF
 " }}}
 
 " 'akinsho/nvim-bufferline.lua' {{{
@@ -222,6 +229,7 @@ nnoremap <leader>gg :G<cr>
 " }}}
 
 " neovim/nvim-lspconfig {{{
+" npm i -g typescript typescript-language-server
 lua << EOF
 require 'lspconfig'.tsserver.setup{
     on_attach = function(client)
@@ -253,6 +261,17 @@ require "lspconfig".efm.setup {
 }
 EOF
 
+nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>
+" autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 5000)
+" autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 5000)
+
 lua require 'lspsaga'.init_lsp_saga()
 nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
 nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
@@ -262,7 +281,7 @@ nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_sag
 nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
 " nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
 nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
-nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
+nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
 nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
 tnoremap <silent><M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
@@ -281,10 +300,6 @@ nnoremap <leader>xd <cmd>TroubleToggle lsp_document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
-
-nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>
-" autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 5000)
-" autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 5000)
 " }}}
 
 " ThePrimeagen/harpoon {{{
@@ -331,14 +346,6 @@ nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
 " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
 "}}}
 
 " janko/vim-test {{{
@@ -407,11 +414,25 @@ EOF
 " }}}
 
 " vim-airline/vim-airline {{{
-let g:airline_theme='dracula'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" let g:airline_theme='dracula'
+" let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#enabled = 0
+" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 "}}}
+
+" Plug 'famiu/feline.nvim' {{{
+lua << EOF
+-- require('feline').setup()
+EOF
+" }}}
+
+" Plug 'hoob3rt/lualine.nvim' {{{
+lua << EOF
+require('lualine').setup({
+  options = { theme = 'dracula' }
+})
+EOF
+" }}}
 
 " peitalin/vim-jsx-typescript {{{
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
@@ -533,9 +554,9 @@ nnoremap <leader>tw :set wrap!<cr>
 " }}}
 
 " Autocmd {{{
-" set list listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
+set listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
 autocmd InsertEnter * set list
-autocmd InsertLeave * set nolist
+autocmd VimEnter,BufEnter,InsertLeave * set nolist
 " }}}
 
 " Abbreviations {{{

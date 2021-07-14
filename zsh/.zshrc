@@ -62,6 +62,10 @@ export PATH=/Users/emanor/bin:$PATH
 
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 
+# export TERM=xterm-256color-italic
+# export TERM=xterm
+export TERM=xterm-256color
+
 # begin lks completion
 . <(lks --completion)
 # end lks completion
