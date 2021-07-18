@@ -118,7 +118,8 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'psliwka/vim-smoothie'
+" Plug 'psliwka/vim-smoothie'
+Plug 'karb94/neoscroll.nvim'
 Plug 'vimwiki/vimwiki'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
@@ -226,6 +227,10 @@ EOF
 
 " tpope/vim-fugitive {{{
 nnoremap <leader>gg :G<cr>
+" }}}
+
+" Plug 'karb94/neoscroll.nvim'{{{
+lua require('neoscroll').setup()
 " }}}
 
 " neovim/nvim-lspconfig {{{
