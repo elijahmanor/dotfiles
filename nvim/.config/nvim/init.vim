@@ -70,6 +70,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+" Plug 'brandoncc/telescope-harpoon.nvim'
 
 " Plug 'kevinhwang91/rnvimr'
 " Plug 'scrooloose/nerdtree'
@@ -88,6 +89,8 @@ Plug 'kana/vim-textobj-user'
 
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'Quramy/vim-js-pretty-template' " eventually treesitter will cover this
+Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
 
 " Plug 'justinmk/vim-sneak'
 " Plug 'phaazon/hop.nvim'
@@ -95,9 +98,9 @@ Plug 'ggandor/lightspeed.nvim'
 Plug 'editorconfig/editorconfig-vim'
 " Plug 'APZelos/blamer.nvim'
 
-Plug 'hoob3rt/lualine.nvim'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+" Plug 'hoob3rt/lualine.nvim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Plug 'famiu/feline.nvim'
 " Plug 'beauwilliams/statusline.lua'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -343,6 +346,7 @@ require('telescope').setup {
     }
 }
 require('telescope').load_extension('fzf')
+-- require('telescope').load_extension('harpoon')
 EOF
 nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -350,6 +354,7 @@ nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.e
 nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
+" nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
 " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 "}}}
@@ -406,7 +411,7 @@ inoremap <silent><expr> <CR>      compe#confirm('<CR>')
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = {
-    'html', 'javascript', 'typescript'
+    'html', 'javascript', 'typescript', 'tsx', 'css', 'json'
   },
   highlight = {
     enable = true,
@@ -420,10 +425,10 @@ EOF
 " }}}
 
 " vim-airline/vim-airline {{{
-" let g:airline_theme='dracula'
-" let g:airline_powerline_fonts = 1
-" let g:airline#extensions#tabline#enabled = 0
-" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline_theme='dracula'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 "}}}
 
 " Plug 'famiu/feline.nvim' {{{
@@ -434,9 +439,9 @@ EOF
 
 " Plug 'hoob3rt/lualine.nvim' {{{
 lua << EOF
-require('lualine').setup({
-  options = { theme = 'dracula' }
-})
+-- require('lualine').setup({
+--   options = { theme = 'dracula' }
+-- })
 EOF
 " }}}
 
@@ -544,6 +549,8 @@ nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 vnoremap <leader>y "+y
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
+" nnoremap J  :<c-u>execute 'move -1-'. v:count1<cr>
+" nnoremap K  :<c-u>execute 'move +'. v:count1<cr>
 
 " resize current buffer by +/- 5 
 nnoremap <M-Right> :vertical resize -5<cr>
@@ -556,6 +563,9 @@ nnoremap <leader>tn :set invrelativenumber<cr>
 
 " toggle word wrap
 nnoremap <leader>tw :set wrap!<cr>
+
+" clear and redraw screen, de-highlight, fix syntax highlighting
+nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 " }}}
 
