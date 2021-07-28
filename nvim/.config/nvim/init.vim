@@ -37,13 +37,6 @@ set encoding=UTF-8
 set clipboard+=unnamedplus " Copy paste between vim and everything else
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
-" if has('folding')
-"   if has('windows')
-"     let &fillchars='vert: ' " less cluttered vertical window separators
-"   endif
-"   set foldmethod=indent " not as cool as syntax, but faster
-"   set foldlevelstart=1 " start folded
-" endif
 filetype plugin indent on
 
 " attempt to speed-up vim
@@ -63,117 +56,86 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'folke/trouble.nvim'
-Plug 'mhartington/formatter.nvim'
 
 " File Management
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-" Plug 'brandoncc/telescope-harpoon.nvim'
 
-" Plug 'kevinhwang91/rnvimr'
-" Plug 'scrooloose/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'kyazdani42/nvim-tree.lua'
 
 " Custom Text Objects
 Plug 'michaeljsmith/vim-indent-object' " gcii gcaI
 Plug 'kana/vim-textobj-user'
-" Plug 'kana/vim-textobj-line' " yil yal
 
 " Custom Motions
-" Plug 'christoomey/vim-sort-motion' " gsip gsii
-" Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
+Plug 'christoomey/vim-sort-motion' " gsip gsii
+Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
 
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Plug 'Quramy/vim-js-pretty-template' " eventually treesitter will cover this
 Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
 
-" Plug 'justinmk/vim-sneak'
-" Plug 'phaazon/hop.nvim'
 Plug 'ggandor/lightspeed.nvim'
 Plug 'editorconfig/editorconfig-vim'
-" Plug 'APZelos/blamer.nvim'
+Plug 'APZelos/blamer.nvim'
 
-" Plug 'hoob3rt/lualine.nvim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" Plug 'famiu/feline.nvim'
-" Plug 'beauwilliams/statusline.lua'
+Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
 " tmux plugins
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'preservim/vimux'
 
-" Plug 'wesQ3/vim-windowswap'
-
 " tpope plugins
-" Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
 Plug 'tpope/vim-fugitive', { 'on': ['Git'] }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-" Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 
 Plug 'lewis6991/gitsigns.nvim'
-" Plug 'psliwka/vim-smoothie'
 Plug 'karb94/neoscroll.nvim'
 Plug 'vimwiki/vimwiki'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
 Plug 'folke/which-key.nvim'
+Plug 'wesQ3/vim-windowswap' " <leader>ww
 
 Plug 'ThePrimeagen/harpoon'
-" Plug 'rbgrouleff/bclose.vim'
 Plug 'vim-test/vim-test', { 'on': ['TestNearest', 'TestLast', 'TestFile', 'TestSuite', 'TestVisit'] }
 Plug 'tweekmonster/startuptime.vim'
-" Plug 'dstein64/vim-startuptime'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-" Plug 'sindrets/diffview.nvim'
-" Plug 'pwntester/octo.nvim', { 'on': 'Octo' }
-Plug 'wellle/context.vim'
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'ojroques/nvim-bufdel'
 
 Plug 'windwp/nvim-autopairs'
 
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'rktjmp/lush.nvim'
+Plug 'npxbr/gruvbox.nvim'
+
 call plug#end()
 " }}}
 
 " Colors {{{
 let g:dracula_colorterm = 0
 let g:dracula_italic = 1
+set background=dark
 colorscheme dracula
+" set background=light
+" colorscheme gruvbox
 
-highlight Normal guifg=#e6e1de ctermfg=NONE guibg=NONE ctermbg=NONE
-" autocmd VimEnter,WinEnter,BufEnter,BufWinEnter,FocusGained * hi Normal guibg=NONE ctermbg=NONE
-autocmd FocusGained * :redraw!
 highlight Comment cterm=italic gui=italic
-
-hi ActiveWindow ctermbg=00 | hi InactiveWindow ctermbg=235
-set winhighlight=Normal:ActiveWindow,NormalNC:InactiveWindow
-" au VimEnter,WinEnter,BufEnter,BufWinEnter,FocusGained * hi ActiveWindow ctermbg=00 | hi InactiveWindow ctermbg=235
-" au VimLeave,WinLeave,BufLeave,BufWinLeave,FocusLost * hi ActiveWindow ctermbg=235 | hi InactiveWindow ctermbg=235
-
-" Allow crosshair cursor highlighting.
-highlight CursorLine   cterm=NONE ctermbg=Black ctermfg=NONE guibg=#333333 guifg=NONE
-highlight CursorColumn cterm=NONE ctermbg=Black ctermfg=NONE guibg=#333333 guifg=NONE
-set cursorline " enable the horizontal line
-set cursorcolumn " enable the vertical line
-nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
 
 " Make it obvious where 80 characters is
 set textwidth=80
 set colorcolumn=+1
 set colorcolumn=80
-highlight ColorColumn guibg=#181818
+" highlight ColorColumn guibg=#181818
 
 if (has("termguicolors"))
   set termguicolors " enable true colors support
@@ -183,11 +145,6 @@ endif
 " Leader {{{
 let mapleader = " "
 "}}}
-
-" 'wellle/context.vim' {{{
-let g:context_enabled = 0
-nnoremap <silent> <M-c> :ContextToggle<CR>
-" }}}
 
 " Plug 'ojroques/nvim-bufdel' {{{
 nnoremap <silent> <leader>db :BufDel<CR>
@@ -206,17 +163,9 @@ EOF
 nnoremap <silent> gb :BufferLinePick<CR>
 " }}}
 
-" kevinhwang91/rnvimr {{{
-" tnoremap <silent> <M-i> <C-\><C-n>:RnvimrResize<CR>
-" nnoremap <silent> <M-o> :RnvimrToggle<CR>
-" tnoremap <silent> <M-o> <C-\><C-n>:RnvimrToggle<CR>
-" let g:rnvimr_enable_picker = 1
-" let g:rnvimr_hide_gitignore = 1
-" }}}
-
 " Plug 'APZelos/blamer.nvim' {{{
 let g:blamer_enabled = 1
-nnoremap <silent> <leader>bt :BlamerToggle<CR>
+nnoremap <silent> <leader>tb :BlamerToggle<CR>
 " }}}
 
 " norcalli/nvim-colorizer.lua {{{
@@ -322,14 +271,6 @@ require("which-key").setup {}
 EOF
 " }}}
 
-" phaazon/hop.nvim {{{
-lua << EOF
--- require'hop'.setup {}
-EOF
-" nnoremap <silent>s <cmd>HopChar2<cr>
-" nnoremap <silent>S <cmd>HopWord<cr>
-" }}}
-
 " nvim-telescope/telescope.nvim {{{
 lua << EOF
 require('telescope').setup {
@@ -346,7 +287,6 @@ require('telescope').setup {
     }
 }
 require('telescope').load_extension('fzf')
--- require('telescope').load_extension('harpoon')
 EOF
 nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
@@ -424,24 +364,15 @@ require'nvim-treesitter.configs'.setup {
 EOF
 " }}}
 
-" vim-airline/vim-airline {{{
-let g:airline_theme='dracula'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-"}}}
-
-" Plug 'famiu/feline.nvim' {{{
-lua << EOF
--- require('feline').setup()
-EOF
-" }}}
-
 " Plug 'hoob3rt/lualine.nvim' {{{
 lua << EOF
--- require('lualine').setup({
---   options = { theme = 'dracula' }
--- })
+require('plenary.reload').reload_module('lualine', true)
+require('lualine').setup({
+  options = {
+    theme = 'dracula',
+    disabled_types = { 'NvimTree' }
+  }
+})
 EOF
 " }}}
 
@@ -491,26 +422,6 @@ let g:dashboard_custom_header = s:header
 let g:dashboard_custom_footer = s:footer
 " }}}
 
-" scrooloose/nerdtree {{{
-" let NERDTreeShowHidden=1
-" let g:NERDTreeMinimalUI = 1
-" Start NERDTree when Vim is started without file arguments.
-" autocmd StdinReadPre * let s:std_in=1
-" autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-" Exit Vim if NERDTree is the only window left.
-" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-"     \ quit | endif
-function MyNerdToggle()
-    if &filetype == 'nerdtree' || exists("g:NERDTree") && g:NERDTree.IsOpen()
-        :NERDTreeToggle
-    else
-        :NERDTreeFind
-    endif
-endfunction
-" Toggle (find current buffer in tree when opening)
-nnoremap <leader>n :call MyNerdToggle()<CR>
-"}}}
-
 " kyazdani42/nvim-tree.lua {{{
 let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ]
 let g:nvim_tree_gitignore = 1
@@ -549,8 +460,6 @@ nnoremap <leader><CR> :so ~/.config/nvim/init.vim<CR>
 vnoremap <leader>y "+y
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-" nnoremap J  :<c-u>execute 'move -1-'. v:count1<cr>
-" nnoremap K  :<c-u>execute 'move +'. v:count1<cr>
 
 " resize current buffer by +/- 5 
 nnoremap <M-Right> :vertical resize -5<cr>
@@ -567,6 +476,7 @@ nnoremap <leader>tw :set wrap!<cr>
 " clear and redraw screen, de-highlight, fix syntax highlighting
 nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
+nnoremap gp `[v`] " reselect pasted text
 " }}}
 
 " Autocmd {{{

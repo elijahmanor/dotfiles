@@ -4,7 +4,7 @@ ZSH_THEME=""
 ENABLE_CORRECTION="false"
 
 # git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-plugins=(git npm z node brew zsh-autosuggestions timewarrior)
+plugins=(yarn git npm z node brew zsh-autosuggestions timewarrior)
 
 source $ZSH/oh-my-zsh.sh
 
