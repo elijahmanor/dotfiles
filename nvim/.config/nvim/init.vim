@@ -27,7 +27,7 @@ set undodir=~/.vim/undodir
 set undofile
 set incsearch
 set termguicolors
-set scrolloff=8
+set scrolloff=2
 set noshowmode
 set completeopt=menuone,noinsert,noselect
 set signcolumn=yes
@@ -38,6 +38,12 @@ set clipboard+=unnamedplus " Copy paste between vim and everything else
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
 filetype plugin indent on
+
+" for demo
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 
 " attempt to speed-up vim
 set ttyfast
@@ -76,10 +82,11 @@ Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
+Plug 'jxnblk/vim-mdx-js'
 
-Plug 'ggandor/lightspeed.nvim'
+" Plug 'ggandor/lightspeed.nvim'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'APZelos/blamer.nvim'
+" Plug 'APZelos/blamer.nvim'
 
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -91,21 +98,20 @@ Plug 'preservim/vimux'
 " tpope plugins
 Plug 'tpope/vim-projectionist'
 Plug 'tpope/vim-unimpaired' " helpful shorthand like [b ]b
-Plug 'tpope/vim-fugitive', { 'on': ['Git'] }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-sleuth'
 
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'karb94/neoscroll.nvim'
-Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki', { 'on': ['VimwikiIndex'] }
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'machakann/vim-highlightedyank'
-Plug 'folke/which-key.nvim'
+" Plug 'folke/which-key.nvim'
 Plug 'wesQ3/vim-windowswap' " <leader>ww
 
-Plug 'ThePrimeagen/harpoon'
 Plug 'vim-test/vim-test', { 'on': ['TestNearest', 'TestLast', 'TestFile', 'TestSuite', 'TestVisit'] }
 Plug 'tweekmonster/startuptime.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
@@ -113,23 +119,28 @@ Plug 'akinsho/nvim-bufferline.lua'
 Plug 'ojroques/nvim-bufdel'
 
 Plug 'windwp/nvim-autopairs'
+Plug 'junegunn/goyo.vim'
 
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'rktjmp/lush.nvim'
 Plug 'npxbr/gruvbox.nvim'
+Plug 'tjdevries/colorbuddy.vim'
+Plug 'Th3Whit3Wolf/onebuddy'
 
 call plug#end()
 " }}}
 
 " Colors {{{
+if (has("termguicolors"))
+  set termguicolors " enable true colors support
+endif
 let g:dracula_colorterm = 0
 let g:dracula_italic = 1
-set background=dark
 colorscheme dracula
-" set background=light
-" colorscheme gruvbox
+" set background=dark " light or dark
+" colorscheme onebuddy
 
-highlight Comment cterm=italic gui=italic
+highlight Cursor guifg=#f00 guibg=#657b83
+" highlight Comment cterm=italic gui=italic
 
 " Make it obvious where 80 characters is
 set textwidth=80
@@ -137,14 +148,18 @@ set colorcolumn=+1
 set colorcolumn=80
 " highlight ColorColumn guibg=#181818
 
-if (has("termguicolors"))
-  set termguicolors " enable true colors support
-endif
 " }}}
 
 " Leader {{{
 let mapleader = " "
 "}}}
+
+" OneBuddy {{{
+lua << EOF
+--vim.o.background = 'light'
+--require('colorbuddy').colorscheme('onebuddy')
+EOF
+" }}}
 
 " Plug 'ojroques/nvim-bufdel' {{{
 nnoremap <silent> <leader>db :BufDel<CR>
@@ -174,7 +189,7 @@ lua require'colorizer'.setup()
 
 " lewis6991/gitsigns.nvim {{{
 lua << EOF
- require('gitsigns').setup({})
+  require('gitsigns').setup({})
 EOF
 " }}}
 
@@ -189,12 +204,14 @@ lua require('neoscroll').setup()
 " neovim/nvim-lspconfig {{{
 " npm i -g typescript typescript-language-server
 lua << EOF
+local util = require "lspconfig/util"
 require 'lspconfig'.tsserver.setup{
     on_attach = function(client)
         client.resolved_capabilities.document_formatting = false
-    end
     end,
+    root_dir = util.root_pattern(".git", "tsconfig.json", "jsconfig.json")
 }
+--require'lspconfig'.tailwindcss.setup{}
 EOF
 lua << EOF
 -- npm install -g eslint_d
@@ -243,6 +260,7 @@ nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
 nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
+tnoremap <silent><M-g> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
 tnoremap <silent><M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
 nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
 nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
@@ -268,24 +286,37 @@ nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
 
 " folke/wich-key.nvim {{{
 lua << EOF
-require("which-key").setup {}
+-- require("which-key").setup {}
 EOF
 " }}}
 
 " nvim-telescope/telescope.nvim {{{
 lua << EOF
 require('telescope').setup {
-    defaults = {
-        file_ignore_patterns = { "yarn.lock" }
-    },
-    extensions = {
-        fzf = {
-            fuzzy = true,
-            override_generic_sorter = false,
-            override_file_sorter = true,
-	    case_mode = "smart_case"
-        }
+  defaults = {
+    file_ignore_patterns = { "yarn.lock" }
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = false,
+      override_file_sorter = true,
+      case_mode = "smart_case"
     }
+  },
+  pickers = {
+    buffers = {
+      show_all_buffers = true,
+      sort_lastused = true,
+      theme = "dropdown",
+      previewer = false,
+      mappings = {
+        i = {
+          ["<c-d>"] = "delete_buffer",
+        }
+      }
+    }
+  }
 }
 require('telescope').load_extension('fzf')
 EOF
@@ -372,6 +403,11 @@ require('lualine').setup({
   options = {
     theme = 'dracula',
     disabled_types = { 'NvimTree' }
+  },
+  sections = {
+    lualine_x = {},
+    -- lualine_y = {},
+    -- lualine_z = {},
   }
 })
 EOF
@@ -403,22 +439,17 @@ let g:dashboard_custom_shortcut={
 \ 'book_marks'         : 'SPC f m',
 \ }
 let s:header = [
-      \ '',
-      \ '██╗   ██╗███████╗     ██████╗ ██████╗ ██████╗ ███████╗',
-      \ '██║   ██║██╔════╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝',
-      \ '██║   ██║███████╗    ██║     ██║   ██║██║  ██║█████╗  ',
-      \ '╚██╗ ██╔╝╚════██║    ██║     ██║   ██║██║  ██║██╔══╝  ',
-      \ ' ╚████╔╝ ███████║    ╚██████╗╚██████╔╝██████╔╝███████╗',
-      \ '  ╚═══╝  ╚══════╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝',
-      \ '',
-      \ '                   [ @elijahmanor ]                   ',
-      \ ]
-let s:footer = [
-      \ '+-----------------------------------------------------+',
-      \ '|                   😀 Hello Doug 👋                  |',
-      \ '+-----------------------------------------------------+',
-      \ '',
-      \ ]
+    \ '',
+    \ '███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗',
+    \ '████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║',
+    \ '██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║',
+    \ '██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║',
+    \ '██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║',
+    \ '╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝',
+    \ '',
+    \ '                 [ @elijahmanor ]                 ',
+    \ ]
+let s:footer = []
 let g:dashboard_custom_header = s:header
 let g:dashboard_custom_footer = s:footer
 " }}}
@@ -484,10 +515,40 @@ nnoremap gp `[v`] " reselect pasted text
 set listchars=tab:▸\ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣
 autocmd InsertEnter * set list
 autocmd VimEnter,BufEnter,InsertLeave * set nolist
+autocmd BufNewFile,BufRead *.md,*.mdx,*.markdown :set filetype=markdown
 " }}}
 
 " Abbreviations {{{
 iabbrev @@ emanor@planview.com
+" }}}
+
+" Snippets {{{
+nnoremap ,desc :-1read $HOME/.config/snippets/describe.snip<CR>V2j=f"a
+nnoremap ,it   :-1read $HOME/.config/snippets/it.snip<CR>V2j=f";i
+nnoremap ,test :-1read $HOME/.config/snippets/test.snip<CR>V2j=f";i
+" }}}
+
+" Custom Logic {{{
+function! OpenBuffersInVSCode()
+  " https://stackoverflow.com/a/7236867/4481
+  silent execute "!code " . join(map(filter(range(0,bufnr('$')), 'buflisted(v:val)'), 'fnamemodify(bufname(v:val), ":p")'))
+endfunction
+lua << EOF
+-- https://neovim.io/doc/user/api.html
+function openBuffersInVSCode()
+  local buffers = vim.api.nvim_list_bufs()
+  local fileNames = {}
+  for _, buffer in ipairs(buffers) do
+    if (vim.api.nvim_buf_is_valid(buffer) and vim.bo[buffer].buflisted) then
+      local fileName = vim.api.nvim_buf_get_name(buffer)
+      table.insert(fileNames, fileName)
+    end
+  end
+  print(table.concat(fileNames, " "))
+  vim.cmd("!code " .. table.concat(fileNames, " "))
+end
+EOF
+nnoremap <silent> <leader>code :lua openBuffersInVSCode()<cr>
 " }}}
 
 " https://vi.stackexchange.com/questions/3814/is-there-a-best-practice-to-fold-a-vimrc-file
