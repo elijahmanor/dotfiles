@@ -4,11 +4,22 @@ ZSH_THEME=""
 ENABLE_CORRECTION="false"
 
 # git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-plugins=(yarn git npm z node brew zsh-autosuggestions timewarrior)
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+plugins=(
+  yarn
+  git
+  npm
+  z
+  node
+  brew
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  vi-mode
+)
 
 source $ZSH/oh-my-zsh.sh
 
-export COLORTERM=truecolor
+# export COLORTERM=truecolor
 
 autoload -U promptinit; promptinit
 prompt pure
