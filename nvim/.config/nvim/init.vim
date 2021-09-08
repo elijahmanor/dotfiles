@@ -173,7 +173,48 @@ EOF
 
 " 'akinsho/nvim-bufferline.lua' {{{
 lua << EOF
-require("bufferline").setup{}
+vim.api.nvim_exec([[let $KITTY_WINDOW_ID=0]], true)
+require("bufferline").setup{
+  highlights = {
+    fill = {
+      guibg = "#282828"
+    },
+    separator_selected = {
+      guifg = "#282828"
+    },
+    separator_visible = {
+      guifg = "#282828"
+    },
+    separator = {
+      guifg = "#282828"
+    }
+  },
+  options = {
+    modified_icon = "●",
+    left_trunc_marker = "",
+    right_trunc_marker = "",
+    max_name_length = 25,
+    max_prefix_length = 25,
+    enforce_regular_tabs = false,
+    view = "multiwindow",
+    show_buffer_close_icons = true,
+    show_close_icon = false,
+    separator_style = "slant",
+    diagnostics = "nvim_lsp",
+    diagnostics_update_in_insert = false,
+    diagnostics_indicator = function(count, level, diagnostics_dict, context)
+      return "("..count..")"
+    end,
+    offsets = {
+      {
+        filetype = "coc-explorer",
+        text = "File Explorer",
+        highlight = "Directory",
+        text_align = "center"
+      }
+    }
+  }
+}
 EOF
 nnoremap <silent> gb :BufferLinePick<CR>
 " }}}
@@ -211,7 +252,7 @@ require 'lspconfig'.tsserver.setup{
     end,
     root_dir = util.root_pattern(".git", "tsconfig.json", "jsconfig.json")
 }
---require'lspconfig'.tailwindcss.setup{}
+require'lspconfig'.tailwindcss.setup{}
 EOF
 lua << EOF
 -- npm install -g eslint_d
@@ -509,6 +550,9 @@ nnoremap <leader>tw :set wrap!<cr>
 nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 nnoremap gp `[v`] " reselect pasted text
+
+nnoremap id :r!date -u +"\%Y-\%m-\%dT\%H:\%M:\%SZ"<CR>
+" nnoremap id "=strftime("%FT%T%z")<CR>P
 " }}}
 
 " Autocmd {{{
@@ -541,14 +585,21 @@ function openBuffersInVSCode()
   for _, buffer in ipairs(buffers) do
     if (vim.api.nvim_buf_is_valid(buffer) and vim.bo[buffer].buflisted) then
       local fileName = vim.api.nvim_buf_get_name(buffer)
-      table.insert(fileNames, fileName)
+      if (vim.api.nvim_get_current_buf() == buffer) then
+        local location = vim.api.nvim_win_get_cursor(0)
+        fileName = fileName .. ":" .. location[1] .. ":" .. location[2]
+        table.insert(fileNames, 1, fileName)
+      else
+        table.insert(fileNames, fileName)
+      end
     end
   end
-  print(table.concat(fileNames, " "))
-  vim.cmd("!code " .. table.concat(fileNames, " "))
+  local cwd = vim.fn.getcwd()
+  vim.cmd("!code -g " .. cwd .. " " .. table.concat(fileNames, " "))
 end
 EOF
-nnoremap <silent> <leader>code :lua openBuffersInVSCode()<cr>
+" nnoremap <silent> <leader>code :lua openBuffersInVSCode()<cr>
+nnoremap <leader>code :lua openBuffersInVSCode()<cr>
 " }}}
 
 " https://vi.stackexchange.com/questions/3814/is-there-a-best-practice-to-fold-a-vimrc-file
