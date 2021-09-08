@@ -37,6 +37,7 @@ set encoding=UTF-8
 set clipboard+=unnamedplus " Copy paste between vim and everything else
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
 set showcmd " extra info at end of command line
+set wildignore+=*/node_modules/**
 filetype plugin indent on
 
 " for demo
@@ -62,14 +63,24 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'folke/trouble.nvim'
+Plug 'onsails/lspkind-nvim'
+
+Plug 'kdheepak/lazygit.nvim'
 
 " File Management
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'sudormrfbin/cheatsheet.nvim'
 
 Plug 'kyazdani42/nvim-tree.lua'
+
+" TEMPORARY FOR RECORDING"
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'windwp/nvim-spectre'
+nnoremap <leader>S :lua require('spectre').open()<CR>
 
 " Custom Text Objects
 Plug 'michaeljsmith/vim-indent-object' " gcii gcaI
@@ -81,12 +92,13 @@ Plug 'tommcdo/vim-exchange' " cxiw ., cxx ., cxc
 
 " https://github.com/nvim-treesitter/nvim-treesitter/issues/1111
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
 Plug 'jxnblk/vim-mdx-js'
 
-" Plug 'ggandor/lightspeed.nvim'
 Plug 'editorconfig/editorconfig-vim'
 " Plug 'APZelos/blamer.nvim'
+Plug 'vuki656/package-info.nvim'
 
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -107,10 +119,13 @@ Plug 'tpope/vim-sleuth'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'karb94/neoscroll.nvim'
 Plug 'vimwiki/vimwiki', { 'on': ['VimwikiIndex'] }
-Plug 'norcalli/nvim-colorizer.lua'
+Plug 'norcalli/nvim-colorizer.lua', { 'branch': 'color-editor' }
 Plug 'machakann/vim-highlightedyank'
 " Plug 'folke/which-key.nvim'
 Plug 'wesQ3/vim-windowswap' " <leader>ww
+" Plug 'ggandor/lightspeed.nvim'
+" Plug 'phaazon/hop.nvim'
+Plug 'justinmk/vim-sneak'
 
 Plug 'vim-test/vim-test', { 'on': ['TestNearest', 'TestLast', 'TestFile', 'TestSuite', 'TestVisit'] }
 Plug 'tweekmonster/startuptime.vim'
@@ -147,12 +162,39 @@ set textwidth=80
 set colorcolumn=+1
 set colorcolumn=80
 " highlight ColorColumn guibg=#181818
-
 " }}}
 
 " Leader {{{
 let mapleader = " "
 "}}}
+
+" justinmk/vim-sneak {{{
+let g:sneak#label = 1
+" }}}
+
+" kdheepak/lazygit.nvim {{{
+nnoremap <silent> <leader>gg :LazyGit<CR>
+" }}}
+
+" Plug 'onsails/lspkind-nvim' {{{
+lua << EOF
+require('lspkind').init({})
+EOF
+" }}}
+
+" Plug 'vuki656/package-info.nvim' {{{
+lua << EOF
+require('package-info').setup()
+-- Display latest versions as virtual text
+vim.api.nvim_set_keymap("n", "<leader>ns", "<cmd>lua require('package-info').show()<cr>",
+  { silent = true, noremap = true }
+)
+-- Clear package info virtual text
+vim.api.nvim_set_keymap("n", "<leader>nc", "<cmd>lua require('package-info').hide()<cr>",
+  { silent = true, noremap = true }
+)
+EOF
+" }}}
 
 " OneBuddy {{{
 lua << EOF
@@ -234,10 +276,6 @@ lua << EOF
 EOF
 " }}}
 
-" tpope/vim-fugitive {{{
-nnoremap <leader>gg :G<cr>
-" }}}
-
 " Plug 'karb94/neoscroll.nvim'{{{
 lua require('neoscroll').setup()
 " }}}
@@ -279,6 +317,7 @@ require "lspconfig".efm.setup {
 EOF
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -300,14 +339,17 @@ nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_sag
 nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
 nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
-nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
-tnoremap <silent><M-g> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
+" nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
+" tnoremap <silent><leader><esc> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
 tnoremap <silent><M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
 nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
 nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
 nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
 nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
 nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+
+" nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ cwd = 'slices/admin' }
+nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ search_dirs = { 'slices/admin' } }
 
 lua << EOF
 require 'trouble'.setup {}
@@ -349,11 +391,11 @@ require('telescope').setup {
     buffers = {
       show_all_buffers = true,
       sort_lastused = true,
-      theme = "dropdown",
-      previewer = false,
+      -- theme = "dropdown",
+      -- previewer = false,
       mappings = {
         i = {
-          ["<c-d>"] = "delete_buffer",
+          ["<M-d>"] = "delete_buffer",
         }
       }
     }
@@ -367,6 +409,8 @@ nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.e
 nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
+nnoremap <leader>fr :lua require'telescope.builtin'.resume{}<CR>
+nnoremap <leader>cheat :Cheatsheet<cr>
 " nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
 " nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
@@ -432,6 +476,9 @@ require'nvim-treesitter.configs'.setup {
   },
   indent = {
     enable = false
+  },
+  context_commentstring = {
+    enable = true
   }
 }
 EOF
@@ -480,7 +527,6 @@ let g:dashboard_custom_shortcut={
 \ 'book_marks'         : 'SPC f m',
 \ }
 let s:header = [
-    \ '',
     \ '███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗',
     \ '████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║',
     \ '██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║',
@@ -578,7 +624,6 @@ function! OpenBuffersInVSCode()
   silent execute "!code " . join(map(filter(range(0,bufnr('$')), 'buflisted(v:val)'), 'fnamemodify(bufname(v:val), ":p")'))
 endfunction
 lua << EOF
--- https://neovim.io/doc/user/api.html
 function openBuffersInVSCode()
   local buffers = vim.api.nvim_list_bufs()
   local fileNames = {}
