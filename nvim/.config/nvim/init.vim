@@ -597,7 +597,7 @@ nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
 nnoremap gp `[v`] " reselect pasted text
 
-nnoremap id :r!date -u +"\%Y-\%m-\%dT\%H:\%M:\%SZ"<CR>
+nnoremap <leader>id :r!date -u +"\%Y-\%m-\%dT\%H:\%M:\%SZ"<CR>
 " nnoremap id "=strftime("%FT%T%z")<CR>P
 " }}}
 
