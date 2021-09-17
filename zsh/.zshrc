@@ -1,4 +1,4 @@
-export ZSH="/Users/emanor/.oh-my-zsh"
+export ZSH="/Users/$USER/.oh-my-zsh"
 
 ZSH_THEME=""
 ENABLE_CORRECTION="false"
@@ -69,7 +69,7 @@ nvm use v14 --silent
 export TMUXP_CONFIGDIR=$HOME/.config/tmuxp
 export DISABLE_AUTO_TITLE='true'
 
-export PATH=/Users/emanor/bin:$PATH
+export PATH=/Users/$USER/bin:$PATH
 
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 
@@ -77,6 +77,3 @@ export PATH=/Users/emanor/bin:$PATH
 # export TERM=xterm
 export TERM=xterm-256color
 
-# begin lks completion
-. <(lks --completion)
-# end lks completion
