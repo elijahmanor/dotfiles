@@ -96,10 +96,6 @@ Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
 Plug 'jxnblk/vim-mdx-js'
 
-Plug 'editorconfig/editorconfig-vim'
-" Plug 'APZelos/blamer.nvim'
-Plug 'vuki656/package-info.nvim'
-
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -116,6 +112,9 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-sleuth'
 
+Plug 'editorconfig/editorconfig-vim'
+" Plug 'APZelos/blamer.nvim'
+
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'karb94/neoscroll.nvim'
 Plug 'vimwiki/vimwiki', { 'on': ['VimwikiIndex'] }
@@ -128,7 +127,8 @@ Plug 'wesQ3/vim-windowswap' " <leader>ww
 Plug 'justinmk/vim-sneak'
 
 Plug 'vim-test/vim-test', { 'on': ['TestNearest', 'TestLast', 'TestFile', 'TestSuite', 'TestVisit'] }
-Plug 'tweekmonster/startuptime.vim'
+" Plug 'tweekmonster/startuptime.vim'
+Plug 'dstein64/vim-startuptime'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'ojroques/nvim-bufdel'
@@ -141,8 +141,20 @@ Plug 'npxbr/gruvbox.nvim'
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'Th3Whit3Wolf/onebuddy'
 
+Plug 'elijahmanor/export-to-vscode.nvim'
+
 call plug#end()
 " }}}
+
+" nnoremap <silent> <leader>code <cmd>lua require('export-to-vscode').launch()<cr>
+lua << EOF
+vim.api.nvim_set_keymap(
+  'n',
+  '<leader>code',
+  '<cmd>lua require("export-to-vscode").launch()<cr>',
+  { noremap = true, silent = true }
+)
+EOF
 
 " Colors {{{
 if (has("termguicolors"))
@@ -179,20 +191,6 @@ nnoremap <silent> <leader>gg :LazyGit<CR>
 " Plug 'onsails/lspkind-nvim' {{{
 lua << EOF
 require('lspkind').init({})
-EOF
-" }}}
-
-" Plug 'vuki656/package-info.nvim' {{{
-lua << EOF
-require('package-info').setup()
--- Display latest versions as virtual text
-vim.api.nvim_set_keymap("n", "<leader>ns", "<cmd>lua require('package-info').show()<cr>",
-  { silent = true, noremap = true }
-)
--- Clear package info virtual text
-vim.api.nvim_set_keymap("n", "<leader>nc", "<cmd>lua require('package-info').hide()<cr>",
-  { silent = true, noremap = true }
-)
 EOF
 " }}}
 
@@ -632,35 +630,6 @@ iabbrev @@ emanor@planview.com
 nnoremap ,desc :-1read $HOME/.config/snippets/describe.snip<CR>V2j=f"a
 nnoremap ,it   :-1read $HOME/.config/snippets/it.snip<CR>V2j=f";i
 nnoremap ,test :-1read $HOME/.config/snippets/test.snip<CR>V2j=f";i
-" }}}
-
-" Custom Logic {{{
-function! OpenBuffersInVSCode()
-  " https://stackoverflow.com/a/7236867/4481
-  silent execute "!code " . join(map(filter(range(0,bufnr('$')), 'buflisted(v:val)'), 'fnamemodify(bufname(v:val), ":p")'))
-endfunction
-lua << EOF
-function openBuffersInVSCode()
-  local buffers = vim.api.nvim_list_bufs()
-  local fileNames = {}
-  for _, buffer in ipairs(buffers) do
-    if (vim.api.nvim_buf_is_valid(buffer) and vim.bo[buffer].buflisted) then
-      local fileName = vim.api.nvim_buf_get_name(buffer)
-      if (vim.api.nvim_get_current_buf() == buffer) then
-        local location = vim.api.nvim_win_get_cursor(0)
-        fileName = fileName .. ":" .. location[1] .. ":" .. location[2]
-        table.insert(fileNames, 1, fileName)
-      else
-        table.insert(fileNames, fileName)
-      end
-    end
-  end
-  local cwd = vim.fn.getcwd()
-  vim.cmd("!code -g " .. cwd .. " " .. table.concat(fileNames, " "))
-end
-EOF
-" nnoremap <silent> <leader>code :lua openBuffersInVSCode()<cr>
-nnoremap <leader>code :lua openBuffersInVSCode()<cr>
 " }}}
 
 " https://vi.stackexchange.com/questions/3814/is-there-a-best-practice-to-fold-a-vimrc-file
