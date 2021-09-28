@@ -77,3 +77,6 @@ export PATH=/Users/$USER/bin:$PATH
 # export TERM=xterm
 export TERM=xterm-256color
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+

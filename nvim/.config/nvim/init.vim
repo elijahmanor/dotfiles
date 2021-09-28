@@ -40,6 +40,17 @@ set showcmd " extra info at end of command line
 set wildignore+=*/node_modules/**
 filetype plugin indent on
 
+" folding
+" set foldmethod=syntax "syntax highlighting items specify folds  
+" set foldcolumn=1 "defines 1 col at window left, to indicate folding  
+" let javaScript_fold=1 "activate folding by JS syntax  
+" set foldlevelstart=99 "start file with all folds opened
+
+set foldlevel=20
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
+
 " for demo
 set expandtab
 set tabstop=2
@@ -140,6 +151,8 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'npxbr/gruvbox.nvim'
 Plug 'tjdevries/colorbuddy.vim'
 Plug 'Th3Whit3Wolf/onebuddy'
+
+Plug 'GustavoKatel/sidebar.nvim'
 
 Plug 'elijahmanor/export-to-vscode.nvim'
 
@@ -521,6 +534,7 @@ autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 " vimwiki/vimwiki {{{
 nnoremap <leader>vw :VimwikiIndex<CR>
+nnoremap <leader>tl :VimwikiToggleListItem<cr>
 "}}}
 
 " 'glephir/dashboard-nvim' {{{
@@ -556,6 +570,7 @@ let g:dashboard_custom_footer = s:footer
 " }}}
 
 " kyazdani42/nvim-tree.lua {{{
+lua require'nvim-tree'.setup {}
 let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ]
 let g:nvim_tree_gitignore = 1
 let g:nvim_tree_auto_close = 1
@@ -613,6 +628,10 @@ nnoremap gp `[v`] " reselect pasted text
 
 nnoremap <leader>id :r!date -u +"\%Y-\%m-\%dT\%H:\%M:\%SZ"<CR>
 " nnoremap id "=strftime("%FT%T%z")<CR>P
+
+nnoremap <leader>x :!chmod +x %<cr>
+
+nnoremap <leader>sb :SidebarNvimToggle<cr>
 " }}}
 
 " Autocmd {{{
