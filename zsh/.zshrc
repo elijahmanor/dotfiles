@@ -19,8 +19,6 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-# export COLORTERM=truecolor
-
 autoload -U promptinit; promptinit
 prompt pure
 
@@ -73,10 +71,7 @@ export PATH=/Users/$USER/bin:$PATH
 
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 
-# export TERM=xterm-256color-italic
-# export TERM=xterm
 export TERM=xterm-256color
-
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

@@ -50,7 +50,6 @@ set foldlevel=20
 set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 
-
 " for demo
 set expandtab
 set tabstop=2
@@ -133,8 +132,6 @@ Plug 'norcalli/nvim-colorizer.lua', { 'branch': 'color-editor' }
 Plug 'machakann/vim-highlightedyank'
 " Plug 'folke/which-key.nvim'
 Plug 'wesQ3/vim-windowswap' " <leader>ww
-" Plug 'ggandor/lightspeed.nvim'
-" Plug 'phaazon/hop.nvim'
 Plug 'justinmk/vim-sneak'
 
 Plug 'vim-test/vim-test', { 'on': ['TestNearest', 'TestLast', 'TestFile', 'TestSuite', 'TestVisit'] }
@@ -204,13 +201,6 @@ nnoremap <silent> <leader>gg :LazyGit<CR>
 " Plug 'onsails/lspkind-nvim' {{{
 lua << EOF
 require('lspkind').init({})
-EOF
-" }}}
-
-" OneBuddy {{{
-lua << EOF
---vim.o.background = 'light'
---require('colorbuddy').colorscheme('onebuddy')
 EOF
 " }}}
 
@@ -300,6 +290,7 @@ require 'lspconfig'.tsserver.setup{
         client.resolved_capabilities.document_formatting = false
     end,
     root_dir = util.root_pattern(".git", "tsconfig.json", "jsconfig.json"),
+    --[=====[ 
     handlers = {
       ["textDocument/publishDiagnostics"] = function(_, _, params, client_id, _, config)
         local ignore_codes = { 80001, 7016 };
@@ -316,9 +307,11 @@ require 'lspconfig'.tsserver.setup{
         vim.lsp.diagnostic.on_publish_diagnostics(_, _, params, client_id, _, config)
       end,
     },
+    --]=====]
 }
 require'lspconfig'.tailwindcss.setup{}
 EOF
+
 lua << EOF
 -- npm install -g eslint_d
 local eslint = {
@@ -570,17 +563,25 @@ let g:dashboard_custom_footer = s:footer
 " }}}
 
 " kyazdani42/nvim-tree.lua {{{
-lua require'nvim-tree'.setup {}
 let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ]
 let g:nvim_tree_gitignore = 1
-let g:nvim_tree_auto_close = 1
-let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ]
+" let g:nvim_tree_auto_close = 1
+" let g:nvim_tree_auto_ignore_ft = [ 'startify', 'dashboard' ]
 let g:nvim_tree_quit_on_open = 1
 let g:nvim_tree_indent_markers = 1
 let g:nvim_tree_git_hl = 1
 let g:nvim_tree_highlight_opened_files = 1
 let g:nvim_tree_group_empty = 1
-let g:nvim_tree_lsp_diagnostics = 1
+" let g:nvim_tree_lsp_diagnostics = 1
+
+lua << EOF
+require'nvim-tree'.setup {
+  auto_close = true,
+  -- lsp_diagnostics = true,
+  ignore_ft_on_setup  = { 'startify', 'dashboard' },
+}
+EOF
+
 nnoremap <C-n> :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>n :NvimTreeFindFile<CR>
