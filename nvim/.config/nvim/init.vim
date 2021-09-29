@@ -121,6 +121,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-fugitive'
 
 Plug 'editorconfig/editorconfig-vim'
 " Plug 'APZelos/blamer.nvim'
