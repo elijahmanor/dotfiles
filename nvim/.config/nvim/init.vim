@@ -29,7 +29,7 @@ set incsearch
 set termguicolors
 set scrolloff=2
 set noshowmode
-set completeopt=menuone,noinsert,noselect
+set completeopt=menu,menuone,noselect
 set signcolumn=yes
 set number
 set updatetime=100
@@ -51,10 +51,10 @@ set foldmethod=expr
 set foldexpr=nvim_treesitter#foldexpr()
 
 " for demo
-set expandtab
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+" set expandtab
+" set tabstop=2
+" set softtabstop=2
+" set shiftwidth=2
 
 " attempt to speed-up vim
 set ttyfast
@@ -70,12 +70,19 @@ Plug 'glepnir/dashboard-nvim'
 
 " Language Server Protocol
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
-Plug 'glepnir/lspsaga.nvim'
+Plug 'kabouzeid/nvim-lspinstall'
+" Plug 'tami5/lspsaga.nvim'
 Plug 'folke/trouble.nvim'
 Plug 'onsails/lspkind-nvim'
+Plug 'creativenull/diagnosticls-configs-nvim'
 
-Plug 'kdheepak/lazygit.nvim'
+" Completion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'L3MON4D3/LuaSnip'
+Plug 'saadparwaiz1/cmp_luasnip'
 
 " File Management
 Plug 'nvim-lua/popup.nvim'
@@ -83,14 +90,13 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'sudormrfbin/cheatsheet.nvim'
-
 Plug 'kyazdani42/nvim-tree.lua'
 
 " TEMPORARY FOR RECORDING"
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'windwp/nvim-spectre'
-nnoremap <leader>S :lua require('spectre').open()<CR>
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
+" Plug 'windwp/nvim-spectre'
+" nnoremap <leader>S :lua require('spectre').open()<CR>
 
 " Custom Text Objects
 Plug 'michaeljsmith/vim-indent-object' " gcii gcaI
@@ -106,6 +112,7 @@ Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
 Plug 'jxnblk/vim-mdx-js'
 
+" Status Line
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
@@ -125,7 +132,6 @@ Plug 'tpope/vim-fugitive'
 
 Plug 'editorconfig/editorconfig-vim'
 " Plug 'APZelos/blamer.nvim'
-
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'karb94/neoscroll.nvim'
 Plug 'vimwiki/vimwiki', { 'on': ['VimwikiIndex'] }
@@ -134,37 +140,34 @@ Plug 'machakann/vim-highlightedyank'
 " Plug 'folke/which-key.nvim'
 Plug 'wesQ3/vim-windowswap' " <leader>ww
 Plug 'justinmk/vim-sneak'
-
-Plug 'vim-test/vim-test', { 'on': ['TestNearest', 'TestLast', 'TestFile', 'TestSuite', 'TestVisit'] }
 " Plug 'tweekmonster/startuptime.vim'
 Plug 'dstein64/vim-startuptime'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'akinsho/nvim-bufferline.lua'
-Plug 'ojroques/nvim-bufdel'
-
 Plug 'windwp/nvim-autopairs'
 Plug 'junegunn/goyo.vim'
+Plug 'miyakogi/conoline.vim'
 
+" Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
-Plug 'npxbr/gruvbox.nvim'
-Plug 'tjdevries/colorbuddy.vim'
-Plug 'Th3Whit3Wolf/onebuddy'
-
-Plug 'GustavoKatel/sidebar.nvim'
+" Plug 'npxbr/gruvbox.nvim'
+" Plug 'tjdevries/colorbuddy.vim'
+" Plug 'Th3Whit3Wolf/onebuddy'
+" Plug 'projekt0n/github-nvim-theme'
 
 Plug 'elijahmanor/export-to-vscode.nvim'
 
 call plug#end()
 " }}}
 
-" nnoremap <silent> <leader>code <cmd>lua require('export-to-vscode').launch()<cr>
+nnoremap <silent> <leader>code <cmd>lua require('export-to-vscode').launch()<cr>
 lua << EOF
-vim.api.nvim_set_keymap(
-  'n',
-  '<leader>code',
-  '<cmd>lua require("export-to-vscode").launch()<cr>',
-  { noremap = true, silent = true }
-)
+--vim.api.nvim_set_keymap(
+--  'n',
+--  '<leader>code',
+--  '<cmd>lua require("export-to-vscode").launch()<cr>',
+--  { noremap = true, silent = true }
+--)
 EOF
 
 " Colors {{{
@@ -176,15 +179,26 @@ let g:dracula_italic = 1
 colorscheme dracula
 " set background=dark " light or dark
 " colorscheme onebuddy
+"
+
+lua << EOF
+--require('github-theme').setup({
+--  theme_style = "dark_default", -- dark/dark_default/dimmed/light/light_default
+--  function_style = "italic",
+--  sidebars = {"qf", "vista_kind", "terminal", "packer"},
+--  -- Change the "hint" color to the "orange" color, and make the "error" color bright red
+--  colors = {hint = "orange", error = "#ff0000"}
+--})
+EOF
 
 highlight Cursor guifg=#f00 guibg=#657b83
-" highlight Comment cterm=italic gui=italic
+highlight Comment cterm=italic gui=italic
 
 " Make it obvious where 80 characters is
 set textwidth=80
 set colorcolumn=+1
 set colorcolumn=80
-" highlight ColorColumn guibg=#181818
+highlight ColorColumn guibg=#181818
 " }}}
 
 " Leader {{{
@@ -195,18 +209,10 @@ let mapleader = " "
 let g:sneak#label = 1
 " }}}
 
-" kdheepak/lazygit.nvim {{{
-nnoremap <silent> <leader>gg :LazyGit<CR>
-" }}}
-
 " Plug 'onsails/lspkind-nvim' {{{
 lua << EOF
 require('lspkind').init({})
 EOF
-" }}}
-
-" Plug 'ojroques/nvim-bufdel' {{{
-nnoremap <silent> <leader>db :BufDel<CR>
 " }}}
 
 " Plug 'windwp/nvim-autopairs' {{{
@@ -214,6 +220,7 @@ lua << EOF
 require('nvim-autopairs').setup()
 EOF
 " }}}
+
 
 " 'akinsho/nvim-bufferline.lua' {{{
 lua << EOF
@@ -310,64 +317,60 @@ require 'lspconfig'.tsserver.setup{
     },
     --]=====]
 }
-require'lspconfig'.tailwindcss.setup{}
 EOF
 
 lua << EOF
--- npm install -g eslint_d
-local eslint = {
-    lintCommand = "eslint_d -f unix --stdin --stdin-filename ${INPUT}",
-    lintIgnoreExitCode = true,
-    lintStdin = true,
-    lintFormats = {"%f:%l:%c: %m"},
-    formatCommand = "eslint_d --fix-to-stdout --stdin --stdin-filename=${INPUT}",
-    formatStdin = true
+-- npm install -g diagnostic-languageserver eslint_d prettier_d_slim prettier
+local function on_attach(client)
+  print('Attached to ' .. client.name)
+end
+local dlsconfig = require 'diagnosticls-configs'
+dlsconfig.init {
+  default_config = false,
+  format = true,
+  on_attach = on_attach,
 }
--- brew install efm-langserver
-require "lspconfig".efm.setup {
-    init_options = {documentFormatting = true, codeAction = true},
-    filetypes = {"javascriptreact", "javascript", "typescript", "typescriptreact"},
-    settings = {
-        rootMarkers = {".git/"},
-        languages = {
-            javascript = {eslint},
-            javascriptreact = {eslint},
-        }
-    }
+local eslint = require 'diagnosticls-configs.linters.eslint'
+local prettier = require 'diagnosticls-configs.formatters.prettier'
+prettier.requiredFiles = {
+    '.prettierrc',
+    '.prettierrc.json',
+    '.prettierrc.toml',
+    '.prettierrc.json',
+    '.prettierrc.yml',
+    '.prettierrc.yaml',
+    '.prettierrc.json5',
+    '.prettierrc.js',
+    '.prettierrc.cjs',
+    'prettier.config.js',
+    'prettier.config.cjs',
+  }
+dlsconfig.setup {
+  ['javascript'] = {
+    linter = eslint,
+    formatter = { prettier }
+  },
+  ['javascriptreact'] = {
+    linter = { eslint },
+    formatter = { prettier }
+  },
+  ['css'] = {
+    formatter = prettier
+  },
 }
 EOF
 
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap <silent> gd <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
 nnoremap <silent> gh    <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gH    <cmd>:Telescope lsp_code_actions<CR>
+nnoremap <silent> gca   <cmd>:Telescope lsp_code_actions<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-" nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting_sync(nil, 5000)<CR>
-" autocmd BufWritePre *.js lua vim.lsp.buf.formatting_sync(nil, 5000)
-" autocmd BufWritePre *.ts lua vim.lsp.buf.formatting_sync(nil, 5000)
-
-lua require 'lspsaga'.init_lsp_saga()
-nnoremap <silent> gh <cmd>lua require'lspsaga.provider'.lsp_finder()<CR>
-nnoremap <silent><leader>ca <cmd>lua require('lspsaga.codeaction').code_action()<CR>
-vnoremap <silent><leader>ca :<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>
-nnoremap <silent> K <cmd>lua require('lspsaga.hover').render_hover_doc()<CR>
-nnoremap <silent> <C-f> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>
-nnoremap <silent> <C-b> <cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>
-" nnoremap <silent> gs <cmd>lua require('lspsaga.signaturehelp').signature_help()<CR>
-nnoremap <silent>gr <cmd>lua require('lspsaga.rename').rename()<CR>
-nnoremap <silent> gp <cmd>lua require'lspsaga.provider'.preview_definition()<CR>
-nnoremap <silent><M-d> <cmd>lua require('lspsaga.floaterm').open_float_terminal()<CR>
-" nnoremap <silent><M-g> <cmd>lua require('lspsaga.floaterm').open_float_terminal("lazygit")<CR>
-" tnoremap <silent><leader><esc> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
-tnoremap <silent><M-d> <C-\><C-n>:lua require('lspsaga.floaterm').close_float_terminal()<CR>
-nnoremap <silent><leader>cd <cmd>lua require'lspsaga.diagnostic'.show_line_diagnostics()<CR>
-nnoremap <silent> <leader>cd :Lspsaga show_line_diagnostics<CR>
-nnoremap <silent><leader>cc <cmd>lua require'lspsaga.diagnostic'.show_cursor_diagnostics()<CR>
-nnoremap <silent> [e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>
-nnoremap <silent> ]e <cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting()<CR>
+" autocmd BufWritePre *.js lua vim.lsp.buf.formatting()
+" autocmd BufWritePre *.ts lua vim.lsp.buf.formatting()
+" autocmd BufWritePre *.css lua vim.lsp.buf.formatting()
 
 " nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ cwd = 'slices/admin' }
 nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ search_dirs = { 'slices/admin' } }
@@ -381,6 +384,18 @@ nnoremap <leader>xd <cmd>TroubleToggle lsp_document_diagnostics<cr>
 nnoremap <leader>xq <cmd>TroubleToggle quickfix<cr>
 nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
+" }}}
+
+" kabouzeid/nvim-lspinstall {{{
+lua << EOF
+require'lspinstall'.setup() -- important
+local servers = require'lspinstall'.installed_servers()
+for _, server in pairs(servers) do
+  require'lspconfig'[server].setup{
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  }
+end
+EOF
 " }}}
 
 " ThePrimeagen/harpoon {{{
@@ -467,23 +482,58 @@ nnoremap <leader>ts :call <SID>RunVimTest('TestSuite')<cr>
 nnoremap <leader>tv :call <SID>RunVimTest('TestVisit')<cr>
 "}}}
 
-" 'hrsh7th/nvim-compe' {{{
-lua << EOF
-require'compe'.setup {
-  enabled = true;
-  autocomplete = true;
-  source = {
-    path = true;
-    buffer = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    -- treesitter = true;
-  };
-}
+" 'hrsh7th/nvim-cmp' {{{
+lua <<EOF
+  -- Setup nvim-cmp.
+  local cmp = require'cmp'
+
+  cmp.setup({
+    auto_select = false,
+    snippet = {
+      expand = function(args)
+        require('luasnip').lsp_expand(args.body)
+      end,
+    },
+    mapping = {
+      ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      --['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-x>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.close(),
+      --['<CR>'] = cmp.mapping.confirm({ select = false }),
+      ['<C-y>'] = cmp.mapping.confirm({
+        behavior = cmp.ConfirmBehavior.Insert,        
+        select = true
+      }),
+    },
+    sources = {
+      { name = 'nvim_lsp' },
+      -- For vsnip user.
+      -- { name = 'vsnip' },
+      -- For luasnip user.
+      { name = 'path' },
+      -- For ultisnips user.
+      -- { name = 'ultisnips' },
+      { name = 'luasnip' },
+      { name = 'buffer', keywork_length = 5 },
+    },
+    formatting = {
+      format = require('lspkind').cmp_format {
+        with_text = true,
+        menu = {
+          buffer = "[buf]",
+          nvim_lsp = "[LSP]",
+          path = "[path]",
+          luasnip = "[snip]"
+          }
+        }
+    },
+    experimental = {
+      native_menu = false,
+      ghost_text = true
+      }
+  })
 EOF
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-"}}}
 
 " nvim-treesitter {{{
 lua <<EOF
@@ -632,8 +682,6 @@ nnoremap <leader>id :r!date -u +"\%Y-\%m-\%dT\%H:\%M:\%SZ"<CR>
 " nnoremap id "=strftime("%FT%T%z")<CR>P
 
 nnoremap <leader>x :!chmod +x %<cr>
-
-nnoremap <leader>sb :SidebarNvimToggle<cr>
 " }}}
 
 " Autocmd {{{
