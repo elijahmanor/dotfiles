@@ -83,6 +83,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'L3MON4D3/LuaSnip'
 Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'David-Kunz/cmp-npm'
 
 " File Management
 Plug 'nvim-lua/popup.nvim'
@@ -516,22 +517,23 @@ lua <<EOF
       -- { name = 'ultisnips' },
       { name = 'luasnip' },
       { name = 'buffer', keywork_length = 5 },
+      { name = 'npm', keyword_length = 4 },
     },
     formatting = {
-      format = require('lspkind').cmp_format {
-        with_text = true,
-        menu = {
-          buffer = "[buf]",
-          nvim_lsp = "[LSP]",
-          path = "[path]",
-          luasnip = "[snip]"
-          }
-        }
+      -- format = require('lspkind').cmp_format {
+      --   with_text = true,
+      --   menu = {
+      --     buffer = "[buf]",
+      --     nvim_lsp = "[LSP]",
+      --     path = "[path]",
+      --     luasnip = "[snip]"
+      --   }
+      -- }
     },
     experimental = {
       native_menu = false,
       ghost_text = true
-      }
+    }
   })
 EOF
 
