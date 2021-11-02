@@ -92,6 +92,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'ThePrimeagen/harpoon'
 
 " TEMPORARY FOR RECORDING"
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -112,6 +113,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 Plug 'MaxMEllon/vim-jsx-pretty' " fix indentation in jsx until treesitter can
 Plug 'jxnblk/vim-mdx-js'
+" Plug 'code-biscuits/nvim-biscuits'
 
 " Status Line
 Plug 'hoob3rt/lualine.nvim'
@@ -148,6 +150,7 @@ Plug 'akinsho/nvim-bufferline.lua'
 Plug 'windwp/nvim-autopairs'
 Plug 'junegunn/goyo.vim'
 Plug 'miyakogi/conoline.vim'
+" Plug 'github/copilot.vim'
 
 " Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -222,6 +225,29 @@ require('nvim-autopairs').setup()
 EOF
 " }}}
 
+" Plug 'nvim-biscuits' {{{
+lua <<EOF
+-- require('nvim-biscuits').setup({
+--   default_config = {
+--     max_length = 12,
+--     min_distance = 5,
+--     prefix_string = " 📎 "
+--   },
+--   language_config = {
+--     html = {
+--       prefix_string = " 🌐 "
+--     },
+--     javascript = {
+--       prefix_string = " ✨ ",
+--       max_length = 80
+--     },
+--     python = {
+--       disabled = true
+--     }
+--   }
+-- })
+EOF
+" }}}
 
 " 'akinsho/nvim-bufferline.lua' {{{
 lua << EOF
@@ -400,8 +426,13 @@ EOF
 " }}}
 
 " ThePrimeagen/harpoon {{{
-nnoremap <Leader>ha :lua require("harpoon.mark").add_file()<CR>
+nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
 nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
+nnoremap <C-y> :lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>
+nnoremap <leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <leader>4 :lua require("harpoon.ui").nav_file(4)<CR>
 " }}}
 
 " folke/wich-key.nvim {{{
