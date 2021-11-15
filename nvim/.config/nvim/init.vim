@@ -90,6 +90,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-hop.nvim'
 Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'ThePrimeagen/harpoon'
@@ -151,6 +152,9 @@ Plug 'windwp/nvim-autopairs'
 Plug 'junegunn/goyo.vim'
 Plug 'miyakogi/conoline.vim'
 " Plug 'github/copilot.vim'
+Plug 'yamatsum/nvim-cursorline'
+Plug 'mattn/emmet-vim'
+Plug 'voldikss/vim-floaterm'
 
 " Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -399,8 +403,6 @@ nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting()<CR>
 " autocmd BufWritePre *.ts lua vim.lsp.buf.formatting()
 " autocmd BufWritePre *.css lua vim.lsp.buf.formatting()
 
-" nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ cwd = 'slices/admin' }
-nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ search_dirs = { 'slices/admin' } }
 
 lua << EOF
 require 'trouble'.setup {}
@@ -422,6 +424,31 @@ for _, server in pairs(servers) do
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   }
 end
+EOF
+" }}}
+
+" emmet-ls {{{
+lua << EOF
+-- npm install -g ls_emmet
+-- local lspconfig = require'lspconfig'
+-- local configs = require'lspconfig/configs'
+-- 
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities.textDocument.completion.completionItem.snippetSupport = true
+-- 
+-- configs.ls_emmet = {
+--   default_config = {
+--     cmd = { 'ls_emmet', '--stdio' };
+--     filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'haml',
+--       'xml', 'xsl', 'pug', 'slim', 'sass', 'stylus', 'less', 'sss'};
+--     root_dir = function(fname)
+--       return vim.loop.cwd()
+--     end;
+--     settings = {};
+--   };
+-- }
+-- 
+-- lspconfig.ls_emmet.setup{ capabilities = capabilities }
 EOF
 " }}}
 
@@ -453,7 +480,27 @@ require('telescope').setup {
       override_generic_sorter = false,
       override_file_sorter = true,
       case_mode = "smart_case"
-    }
+    },
+    hop = {
+      -- the shown `keys` are the defaults, no need to set `keys` if defaults work for you ;)
+      keys = {"a", "s", "d", "f", "g", "h", "j", "k", "l", ";",
+              "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
+              "A", "S", "D", "F", "G", "H", "J", "K", "L", ":",
+              "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", },
+  -- Highlight groups to link to signs and lines; the below configuration refers to demo
+      -- sign_hl typically only defines foreground to possibly be combined with line_hl
+      sign_hl = { "WarningMsg", "Title" },
+      -- optional, typically a table of two highlight groups that are alternated between
+      line_hl = { "CursorLine", "Normal" },
+  -- options specific to `hop_loop`
+      -- true temporarily disables Telescope selection highlighting
+      clear_selection_hl = false,
+      -- highlight hopped to entry with telescope selection highlight
+      -- note: mutually exclusive with `clear_selection_hl`
+      trace_entry = true,
+      -- jump to entry where hoop loop was started from
+      reset_selection = true,
+    },
   },
   pickers = {
     buffers = {
@@ -470,18 +517,21 @@ require('telescope').setup {
   }
 }
 require('telescope').load_extension('fzf')
+require('telescope').load_extension('hop')
 EOF
-nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
+nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true, file_ignore_patterns = { '**/*.spec.js' } }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
 nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
-nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
 nnoremap <leader>fr :lua require'telescope.builtin'.resume{}<CR>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep( { file_ignore_patterns = { '**/*.spec.js' } } )<cr>
+nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ search_dirs = { 'slices/admin' } }
+
 nnoremap <leader>cheat :Cheatsheet<cr>
-" nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
-" nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
 " nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+" nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
 "}}}
 
 " janko/vim-test {{{
@@ -571,9 +621,8 @@ EOF
 " nvim-treesitter {{{
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = {
-    'html', 'javascript', 'typescript', 'tsx', 'css', 'json'
-  },
+  ensure_installed = { 'html', 'javascript', 'typescript', 'tsx', 'css', 'json' },
+  -- ensure_installed = "all", -- or maintained
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = true
@@ -619,7 +668,7 @@ let g:dashboard_default_executive ='telescope'
 nnoremap <silent> <Leader>fh :DashboardFindHistory<CR>
 " nnoremap <silent> <Leader>ff :DashboardFindFile<CR>
 nnoremap <silent> <Leader>ct :DashboardChangeColorscheme<CR>
-nnoremap <silent> <Leader>fg :DashboardFindWord<CR>
+" nnoremap <silent> <Leader>fg :DashboardFindWord<CR>
 nnoremap <silent> <Leader>fm :DashboardJumpMark<CR>
 nnoremap <silent> <Leader>nf :DashboardNewFile<CR>
 let g:dashboard_custom_shortcut={
@@ -709,7 +758,7 @@ nnoremap <leader>tw :set wrap!<cr>
 " clear and redraw screen, de-highlight, fix syntax highlighting
 nnoremap <leader>l :nohlsearch<cr>:diffupdate<cr>:syntax sync fromstart<cr><c-l>
 
-nnoremap gp `[v`] " reselect pasted text
+" nnoremap gp `[v`] " reselect pasted text
 
 nnoremap <leader>id :r!date -u +"\%Y-\%m-\%dT\%H:\%M:\%SZ"<CR>
 " nnoremap id "=strftime("%FT%T%z")<CR>P
