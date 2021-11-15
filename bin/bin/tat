@@ -34,7 +34,7 @@ create_if_needed_and_attach() {
     tmux send-keys -t "git" "lazygit" C-m
 
     tmux new-window -t "$session_name:4" -n "scratch"
-    tmux send-keys -t "scratch" "archey" C-m
+    tmux send-keys -t "scratch" "echo 'hello'" C-m
 
     tmux attach-session -t "$session_name:1"
   else
