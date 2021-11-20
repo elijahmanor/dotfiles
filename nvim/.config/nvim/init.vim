@@ -12,6 +12,7 @@
 set exrc
 set relativenumber
 set nu
+set nohlsearch
 set mouse=a
 set hidden
 set splitright
@@ -32,7 +33,7 @@ set noshowmode
 set completeopt=menu,menuone,noselect
 set signcolumn=yes
 set number
-set updatetime=100
+set updatetime=50
 set encoding=UTF-8
 set clipboard+=unnamedplus " Copy paste between vim and everything else
 set nojoinspaces " don't autoinsert two spaces after '.', '?', '!' for join command
@@ -55,6 +56,7 @@ set foldexpr=nvim_treesitter#foldexpr()
 " set tabstop=2
 " set softtabstop=2
 " set shiftwidth=2
+" set smartindent
 
 " attempt to speed-up vim
 set ttyfast
@@ -90,7 +92,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope-hop.nvim'
+" Plug 'nvim-telescope/telescope-hop.nvim'
 Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'ThePrimeagen/harpoon'
@@ -155,6 +157,7 @@ Plug 'miyakogi/conoline.vim'
 Plug 'yamatsum/nvim-cursorline'
 Plug 'mattn/emmet-vim'
 Plug 'voldikss/vim-floaterm'
+Plug 'sindrets/diffview.nvim'
 
 " Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -388,6 +391,9 @@ dlsconfig.setup {
   ['css'] = {
     formatter = prettier
   },
+  ['html'] = {
+    formatter = prettier
+  },
 }
 EOF
 
@@ -402,7 +408,6 @@ nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting()<CR>
 " autocmd BufWritePre *.js lua vim.lsp.buf.formatting()
 " autocmd BufWritePre *.ts lua vim.lsp.buf.formatting()
 " autocmd BufWritePre *.css lua vim.lsp.buf.formatting()
-
 
 lua << EOF
 require 'trouble'.setup {}
@@ -481,26 +486,6 @@ require('telescope').setup {
       override_file_sorter = true,
       case_mode = "smart_case"
     },
-    hop = {
-      -- the shown `keys` are the defaults, no need to set `keys` if defaults work for you ;)
-      keys = {"a", "s", "d", "f", "g", "h", "j", "k", "l", ";",
-              "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
-              "A", "S", "D", "F", "G", "H", "J", "K", "L", ":",
-              "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", },
-  -- Highlight groups to link to signs and lines; the below configuration refers to demo
-      -- sign_hl typically only defines foreground to possibly be combined with line_hl
-      sign_hl = { "WarningMsg", "Title" },
-      -- optional, typically a table of two highlight groups that are alternated between
-      line_hl = { "CursorLine", "Normal" },
-  -- options specific to `hop_loop`
-      -- true temporarily disables Telescope selection highlighting
-      clear_selection_hl = false,
-      -- highlight hopped to entry with telescope selection highlight
-      -- note: mutually exclusive with `clear_selection_hl`
-      trace_entry = true,
-      -- jump to entry where hoop loop was started from
-      reset_selection = true,
-    },
   },
   pickers = {
     buffers = {
@@ -517,8 +502,8 @@ require('telescope').setup {
   }
 }
 require('telescope').load_extension('fzf')
-require('telescope').load_extension('hop')
 EOF
+nnoremap <leader>ps :lua require('telescope.builtin').grep_string( { search = vim.fn.input("Grep for > ") } )<cr>
 nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true, file_ignore_patterns = { '**/*.spec.js' } }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
