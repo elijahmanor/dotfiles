@@ -21,6 +21,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# brew install pure
 autoload -U promptinit; promptinit
 prompt pure
 
