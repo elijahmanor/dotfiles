@@ -73,7 +73,6 @@ Plug 'glepnir/dashboard-nvim'
 " Language Server Protocol
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
-" Plug 'tami5/lspsaga.nvim'
 Plug 'folke/trouble.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'creativenull/diagnosticls-configs-nvim'
@@ -92,7 +91,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-" Plug 'nvim-telescope/telescope-hop.nvim'
+Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'sudormrfbin/cheatsheet.nvim'
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'ThePrimeagen/harpoon'
@@ -148,16 +147,13 @@ Plug 'wesQ3/vim-windowswap' " <leader>ww
 Plug 'justinmk/vim-sneak'
 " Plug 'tweekmonster/startuptime.vim'
 Plug 'dstein64/vim-startuptime'
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'windwp/nvim-autopairs'
-Plug 'junegunn/goyo.vim'
 Plug 'miyakogi/conoline.vim'
 " Plug 'github/copilot.vim'
 Plug 'yamatsum/nvim-cursorline'
 Plug 'mattn/emmet-vim'
-Plug 'voldikss/vim-floaterm'
-Plug 'sindrets/diffview.nvim'
+Plug 'GustavoKatel/sidebar.nvim'
 
 " Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -171,6 +167,29 @@ Plug 'elijahmanor/export-to-vscode.nvim'
 call plug#end()
 " }}}
 
+" Plug 'GustavoKatel/sidebar.nvim' {{{
+lua << EOF
+require("sidebar-nvim").setup({})
+-- require("sidebar-nvim").setup({
+--     disable_default_keybindings = 0,
+--     bindings = nil,
+--     open = false,
+--     side = "left",
+--     initial_width = 35,
+--     update_interval = 1000,
+--     sections = { "datetime", "git-status", "lsp-diagnostics" },
+--     section_separator = "-----",
+--     docker = {
+--         attach_shell = "/bin/sh", show_all = true, interval = 5000,
+--     },
+--     datetime = { format = "%a %b %d, %H:%M", clocks = { { name = "local" } } },
+--     todos = { ignored_paths = { "~" } }
+-- })
+EOF
+nnoremap <leader>sb <cmd>SidebarNvimToggl<cr>
+" }}}
+
+" export-to-vscode {{{
 nnoremap <silent> <leader>code <cmd>lua require('export-to-vscode').launch()<cr>
 lua << EOF
 --vim.api.nvim_set_keymap(
@@ -180,6 +199,7 @@ lua << EOF
 --  { noremap = true, silent = true }
 --)
 EOF
+" }}}
 
 " Colors {{{
 if (has("termguicolors"))
@@ -229,30 +249,6 @@ EOF
 " Plug 'windwp/nvim-autopairs' {{{
 lua << EOF
 require('nvim-autopairs').setup()
-EOF
-" }}}
-
-" Plug 'nvim-biscuits' {{{
-lua <<EOF
--- require('nvim-biscuits').setup({
---   default_config = {
---     max_length = 12,
---     min_distance = 5,
---     prefix_string = " 📎 "
---   },
---   language_config = {
---     html = {
---       prefix_string = " 🌐 "
---     },
---     javascript = {
---       prefix_string = " ✨ ",
---       max_length = 80
---     },
---     python = {
---       disabled = true
---     }
---   }
--- })
 EOF
 " }}}
 
@@ -322,6 +318,52 @@ EOF
 " Plug 'karb94/neoscroll.nvim'{{{
 lua require('neoscroll').setup()
 " }}}
+
+" nvim-telescope/telescope.nvim {{{
+lua << EOF
+require('telescope').setup {
+  defaults = {
+    file_ignore_patterns = { "yarn.lock" }
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = false,
+      override_file_sorter = true,
+      case_mode = "smart_case"
+    },
+  },
+  pickers = {
+    buffers = {
+      show_all_buffers = true,
+      sort_lastused = true,
+      -- theme = "dropdown",
+      -- previewer = false,
+      mappings = {
+        i = {
+          ["<M-d>"] = "delete_buffer",
+        }
+      }
+    }
+  }
+}
+require('telescope').load_extension('fzf')
+require("telescope").load_extension "file_browser"
+EOF
+nnoremap <leader>ps :lua require('telescope.builtin').grep_string( { search = vim.fn.input("Grep for > ") } )<cr>
+nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true, file_ignore_patterns = { '**/*.spec.js' } }<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+" nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
+nnoremap <leader>fs <cmd>lua require 'telescope'.extensions.file_browser.file_browser( { cwd = vim.fn.expand('%:p:h') } )<CR>
+nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
+nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
+nnoremap <leader>fr :lua require'telescope.builtin'.resume{}<CR>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep( { file_ignore_patterns = { '**/*.spec.js' } } )<cr>
+nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ search_dirs = { 'slices/admin' } }
+
+nnoremap <leader>cheat :Cheatsheet<cr>
+" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+"}}}
 
 " neovim/nvim-lspconfig {{{
 " npm i -g typescript typescript-language-server
@@ -405,6 +447,7 @@ nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> gR    <cmd>lua vim.lsp.buf.rename()<CR>
 nnoremap <silent><leader>fo <cmd>lua vim.lsp.buf.formatting()<CR>
+
 " autocmd BufWritePre *.js lua vim.lsp.buf.formatting()
 " autocmd BufWritePre *.ts lua vim.lsp.buf.formatting()
 " autocmd BufWritePre *.css lua vim.lsp.buf.formatting()
@@ -472,52 +515,6 @@ lua << EOF
 -- require("which-key").setup {}
 EOF
 " }}}
-
-" nvim-telescope/telescope.nvim {{{
-lua << EOF
-require('telescope').setup {
-  defaults = {
-    file_ignore_patterns = { "yarn.lock" }
-  },
-  extensions = {
-    fzf = {
-      fuzzy = true,
-      override_generic_sorter = false,
-      override_file_sorter = true,
-      case_mode = "smart_case"
-    },
-  },
-  pickers = {
-    buffers = {
-      show_all_buffers = true,
-      sort_lastused = true,
-      -- theme = "dropdown",
-      -- previewer = false,
-      mappings = {
-        i = {
-          ["<M-d>"] = "delete_buffer",
-        }
-      }
-    }
-  }
-}
-require('telescope').load_extension('fzf')
-EOF
-nnoremap <leader>ps :lua require('telescope.builtin').grep_string( { search = vim.fn.input("Grep for > ") } )<cr>
-nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true, file_ignore_patterns = { '**/*.spec.js' } }<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
-nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
-nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
-nnoremap <leader>fr :lua require'telescope.builtin'.resume{}<CR>
-nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep( { file_ignore_patterns = { '**/*.spec.js' } } )<cr>
-nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ search_dirs = { 'slices/admin' } }
-
-nnoremap <leader>cheat :Cheatsheet<cr>
-nnoremap <leader>fw <cmd>Telescope tmux windows<cr>
-" nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-" nnoremap <leader>fm :lua require('telescope').extensions.harpoon.marks{}<cr>
-"}}}
 
 " janko/vim-test {{{
 let test#strategy = "neovim"
@@ -719,6 +716,10 @@ nnoremap <leader>= :wincmd =<cr>
 
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" Turn on very magic mode for regular expressions
+" nnoremap / /\v
+" vnoremap / /\v
 
 " Escape terminal mode
 tnoremap <Esc> <C-\><C-n>
