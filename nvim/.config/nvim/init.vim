@@ -72,7 +72,7 @@ Plug 'glepnir/dashboard-nvim'
 
 " Language Server Protocol
 Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'folke/trouble.nvim'
 Plug 'onsails/lspkind-nvim'
 Plug 'creativenull/diagnosticls-configs-nvim'
@@ -351,7 +351,7 @@ require('telescope').load_extension('fzf')
 require("telescope").load_extension "file_browser"
 EOF
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string( { search = vim.fn.input("Grep for > ") } )<cr>
-nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true, file_ignore_patterns = { '**/*.spec.js' } }<cr>
+nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 " nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
 nnoremap <leader>fs <cmd>lua require 'telescope'.extensions.file_browser.file_browser( { cwd = vim.fn.expand('%:p:h') } )<CR>
@@ -359,6 +359,7 @@ nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 nnoremap <leader>fr :lua require'telescope.builtin'.resume{}<CR>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep( { file_ignore_patterns = { '**/*.spec.js' } } )<cr>
+" nnoremap <leader>fgi <cmd>lua require('telescope.builtin').live_grep( { file_ignore_patterns = { vim.fn.input("Ignore pattern > ") } } )<cr>
 nnoremap <leader>fgd :lua require'telescope.builtin'.live_grep{ search_dirs = { 'slices/admin' } }
 
 nnoremap <leader>cheat :Cheatsheet<cr>
@@ -463,47 +464,21 @@ nnoremap <leader>xl <cmd>TroubleToggle loclist<cr>
 nnoremap gR <cmd>TroubleToggle lsp_references<cr>
 " }}}
 
-" kabouzeid/nvim-lspinstall {{{
+" 'williamboman/nvim-lsp-installer' {{{
 lua << EOF
-require'lspinstall'.setup() -- important
-local servers = require'lspinstall'.installed_servers()
-for _, server in pairs(servers) do
-  require'lspconfig'[server].setup{
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  }
-end
-EOF
-" }}}
-
-" emmet-ls {{{
-lua << EOF
--- npm install -g ls_emmet
--- local lspconfig = require'lspconfig'
--- local configs = require'lspconfig/configs'
--- 
--- local capabilities = vim.lsp.protocol.make_client_capabilities()
--- capabilities.textDocument.completion.completionItem.snippetSupport = true
--- 
--- configs.ls_emmet = {
---   default_config = {
---     cmd = { 'ls_emmet', '--stdio' };
---     filetypes = { 'html', 'css', 'scss', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'haml',
---       'xml', 'xsl', 'pug', 'slim', 'sass', 'stylus', 'less', 'sss'};
---     root_dir = function(fname)
---       return vim.loop.cwd()
---     end;
---     settings = {};
---   };
--- }
--- 
--- lspconfig.ls_emmet.setup{ capabilities = capabilities }
+local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.on_server_ready(function(server)
+    local opts = {
+      capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    }
+    server:setup(opts)
+end)
 EOF
 " }}}
 
 " ThePrimeagen/harpoon {{{
 nnoremap <leader>a :lua require("harpoon.mark").add_file()<CR>
-nnoremap <C-e> :lua require("harpoon.ui").toggle_quick_menu()<CR>
-nnoremap <C-y> :lua require("harpoon.cmd-ui").toggle_quick_menu()<CR>
+nnoremap <leader>, :lua require("harpoon.ui").toggle_quick_menu()<CR>
 nnoremap <leader>1 :lua require("harpoon.ui").nav_file(1)<CR>
 nnoremap <leader>2 :lua require("harpoon.ui").nav_file(2)<CR>
 nnoremap <leader>3 :lua require("harpoon.ui").nav_file(3)<CR>
