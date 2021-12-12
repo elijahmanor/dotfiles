@@ -44,6 +44,9 @@ function shorten() {
   node ~/manorisms/open-source/etm.im/node_modules/.bin/netlify-shortener "$1" "$2"
 }
 
+# Where should I put you?
+bindkey -s ^f "tmux-sessionizer\n"
+
 alias weather="curl -4 wttr.in/nashville"
 alias rob="say 'How many Lowes could Rob Lowe rob if Rob Lowe could rob Lowes?'"
 alias git-init-commit="git reset $(git commit-tree HEAD^{tree} -m 'Initial commit')"

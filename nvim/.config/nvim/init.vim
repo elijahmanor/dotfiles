@@ -155,6 +155,9 @@ Plug 'yamatsum/nvim-cursorline'
 Plug 'mattn/emmet-vim'
 Plug 'GustavoKatel/sidebar.nvim'
 
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
+
 " Themes
 Plug 'dracula/vim', { 'as': 'dracula' }
 " Plug 'npxbr/gruvbox.nvim'
@@ -683,6 +686,8 @@ vnoremap <leader>/ :Commentary<CR>
 "}}}
 
 " Remaps {{{
+nnoremap <silent> <C-f> :silent !tmux neww tmux-sessionizer<CR>
+
 inoremap jj <ESC> " jj to Escape
 
 " zoom a vim pane, <C-w>= to re-balance
