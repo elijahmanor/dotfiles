@@ -155,6 +155,11 @@ Plug 'yamatsum/nvim-cursorline'
 Plug 'mattn/emmet-vim'
 Plug 'GustavoKatel/sidebar.nvim'
 
+Plug 'folke/zen-mode.nvim'
+Plug 'junegunn/limelight.vim'
+Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'stevearc/dressing.nvim'
+
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 
@@ -168,6 +173,19 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'elijahmanor/export-to-vscode.nvim'
 
 call plug#end()
+" }}}
+
+" Plug 'folke/zen-mode.nvim'
+lua << EOF
+  require("zen-mode").setup {
+    -- your configuration comes here
+    -- or leave it empty to use the default settings
+    -- refer to the configuration section below
+  }
+EOF
+
+" Plug 'gelguy/wilder.nvim' {{{
+call wilder#setup({'modes': [':', '/', '?']})
 " }}}
 
 " Plug 'GustavoKatel/sidebar.nvim' {{{
@@ -357,7 +375,7 @@ nnoremap <leader>ps :lua require('telescope.builtin').grep_string( { search = vi
 nnoremap <leader>ff :lua require'telescope.builtin'.find_files{ hidden = true }<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 " nnoremap <Leader>fs :lua require'telescope.builtin'.file_browser{ cwd = vim.fn.expand('%:p:h') }<cr>
-nnoremap <leader>fs <cmd>lua require 'telescope'.extensions.file_browser.file_browser( { cwd = vim.fn.expand('%:p:h') } )<CR>
+nnoremap <leader>fs <cmd>lua require 'telescope'.extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<CR>
 nnoremap <Leader>fc :lua require'telescope.builtin'.git_status{}<cr>
 nnoremap <Leader>cb :lua require'telescope.builtin'.git_branches{}<cr>
 nnoremap <leader>fr :lua require'telescope.builtin'.resume{}<CR>
