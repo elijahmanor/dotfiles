@@ -1,3 +1,4 @@
 .DS_Store
 .netrwhist
 .git
+packer_compiled.lua

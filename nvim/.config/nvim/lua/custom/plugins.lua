@@ -61,6 +61,26 @@ require("packer").startup({
 		use("rafamadriz/friendly-snippets")
 
 		use({
+			"nvim-lualine/lualine.nvim",
+			config = function()
+				require("lualine").setup({
+					options = {
+						theme = "dracula",
+						disabled_types = { "NvimTree" },
+					},
+				})
+			end,
+		})
+
+		use({
+			"akinsho/bufferline.nvim",
+			requires = "kyazdani42/nvim-web-devicons",
+			config = function()
+				require("bufferline").setup({})
+			end,
+		})
+
+		use({
 			"neovim/nvim-lspconfig",
 			"williamboman/nvim-lsp-installer",
 		})
@@ -77,6 +97,6 @@ require("packer").startup({
 vim.cmd([[
   augroup packer_user_config
     autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   augroup end
 ]])
