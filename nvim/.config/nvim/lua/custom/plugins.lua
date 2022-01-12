@@ -3,10 +3,16 @@ require("packer").startup({
 		use("wbthomason/packer.nvim")
 		use({ "dracula/vim", as = "dracula" })
 
+		use("nvim-telescope/telescope-file-browser.nvim")
 		use({
 			"nvim-telescope/telescope.nvim",
 			requires = { { "nvim-lua/plenary.nvim" } },
+			config = function()
+				require("telescope").load_extension("file_browser")
+			end,
 		})
+
+		use("TimUntersberger/neogit")
 
 		use({
 			"nvim-treesitter/nvim-treesitter",

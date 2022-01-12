@@ -15,6 +15,9 @@ keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files({ hi
 keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", options)
 keymap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", options)
 keymap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').help_tags()<cr>", options)
+keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').resume{}<cr>", options)
+keymap("n", "<leader>fs", "<cmd>lua require('telescope').extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<cr>", options)
+keymap("n", "<leader>ps", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > ') } )<cr>", options)
 
 keymap("n", "<C-n>", ":NvimTreeToggle<cr>", options)
 keymap("n", "<leader>r", ":NvimTreeRefresh<cr>", options)
