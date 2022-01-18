@@ -69,6 +69,7 @@ alias tada='play-sound ~/manorisms/mp3s/tada.mp3'
 # npm i -g node-notifier-cli
 alias alert='notify -t "Status" -m "Finished" -s Glass'
 alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad News)"'
+alias zpacker='cd ~/.local/share/nvim/site/pack/packer/start'
 
 export GIT_EDITOR='vim'
 export VISUAL='vim'
