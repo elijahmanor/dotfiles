@@ -2,9 +2,6 @@ require("packer").startup({
 	function(use)
 		use("wbthomason/packer.nvim")
 
-		-- https://github.com/simrat39/symbols-outline.nvim
-		-- https://github.com/nvim-orgmode/orgmode
-
 		use({
 			"dracula/vim",
 			as = "dracula",
@@ -15,6 +12,7 @@ require("packer").startup({
 			end,
 		})
 
+		use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
 		use({
 			"nvim-telescope/telescope.nvim",
 			requires = {
@@ -22,7 +20,7 @@ require("packer").startup({
 				"nvim-telescope/telescope-file-browser.nvim",
 			},
 			config = function()
-				require("telescope").load_extension("file_browser")
+				require("custom.plugins.telescope")
 			end,
 		})
 
@@ -34,7 +32,7 @@ require("packer").startup({
 			"nvim-treesitter/nvim-treesitter",
 			run = ":TSUpdate",
 			config = function()
-				require("custom.treesitter")
+				require("custom.plugins.treesitter")
 			end,
 		})
 
@@ -71,7 +69,7 @@ require("packer").startup({
 		use({
 			"jose-elias-alvarez/null-ls.nvim",
 			config = function()
-				require("custom.null-ls")
+				require("custom.plugins.null-ls")
 			end,
 		})
 
@@ -86,23 +84,14 @@ require("packer").startup({
 				"rafamadriz/friendly-snippets",
 			},
 			config = function()
-				require("custom.cmp")
+				require("custom.plugins.cmp")
 			end,
 		})
 
 		use({
 			"nvim-lualine/lualine.nvim",
 			config = function()
-				require("lualine").setup({
-					options = {
-						theme = "dracula",
-						disabled_types = { "NvimTree" },
-					},
-					sections = {
-						lualine_b = { "diff", "diagnostics" },
-						lualine_x = { "filetype" },
-					},
-				})
+				require("custom.plugins.lualine")
 			end,
 		})
 
@@ -115,10 +104,10 @@ require("packer").startup({
 		})
 
 		use({
-			"neovim/nvim-lspconfig",
 			"williamboman/nvim-lsp-installer",
+			requires = { "neovim/nvim-lspconfig" },
 			config = function()
-				require("custom.lsp")
+				require("custom.plugins.lsp")
 			end,
 		})
 
@@ -140,31 +129,30 @@ require("packer").startup({
 			"goolord/alpha-nvim",
 			requires = { "kyazdani42/nvim-web-devicons" },
 			config = function()
-				require("custom.alpha")
+				require("custom.plugins.alpha")
 			end,
 		})
 
 		use({
-			"monaqa/dial.nvim",
+			"sidebar-nvim/sidebar.nvim",
 			config = function()
-				local dial = require("dial")
-				dial.augends["custom#boolean"] = dial.common.enum_cyclic({
-					name = "boolean",
-					strlist = { "true", "false" },
+				require("sidebar-nvim").setup({
+					sections = { "git", "diagnostics", "symbols", "todos", "buffers" },
+					section_separator = "-----",
 				})
-				table.insert(dial.config.searchlist.normal, "custom#boolean")
 			end,
 		})
 
 		use({
-			"folke/zen-mode.nvim",
-			cmd = "ZenMode",
+			"lukas-reineke/indent-blankline.nvim",
 			config = function()
-				require("zen-mode").setup({})
+				require("indent_blankline").setup({})
 			end,
 		})
 
-		use("dstein64/vim-startuptime")
+		use({
+			"simrat39/symbols-outline.nvim",
+		})
 	end,
 	config = {
 		display = {
@@ -176,10 +164,3 @@ require("packer").startup({
 		},
 	},
 })
-
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])

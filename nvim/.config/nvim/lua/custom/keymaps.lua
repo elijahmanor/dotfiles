@@ -44,6 +44,8 @@ keymap("v", "g<C-x>", "<Plug>(dial-decrement-additional)", options)
 keymap("n", "]b", ":bnext<cr>", options)
 keymap("n", "[b", ":bprev<cr>", options)
 
+keymap("n", "<leader>s", "<cmd>lua require('sidebar-nvim').toggle()<cr>", options)
+
 -- map("v", "y", "ygv<Esc>")
 -- map("n", "Y", "y$")
 -- map("n", "<esc>", ":noh<cr><esc>", { silent = true })
