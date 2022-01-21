@@ -146,12 +146,17 @@ require("packer").startup({
 		use({
 			"lukas-reineke/indent-blankline.nvim",
 			config = function()
+				vim.g.indent_blankline_filetype_exclude = { "lspinfo", "packer", "checkhealth", "help", "alpha" }
 				require("indent_blankline").setup({})
 			end,
 		})
 
 		use({
 			"simrat39/symbols-outline.nvim",
+		})
+
+		use({
+			"godlygeek/tabular",
 		})
 	end,
 	config = {

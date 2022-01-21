@@ -16,6 +16,11 @@ keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').resume{}<cr>", 
 keymap("n", "<leader>fs", "<cmd>lua require('telescope').extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<cr>", options)
 keymap("n", "<leader>ps", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > ') } )<cr>", options)
 
+keymap("n", "Y", "y$", options)                 -- yank to the end of the line
+keymap("v", "y", "ygv<esc>", options)           -- keep cursor at bottom of yanked region
+keymap("n", "<esc>", ":noh<cr><esc>", options)  -- escape also clears any previous searches
+
+keymap("n", "<leader>o", ":SymbolsOutline<cr>", options)
 keymap("n", "<leader>gb", ":BufferLinePick<cr>", options)
 
 keymap("n", "<leader>fo", "<cmd>lua vim.lsp.buf.formatting()<cr>", options)
@@ -43,16 +48,8 @@ keymap("v", "g<C-x>", "<Plug>(dial-decrement-additional)", options)
 
 keymap("n", "]b", ":bnext<cr>", options)
 keymap("n", "[b", ":bprev<cr>", options)
+keymap("n", "[q", ":cprevious<cr>", options)
+keymap("n", "]q", ":cnext<cr>", options)
 
 keymap("n", "<leader>s", "<cmd>lua require('sidebar-nvim').toggle()<cr>", options)
-
--- map("v", "y", "ygv<Esc>")
--- map("n", "Y", "y$")
--- map("n", "<esc>", ":noh<cr><esc>", { silent = true })
---
--- Symbols outline
--- map("n", "<leader>o", ":SymbolsOutline<cr>")
-
--- ZenMode toggle
--- map("n", "<leader>z", ":ZenMode<cr>")
 
