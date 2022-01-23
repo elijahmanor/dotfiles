@@ -16,6 +16,11 @@ keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').resume{}<cr>", 
 keymap("n", "<leader>fs", "<cmd>lua require('telescope').extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<cr>", options)
 keymap("n", "<leader>ps", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > ') } )<cr>", options)
 
+keymap("n", "<C-f>", ":!tmux neww tmux-sessionizer<cr>", options)
+
+
+keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", options)
+
 keymap("n", "Y", "y$", options)                 -- yank to the end of the line
 keymap("v", "y", "ygv<esc>", options)           -- keep cursor at bottom of yanked region
 keymap("n", "<esc>", ":noh<cr><esc>", options)  -- escape also clears any previous searches
@@ -37,7 +42,7 @@ keymap("n", "<M-Up>", ":resize +5<cr>", options)
 keymap("n", "<M-Down>", ":resize -5<cr>", options)
 keymap("n", "<M-Left>", ":vertical resize +5<cr>", options)
 
-keymap("n", "<leader>h", ":HopChar2<cr>", options)
+keymap("n", "s", ":HopChar2<cr>", options)
 
 keymap("n", "<C-a>", "<Plug>(dial-increment)", options)
 keymap("n", "<C-x>", "<Plug>(dial-decrement)", options)
