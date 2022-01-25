@@ -13,6 +13,7 @@ dashboard.section.header.val = {
 	"  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
 	"  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
 	"                                                     ",
+    "                   [ @elijahmanor ]                  ",
 }
 dashboard.section.buttons.val = {
 	dashboard.button("e", "  New file", ":ene<cr>"),
@@ -39,3 +40,4 @@ dashboard.section.footer.val = function()
 		.. vim.version().patch
 end
 alpha.setup(dashboard.opts)
+

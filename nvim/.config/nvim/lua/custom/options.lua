@@ -34,9 +34,15 @@ vim.opt.completeopt = {           -- options for insert mode completion
 }
 vim.opt.termguicolors = true      -- enables 24-bit rgb color
 vim.opt.foldmethod = "indent"     -- lines with equal indent for a fold
-vim.opt.list = true -- show hidden whitespace characters 
-vim.opt.listchars = { tab = "» ", nbsp = "•" },
--- vim.opt.listchars = "tab:▸ ,trail:·,precedes:←,extends:→,eol:↲,nbsp:␣"
+vim.opt.list = true               -- show hidden whitespace characters
+vim.opt.listchars = {             -- list of hidden characters
+	tab = "» ",
+	trail = "•",
+	precedes = "←",
+	extends = "→",
+	eol = "↲",
+	nbsp = "␣"
+}
+
 -- stylua: ignore end
 
-vim.cmd("highlight Comment cterm=italic gui=italic")

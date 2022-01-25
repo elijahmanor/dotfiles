@@ -8,6 +8,9 @@ require("packer").startup({
 			config = function()
 				vim.g.dracula_colorterm = 0
 				vim.g.dracula_italic = 1
+				vim.cmd("highlight Comment cterm=italic gui=italic")
+				vim.cmd("highlight SpecialKey ctermfg=White guifg=White")
+				vim.cmd("highlight Whitespace ctermfg=White guifg=White")
 				vim.cmd("colorscheme dracula")
 			end,
 		})
@@ -25,8 +28,6 @@ require("packer").startup({
 		})
 
 		use("christoomey/vim-tmux-navigator")
-
-		use("TimUntersberger/neogit")
 
 		use({
 			"nvim-treesitter/nvim-treesitter",
@@ -152,19 +153,26 @@ require("packer").startup({
 		})
 
 		use({
-			"lukas-reineke/indent-blankline.nvim",
+			"ThePrimeagen/harpoon",
+			requires = { "nvim-lua/plenary.nvim" },
+		})
+
+		use({ "simrat39/symbols-outline.nvim" })
+
+		use({ "godlygeek/tabular" })
+
+		use({
+			"blackCauldron7/surround.nvim",
 			config = function()
-				vim.g.indent_blankline_filetype_exclude = { "lspinfo", "packer", "checkhealth", "help", "alpha" }
-				require("indent_blankline").setup({})
+				require("surround").setup({ mappings_style = "surround" })
 			end,
 		})
 
 		use({
-			"simrat39/symbols-outline.nvim",
-		})
-
-		use({
-			"godlygeek/tabular",
+			"windwp/nvim-autopairs",
+			config = function()
+				require('nvim-autopairs').setup{}
+			end,
 		})
 	end,
 	config = {

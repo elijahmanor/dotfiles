@@ -15,9 +15,20 @@ keymap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').oldfiles()<cr>"
 keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').resume{}<cr>", options)
 keymap("n", "<leader>fs", "<cmd>lua require('telescope').extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<cr>", options)
 keymap("n", "<leader>ps", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > ') } )<cr>", options)
+keymap("n", "<leader>la", "<cmd>lua require('telescope.builtin').lsp_code_actions()<cr>", options)
+keymap("n", "<leader>ls", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", options)
+keymap("n", "<leader>ld", "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<cr>", options)
+keymap("n", "<leader>lr", "<cmd>lua require('telescope.builtin').lsp_references()<cr>", options)
+keymap("n", "<leader>ci", "<cmd>lua vim.diagnostic.open_float()<cr>", options)
 
 keymap("n", "<C-f>", ":!tmux neww tmux-sessionizer<cr>", options)
 
+keymap("n", "<leader>a", ":lua require('harpoon.mark').add_file()<cr>", options)
+keymap("n", "<leader>,", ":lua require('harpoon.ui').toggle_quick_menu()<cr>", options)
+keymap("n", "<leader>1", ":lua require('harpoon.ui').nav_file(1)<cr>", options)
+keymap("n", "<leader>2", ":lua require('harpoon.ui').nav_file(2)<cr>", options)
+keymap("n", "<leader>3", ":lua require('harpoon.ui').nav_file(3)<cr>", options)
+keymap("n", "<leader>4", ":lua require('harpoon.ui').nav_file(4)<cr>", options)
 
 keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", options)
 
@@ -43,13 +54,6 @@ keymap("n", "<M-Down>", ":resize -5<cr>", options)
 keymap("n", "<M-Left>", ":vertical resize +5<cr>", options)
 
 keymap("n", "s", ":HopChar2<cr>", options)
-
-keymap("n", "<C-a>", "<Plug>(dial-increment)", options)
-keymap("n", "<C-x>", "<Plug>(dial-decrement)", options)
-keymap("v", "<C-a>", "<Plug>(dial-increment)", options)
-keymap("v", "<C-x>", "<Plug>(dial-decrement)", options)
-keymap("v", "g<C-a>", "<Plug>(dial-increment-additional)", options)
-keymap("v", "g<C-x>", "<Plug>(dial-decrement-additional)", options)
 
 keymap("n", "]b", ":bnext<cr>", options)
 keymap("n", "[b", ":bprev<cr>", options)
