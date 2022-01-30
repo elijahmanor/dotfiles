@@ -27,7 +27,16 @@ require("packer").startup({
 			end,
 		})
 
-		use("christoomey/vim-tmux-navigator")
+		use({ "christoomey/vim-tmux-navigator" })
+
+		use({ "kevinhwang91/nvim-bqf", ft = "qf" })
+
+		use({
+			"junegunn/fzf",
+			run = function()
+				vim.fn["fzf#install"]()
+			end,
+		})
 
 		use({
 			"nvim-treesitter/nvim-treesitter",
@@ -171,7 +180,7 @@ require("packer").startup({
 		use({
 			"windwp/nvim-autopairs",
 			config = function()
-				require('nvim-autopairs').setup{}
+				require("nvim-autopairs").setup({})
 			end,
 		})
 	end,

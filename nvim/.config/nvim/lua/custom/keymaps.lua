@@ -6,6 +6,8 @@ keymap("n", "<C-j>", "<C-w>j", options)
 keymap("n", "<C-k>", "<C-w>k", options)
 keymap("n", "<C-l>", "<C-w>l", options)
 
+keymap("n", "<leader>wrap", "gggwGG", options)
+
 keymap("n", "<leader>e", ":Lexplore<cr>", options)
 
 keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", options)
@@ -15,6 +17,8 @@ keymap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').oldfiles()<cr>"
 keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').resume{}<cr>", options)
 keymap("n", "<leader>fs", "<cmd>lua require('telescope').extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<cr>", options)
 keymap("n", "<leader>ps", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > ') } )<cr>", options)
+keymap("n", "<leader>gs", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > '), vimgrep_arguments = { 'rg', '-g !**.spec.*' } } )<cr>", options)
+-- -g '!{**/node_modules/*,**/.git/*}'
 keymap("n", "<leader>la", "<cmd>lua require('telescope.builtin').lsp_code_actions()<cr>", options)
 keymap("n", "<leader>ls", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", options)
 keymap("n", "<leader>ld", "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<cr>", options)
