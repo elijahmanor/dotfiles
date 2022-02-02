@@ -10,6 +10,9 @@ keymap("n", "<leader>wrap", "gggwGG", options)
 
 keymap("n", "<leader>e", ":Lexplore<cr>", options)
 
+keymap("n", "<leader><cr>", "<cmd>lua require('custom.utils').reload()<cr>", options)
+keymap("n", "<leader>ww", "<cmd>lua print('new thing')", options)
+
 keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", options)
 keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", options)
 keymap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", options)
@@ -17,7 +20,8 @@ keymap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').oldfiles()<cr>"
 keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').resume{}<cr>", options)
 keymap("n", "<leader>fs", "<cmd>lua require('telescope').extensions.file_browser.file_browser( { path = vim.fn.expand('%:p:h') } )<cr>", options)
 keymap("n", "<leader>ps", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > ') } )<cr>", options)
-keymap("n", "<leader>gs", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > '), vimgrep_arguments = { 'rg', '-g !**.spec.*' } } )<cr>", options)
+keymap("n", "<leader>gs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>'), vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '--glob=!**.spec.*' } })<cr>", options)
+
 -- -g '!{**/node_modules/*,**/.git/*}'
 keymap("n", "<leader>la", "<cmd>lua require('telescope.builtin').lsp_code_actions()<cr>", options)
 keymap("n", "<leader>ls", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", options)
@@ -28,7 +32,7 @@ keymap("n", "<leader>ci", "<cmd>lua vim.diagnostic.open_float()<cr>", options)
 keymap("n", "<C-f>", ":!tmux neww tmux-sessionizer<cr>", options)
 
 keymap("n", "<leader>a", ":lua require('harpoon.mark').add_file()<cr>", options)
-keymap("n", "<leader>,", ":lua require('harpoon.ui').toggle_quick_menu()<cr>", options)
+keymap("n", "<leader>,", ":Telescope harpoon marks<cr>", options)
 keymap("n", "<leader>1", ":lua require('harpoon.ui').nav_file(1)<cr>", options)
 keymap("n", "<leader>2", ":lua require('harpoon.ui').nav_file(2)<cr>", options)
 keymap("n", "<leader>3", ":lua require('harpoon.ui').nav_file(3)<cr>", options)

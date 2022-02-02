@@ -17,6 +17,9 @@ null_ls.setup({
 		require("null-ls").builtins.diagnostics.write_good,
 		-- npm install -g prettier_d_slim
 		require("null-ls").builtins.formatting.prettier_d_slim,
+    -- nls.builtins.formatting.prettierd.with {
+    --   filetypes = { "html", "javascript", "json", "typescript", "yaml", "markdown" },
+    -- },
 	},
 	debug = true
 })
