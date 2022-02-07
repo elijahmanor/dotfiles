@@ -27,6 +27,7 @@ vim.opt.splitright = true         -- add split to the right of current one
 vim.opt.ignorecase = true         -- ignore case when searching
 vim.opt.smartcase = true          -- override ignorecase if pattern has upper case
 vim.opt.incsearch = true          -- show pattern matches while typing search command
+vim.opt.lazyredraw = true         -- don't redraw screen while executing macros, etc...
 vim.opt.completeopt = {           -- options for insert mode completion
 	"menuone",
 	"noselect",
@@ -43,6 +44,7 @@ vim.opt.listchars = {             -- list of hidden characters
 	eol = "↲",
 	nbsp = "␣"
 }
+vim.opt.iskeyword:append("-")     -- add `-` to the set of characters for a word
 
 -- stylua: ignore end
 

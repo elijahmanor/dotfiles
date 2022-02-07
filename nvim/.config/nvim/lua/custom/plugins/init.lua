@@ -1,5 +1,7 @@
 require("packer").startup({
 	function(use)
+		use("lewis6991/impatient.nvim")
+		
 		use("wbthomason/packer.nvim")
 
 		use({
@@ -8,10 +10,9 @@ require("packer").startup({
 			config = function()
 				vim.g.dracula_colorterm = 0
 				vim.g.dracula_italic = 1
-				vim.cmd("highlight Comment cterm=italic gui=italic")
-				vim.cmd("highlight SpecialKey ctermfg=White guifg=White")
-				vim.cmd("highlight Whitespace ctermfg=White guifg=White")
 				vim.cmd("colorscheme dracula")
+				vim.cmd("highlight Whitespace guifg=#424450")
+				vim.cmd("highlight Comment gui=italic guifg=#8BE9FD")
 			end,
 		})
 
@@ -121,13 +122,13 @@ require("packer").startup({
 			end,
 		})
 
-		use({
-			"folke/trouble.nvim",
-			requires = "kyazdani42/nvim-web-devicons",
-			config = function()
-				require("trouble").setup({})
-			end,
-		})
+		-- use({
+		-- 	"folke/trouble.nvim",
+		-- 	requires = "kyazdani42/nvim-web-devicons",
+		-- 	config = function()
+		-- 		require("trouble").setup({})
+		-- 	end,
+		-- })
 
 		use({
 			"phaazon/hop.nvim",
@@ -192,6 +193,7 @@ require("packer").startup({
 		})
 	end,
 	config = {
+		compile_path = vim.fn.stdpath("config").."/lua/packer_compiled.lua",
 		display = {
 			open_fn = require("packer.util").float,
 		},
