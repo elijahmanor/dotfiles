@@ -14,9 +14,12 @@ null_ls.setup({
 		require("null-ls").builtins.diagnostics.eslint,
 		require("null-ls").builtins.formatting.eslint,
 		-- npm install -g write-good
-		require("null-ls").builtins.diagnostics.write_good,
+		-- require("null-ls").builtins.diagnostics.write_good,
 		-- npm install -g prettier_d_slim
-		require("null-ls").builtins.formatting.prettier_d_slim,
+		require("null-ls").builtins.formatting.prettier_d_slim.with({
+        	filetypes = { "html", "json", "yaml", "markdown" },
+			extra_args = { "--prose-wrap=always" }
+    	}),
 	},
 	debug = true
 })

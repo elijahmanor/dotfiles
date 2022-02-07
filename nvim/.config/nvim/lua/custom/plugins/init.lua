@@ -183,6 +183,13 @@ require("packer").startup({
 				require("nvim-autopairs").setup({})
 			end,
 		})
+
+		use({
+			"j-hui/fidget.nvim",
+			config = function()
+				-- require("fidget").setup({})
+			end,
+		})
 	end,
 	config = {
 		display = {
