@@ -22,7 +22,6 @@ keymap("n", "<leader>fs", "<cmd>lua require('telescope').extensions.file_browser
 keymap("n", "<leader>ps", "<cmd>lua require('telescope.builtin').grep_string( { search = vim.fn.input('Grep for > ') } )<cr>", options)
 keymap("n", "<leader>gs", "<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.expand('<cword>'), vimgrep_arguments = { 'rg', '--color=never', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case', '--glob=!**.spec.*' } })<cr>", options)
 
--- -g '!{**/node_modules/*,**/.git/*}'
 keymap("n", "<leader>la", "<cmd>lua require('telescope.builtin').lsp_code_actions()<cr>", options)
 keymap("n", "<leader>ls", "<cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>", options)
 keymap("n", "<leader>ld", "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<cr>", options)

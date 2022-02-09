@@ -4,7 +4,6 @@ require("packer").startup({
 			"rcarriga/nvim-notify",
 			config = function()
 				vim.notify = require("notify")
-				-- :Notifications
 			end,
 		})
 
