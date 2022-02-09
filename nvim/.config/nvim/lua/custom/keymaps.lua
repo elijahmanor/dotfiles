@@ -42,7 +42,6 @@ keymap("n", "<leader>4", ":lua require('harpoon.ui').nav_file(4)<cr>", options)
 keymap("v", "y", "ygv<esc>", options)           -- keep cursor at bottom of yanked region
 keymap("n", "<esc>", ":noh<cr><esc>", options)  -- escape also clears any previous searches
 
-keymap("n", "<leader>o", ":SymbolsOutline<cr>", options)
 keymap("n", "<leader>gb", ":BufferLinePick<cr>", options)
 
 keymap("n", "<leader>fo", "<cmd>lua vim.lsp.buf.formatting()<cr>", options)

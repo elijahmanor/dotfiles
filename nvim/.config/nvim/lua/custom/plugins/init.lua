@@ -3,7 +3,7 @@ require("packer").startup({
 		use({
 			"rcarriga/nvim-notify",
 			config = function()
-				-- vim.notify = require("notify")
+				vim.notify = require("notify")
 				-- :Notifications
 			end,
 		})
@@ -14,12 +14,8 @@ require("packer").startup({
 			"dracula/vim",
 			as = "dracula",
 			config = function()
-				vim.g.dracula_colorterm = 0
 				vim.g.dracula_italic = 1
 				vim.cmd("colorscheme dracula")
-				-- vim.cmd("highlight Whitespace guifg=#424450")
-				-- vim.cmd("highlight Normal guibg=#000000")
-				-- vim.cmd("highlight Comment gui=italic guifg=#8BE9FD")
 			end,
 		})
 
