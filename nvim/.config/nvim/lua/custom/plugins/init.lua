@@ -1,5 +1,13 @@
 require("packer").startup({
 	function(use)
+		use({
+			"rcarriga/nvim-notify",
+			config = function()
+				-- vim.notify = require("notify")
+				-- :Notifications
+			end,
+		})
+
 		use("wbthomason/packer.nvim")
 
 		use({
@@ -9,8 +17,9 @@ require("packer").startup({
 				vim.g.dracula_colorterm = 0
 				vim.g.dracula_italic = 1
 				vim.cmd("colorscheme dracula")
-				vim.cmd("highlight Whitespace guifg=#424450")
-				vim.cmd("highlight Comment gui=italic guifg=#8BE9FD")
+				-- vim.cmd("highlight Whitespace guifg=#424450")
+				-- vim.cmd("highlight Normal guibg=#000000")
+				-- vim.cmd("highlight Comment gui=italic guifg=#8BE9FD")
 			end,
 		})
 
@@ -120,14 +129,6 @@ require("packer").startup({
 			end,
 		})
 
-		-- use({
-		-- 	"folke/trouble.nvim",
-		-- 	requires = "kyazdani42/nvim-web-devicons",
-		-- 	config = function()
-		-- 		require("trouble").setup({})
-		-- 	end,
-		-- })
-
 		use({
 			"phaazon/hop.nvim",
 			config = function()
@@ -165,8 +166,6 @@ require("packer").startup({
 			requires = { "nvim-lua/plenary.nvim" },
 		})
 
-		use({ "simrat39/symbols-outline.nvim" })
-
 		use({ "godlygeek/tabular" })
 
 		use({
@@ -186,7 +185,7 @@ require("packer").startup({
 		use({
 			"j-hui/fidget.nvim",
 			config = function()
-				-- require("fidget").setup({})
+				require("fidget").setup({})
 			end,
 		})
 	end,
