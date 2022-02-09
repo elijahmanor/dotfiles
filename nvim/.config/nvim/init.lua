@@ -1,4 +1,3 @@
-require("impatient").enable_profile()
 require("custom.options")
 require("custom.keymaps")
 require("custom.plugins")

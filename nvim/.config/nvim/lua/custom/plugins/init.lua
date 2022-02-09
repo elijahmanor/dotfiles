@@ -1,7 +1,5 @@
 require("packer").startup({
 	function(use)
-		use("lewis6991/impatient.nvim")
-		
 		use("wbthomason/packer.nvim")
 
 		use({
@@ -193,7 +191,7 @@ require("packer").startup({
 		})
 	end,
 	config = {
-		compile_path = vim.fn.stdpath("config").."/lua/packer_compiled.lua",
+		-- compile_path = vim.fn.stdpath("config").."/lua/packer_compiled.lua",
 		display = {
 			open_fn = require("packer.util").float,
 		},

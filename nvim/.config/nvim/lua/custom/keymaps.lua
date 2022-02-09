@@ -38,9 +38,7 @@ keymap("n", "<leader>2", ":lua require('harpoon.ui').nav_file(2)<cr>", options)
 keymap("n", "<leader>3", ":lua require('harpoon.ui').nav_file(3)<cr>", options)
 keymap("n", "<leader>4", ":lua require('harpoon.ui').nav_file(4)<cr>", options)
 
-keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>", options)
-
-keymap("n", "Y", "y$", options)                 -- yank to the end of the line
+-- keymap("n", "Y", "y$", options)                 -- yank to the end of the line
 keymap("v", "y", "ygv<esc>", options)           -- keep cursor at bottom of yanked region
 keymap("n", "<esc>", ":noh<cr><esc>", options)  -- escape also clears any previous searches
 
