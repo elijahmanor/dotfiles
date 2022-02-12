@@ -3,6 +3,8 @@ if not has_module then
 	return
 end
 
+local curl = require("plenary.curl")
+
 local dashboard = require("alpha.themes.dashboard")
 dashboard.section.header.val = {
 	"                                                     ",
@@ -13,7 +15,7 @@ dashboard.section.header.val = {
 	"  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
 	"  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
 	"                                                     ",
-    "                   [ @elijahmanor ]                  ",
+	"                   [ @elijahmanor ]                  ",
 }
 dashboard.section.buttons.val = {
 	dashboard.button("e", "  New file", ":ene<cr>"),
@@ -24,9 +26,14 @@ dashboard.section.buttons.val = {
 	dashboard.button("<Leader>fh", "  Recent Files"),
 	dashboard.button("q", "  Quit", ":qa<cr>"),
 }
+-- dashboard.section.footer.val = require'alpha.fortune'()
 dashboard.section.footer.val = function()
 	local total_plugins = #vim.tbl_keys(packer_plugins)
 	local datetime = os.date(" %d-%m-%Y   %H:%M:%S")
+	-- local res = curl.get("https://icanhazdadjoke.com", {
+	-- 	accept = "text/plain",
+	-- })
+	-- vim.notify(res.body)
 	return "\n"
 		.. datetime
 		.. "   "
@@ -40,4 +47,3 @@ dashboard.section.footer.val = function()
 		.. vim.version().patch
 end
 alpha.setup(dashboard.opts)
-

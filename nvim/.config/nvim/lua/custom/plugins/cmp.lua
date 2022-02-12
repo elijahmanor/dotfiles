@@ -24,8 +24,10 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "path" },
 	}),
+	view = {
+		entries = "native"
+	},
 	experimental = {
 		ghost_text = true,
-		native_menu = true,
 	},
 })
