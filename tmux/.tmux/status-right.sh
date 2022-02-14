@@ -14,10 +14,10 @@ yellow='#f1fa8c'
 
 function cpu() {
 	# Logic borrowed from https://github.com/dracula/tmux
-	cpuvalue=$(ps -A -o %cpu | awk -F. '{s+=$1} END {print s}')
-	cpucores=$(sysctl -n hw.logicalcpu)
-	cpuusage=$((cpuvalue / cpucores ))
-	printf "#[fg=$1]#[fg=$2]#[bg=$1]   %s%% #[bg=$1]" "${cpuusage}"
+	local cpuvalue=$(ps -A -o %cpu | awk -F. '{s+=$1} END {print s}')
+	local cpucores=$(sysctl -n hw.logicalcpu)
+	local cpuusage=$((cpuvalue / cpucores))
+	printf "#[fg=$1]#[fg=$2]#[bg=$1]   %02d%% #[bg=$1]" "${cpuusage}"
 }
 
 function battery() {
@@ -25,7 +25,11 @@ function battery() {
 }
 
 function mrwatson() {
-	printf "#[fg=$1]#[fg=$2]#[bg=$1]  %s #[bg=$1]" "$(watson report -dcG | grep 'Total:' | sed 's/Total: //')"
+	local status=""
+	if [[ "$(watson status)" == "No project started." ]]; then
+		status=""
+	fi
+	printf "#[fg=$1]#[fg=$2]#[bg=$1] %s %s #[bg=$1]" "${status}" "$(watson report -dcG | grep 'Total:' | sed 's/Total: //')"
 }
 
 function node_npm_version() {
@@ -33,7 +37,7 @@ function node_npm_version() {
 }
 
 function datetime() {
-	printf "#[fg=$1]#[fg=$2]#[bg=$1]  %s " "$(date +'%h-%d %I:%M %p')"
+	printf "#[fg=$1]#[fg=$2]#[bg=$1]   %s " "$(date +'%h-%d %I:%M %p')"
 }
 
 function spotify() {

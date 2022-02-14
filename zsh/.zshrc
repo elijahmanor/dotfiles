@@ -70,7 +70,8 @@ alias tada='play-sound ~/manorisms/mp3s/tada.mp3'
 alias alert='notify -t "Status" -m "Finished" -s Glass'
 alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad News)"'
 alias zpacker='cd ~/.local/share/nvim/site/pack/packer/start'
-
+# taken from https://twitter.com/davidcrespo/status/1492958857479532549
+alias ghpr='gh pr list | fzf --height 20% --reverse | cut -f1 | xargs gh pr checkout -f'
 export GIT_EDITOR='vim'
 export VISUAL='vim'
 export EDITOR='vim'
@@ -83,7 +84,6 @@ eval "$(fnm env)"
 
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 
 # begin lks completion
 . <(lks --completion)
