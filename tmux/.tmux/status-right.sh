@@ -24,7 +24,7 @@ function battery() {
 	local status=$(pmset -g batt | sed -n 2p | cut -d ';' -f 2 | tr -d " ")
 	local percentage=$(pmset -g batt | grep -Eo '[0-9]?[0-9]?[0-9]%')
 	local icon=""
-	if [[ status == "charging" ]]; then
+	if [[ $status == "charging" ]]; then
 		case $percentage in 
 			100%) icon="" ;;
 			9[0-9]%) icon="" ;;
