@@ -23,32 +23,21 @@ function cpu() {
 function battery() {
 	local status=$(pmset -g batt | sed -n 2p | cut -d ';' -f 2 | tr -d " ")
 	local percentage=$(pmset -g batt | grep -Eo '[0-9]?[0-9]?[0-9]%')
+	local chargingMap=("" "" "" "" "" "" "" "" "" "")
+	local chargedMap=("" "" "" "" "" "" "" "" "" "")
 	local icon=""
 	if [[ $status == "charging" ]]; then
-		case $percentage in 
-			100%) icon="" ;;
-			9[0-9]%) icon="" ;;
-			8[0-9]%) icon="" ;;
-			6[0-9]%|7[0-9]%) icon="" ;;
-			4[0-9]%|5[0-9]%) icon="" ;;
-			3[0-9]%) icon="" ;;
-			2[0-9]%) icon="" ;;
-			0|1[0-9]%) icon="" ;;
-		esac 
+		if [[ $percentage == "100%" ]]; then
+			icon=""
+		else
+			icon=${chargingMap[${percentage:0:1}]}
+		fi
 	else 
-		case $percentage in 
-			100%) icon="" ;;
-			9[0-9]%) icon="" ;;
-			8[0-9]%) icon="" ;;
-			7[0-9]%) icon="" ;;
-			6[0-9]%) icon="" ;;
-			5[0-9]%) icon="" ;;
-			4[0-9]%) icon="" ;;
-			3[0-9]%) icon="" ;;
-			2[0-9]%) icon="" ;;
-			1[0-9]%) icon="" ;;
-			[0-9]%) icon="" ;;
-		esac 
+		if [[ $percentage == "100%" ]]; then
+			icon=""
+		else
+			icon=${chargedMap[${percentage:0:1}]}
+		fi
 	fi
 	printf "#[fg=$1]#[fg=$2]#[bg=$1] %s %s #[bg=$1]" "${icon}" "${percentage}"
 }
