@@ -22,7 +22,8 @@ function cpu() {
 
 function battery() {
 	local status=$(pmset -g batt | sed -n 2p | cut -d ';' -f 2 | tr -d " ")
-	local percentage=$(pmset -g batt | grep -Eo '[0-9]?[0-9]?[0-9]%')
+	local batt=$(pmset -g batt | grep -Eo '[0-9]?[0-9]?[0-9]%')
+	local percentage=$(printf "%03s" $batt)
 	local chargingMap=("" "" "" "" "" "" "" "" "" "")
 	local chargedMap=("" "" "" "" "" "" "" "" "" "")
 	local icon=""

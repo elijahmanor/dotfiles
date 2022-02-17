@@ -92,8 +92,8 @@ require("packer").startup({
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-buffer",
 				"hrsh7th/cmp-path",
-				"hrsh7th/cmp-vsnip",
-				"hrsh7th/vim-vsnip",
+				"L3MON4D3/LuaSnip",
+				"saadparwaiz1/cmp_luasnip",
 				"rafamadriz/friendly-snippets",
 			},
 			config = function()
@@ -181,6 +181,35 @@ require("packer").startup({
 			"j-hui/fidget.nvim",
 			config = function()
 				require("fidget").setup({})
+			end,
+		})
+
+		use({
+			"anuvyklack/pretty-fold.nvim",
+			config = function()
+				require("pretty-fold").setup({
+					keep_indentation = false,
+					fill_char = "━",
+					sections = {
+						left = {
+							"━ ",
+							function()
+								return string.rep("*", vim.v.foldlevel)
+							end,
+							" ━┫",
+							"content",
+							"┣",
+						},
+						right = {
+							"┫ ",
+							"number_of_folded_lines",
+							": ",
+							"percentage",
+							" ┣━━",
+						},
+					},
+				})
+				require("pretty-fold.preview").setup()
 			end,
 		})
 	end,

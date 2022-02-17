@@ -72,9 +72,9 @@ alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad 
 alias zpacker='cd ~/.local/share/nvim/site/pack/packer/start'
 # taken from https://twitter.com/davidcrespo/status/1492958857479532549
 alias ghpr='gh pr list | fzf --height 20% --reverse | cut -f1 | xargs gh pr checkout -f'
-export GIT_EDITOR='vim'
-export VISUAL='vim'
-export EDITOR='vim'
+export GIT_EDITOR='nvim'
+export VISUAL='nvim'
+export EDITOR='nvim'
 export TMUXP_CONFIGDIR=$HOME/.config/tmuxp
 export DISABLE_AUTO_TITLE='true'
 export PATH=/Users/$USER/bin:$PATH

@@ -1,9 +1,11 @@
 local cmp = require("cmp")
 
+require("luasnip.loaders.from_vscode").load()
+
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body)
+			require('luasnip').lsp_expand(args.body)
 		end,
 	},
 	mapping = {
@@ -19,7 +21,7 @@ cmp.setup({
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
-		{ name = "vsnip" },
+		{ name = 'luasnip' },
 	}, {
 		{ name = "buffer" },
 		{ name = "path" },
@@ -31,3 +33,10 @@ cmp.setup({
 		ghost_text = true,
 	},
 })
+
+-- vim.api.nvim_set_keymap('i', '<C-E>', '<cmd>lua require("luasnip").jump()<cr>', {})
+vim.api.nvim_set_keymap('i', '<C-k>', '<plug>luasnip-expand-or-jump', {})
+vim.api.nvim_set_keymap('s', '<C-k>', '<plug>luasnip-expand-or-jump', {})
+-- vim.api.nvim_set_keymap('i', '<C-j>', '<plug>luasnip-jump-prev', {})
+-- vim.api.nvim_set_keymap('s', '<C-j>', '<plug>luasnip-jump-prev', {})
+
