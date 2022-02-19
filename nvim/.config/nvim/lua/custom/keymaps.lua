@@ -64,5 +64,7 @@ keymap("n", "[b", ":bprev<cr>", options)
 keymap("n", "[q", ":cprevious<cr>", options)
 keymap("n", "]q", ":cnext<cr>", options)
 
-keymap("n", "<leader>s", "<cmd>lua require('sidebar-nvim').toggle()<cr>", options)
 
+keymap("n", "<leader>s", "<cmd>lua require('spectre').open()<cr>", options)
+keymap("n", "<leader>sw", "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", options)
+keymap("v", "<leader>s", "<cmd>lua require('spectre').open_visual()<cr>", options)

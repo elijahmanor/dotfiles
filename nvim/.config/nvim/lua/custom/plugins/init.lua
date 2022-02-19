@@ -212,6 +212,8 @@ require("packer").startup({
 				require("pretty-fold.preview").setup()
 			end,
 		})
+
+		use({ "nvim-pack/nvim-spectre" })
 	end,
 	config = {
 		display = {
