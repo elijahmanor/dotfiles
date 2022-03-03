@@ -147,16 +147,6 @@ require("packer").startup({
 		})
 
 		use({
-			"sidebar-nvim/sidebar.nvim",
-			config = function()
-				require("sidebar-nvim").setup({
-					sections = { "git", "diagnostics", "symbols", "todos", "buffers" },
-					section_separator = "-----",
-				})
-			end,
-		})
-
-		use({
 			"ThePrimeagen/harpoon",
 			requires = { "nvim-lua/plenary.nvim" },
 		})
@@ -214,6 +204,21 @@ require("packer").startup({
 		})
 
 		use({ "nvim-pack/nvim-spectre" })
+
+		use({
+			"sidebar-nvim/sidebar.nvim",
+			config = function()
+				require("sidebar-nvim").setup({
+					sections = {
+						"git",
+						"buffers",
+						"diagnostics",
+						"symbols",
+						"todos",
+					},
+				})
+			end,
+		})
 	end,
 	config = {
 		display = {

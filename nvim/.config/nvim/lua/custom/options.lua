@@ -45,7 +45,7 @@ vim.opt.listchars = {             -- list of hidden characters
 	eol = "↲",
 	nbsp = "␣"
 }
-vim.opt.iskeyword:append("-")     -- add `-` to the set of characters for a word
+-- vim.opt.iskeyword:append("-")     -- add `-` to the set of characters for a word
 
 -- stylua: ignore end
 
