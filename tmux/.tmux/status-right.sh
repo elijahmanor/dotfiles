@@ -16,15 +16,15 @@ pink='#ff79c6'
 yellow='#f1fa8c'
 
 function segment() {
-	basicline "$@"
+	powerline "${@}"
 }
 
 function powerline() {
-	printf "#[fg=$1]#[fg=$2]#[bg=$1] $3 #[bg=$1]"
+	printf "#[fg=%s]#[fg=%s]#[bg=%s] %s #[bg=%s]" $1 $2 $1 "${3}" $1
 }
 
 function basicline() {
-	printf "#[fg=$1]#[bg=$2] | $3 "
+	printf "#[fg=%s]#[bg=%s] | %s" $1 $2 "${3}"
 }
 
 function cpu() {

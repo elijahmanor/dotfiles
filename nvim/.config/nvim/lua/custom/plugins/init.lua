@@ -50,6 +50,13 @@ require("packer").startup({
 		})
 
 		use({
+			"romgrk/nvim-treesitter-context",
+			config = function()
+				require("treesitter-context").setup({})
+			end,
+		})
+
+		use({
 			"karb94/neoscroll.nvim",
 			config = function()
 				require("neoscroll").setup({})

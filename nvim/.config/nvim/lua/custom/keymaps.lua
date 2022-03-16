@@ -1,4 +1,4 @@
-local keymap = vim.api.nvim_set_keymap
+local keymap = vim.keymap.set
 local options = { noremap = true, silent = true }
 
 keymap("n", "<C-h>", "<C-w>h", options)
@@ -11,7 +11,9 @@ keymap("n", "<leader>wrap", "gggwGG", options)
 keymap("n", "<leader>e", ":Lexplore<cr>", options)
 
 keymap("n", "<leader><cr>", "<cmd>lua require('custom.utils').reload()<cr>", options)
-keymap("n", "<leader>ww", "<cmd>lua print('new thing')", options)
+keymap("n", "<leader>ww", function()
+	print('new thing')
+end, options)
 
 keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", options)
 keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", options)
