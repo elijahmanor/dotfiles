@@ -10,6 +10,7 @@ telescope.load_extension("harpoon")
 telescope.setup({
 	defaults = {
 		file_ignore_patterns = { "yarn.lock" },
+		-- path_display = "smart"
 	},
 	extensions = {
 		fzf = {

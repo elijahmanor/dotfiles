@@ -72,13 +72,35 @@ alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad 
 alias zpacker='cd ~/.local/share/nvim/site/pack/packer/start'
 # taken from https://twitter.com/davidcrespo/status/1492958857479532549
 alias ghpr='gh pr list | fzf --height 20% --reverse | cut -f1 | xargs gh pr checkout -f'
+# alias dev="printf '%s\n' 'lazygit' 'task' 'tz' 'watson log -wGc' 'watson report -dcG' | fzf --height 20% --header Commands | bash"
+local dev_commands=(
+	'tz' 'task' 'watson' 'archey' 'ncdu'
+	'fkill' 'lazydocker' 'ntl' 'ranger'
+	'speed-test' 'serve' 'vtop' 'htop' 'btop' 
+	'lazygit' 'gitui' 'tig' 'tldr'
+)
+alias dev='printf "%s\n" "${dev_commands[@]}" | fzf --height 20% --header Commands | xargs bash'
+
+alias xkcd="kitty +kitten icat $(curl -s https://xkcd.com/ | sed -En 's/<meta property=\"og:image\" content=\"([^\"]+)\">/\1/p')"
+alias xkcdf="f() { echo "$1" && kitty +kitten icat $(curl -s "https://xkcd.com/$1" | sed -En 's/<meta property=\"og:image\" content=\"([^"]+)\">/\1/p') }; f"
+alias xkcdt="f() { echo $1 };f"
+
+alias example='f() { echo Your arg was $1. };f'
+
 export GIT_EDITOR='nvim'
 export VISUAL='nvim'
 export EDITOR='nvim'
 export TMUXP_CONFIGDIR=$HOME/.config/tmuxp
 export DISABLE_AUTO_TITLE='true'
-export PATH=/Users/$USER/bin:$PATH
+export PATH=/Users/$USER/bin:$HOME/go/bin:$PATH
 export TERM=xterm-256color
+
+export NNN_PLUG=''
+export NNN_FCOLORS='0000E6310000000000000000'
+export NNN_FIFO=/tmp/nnn.fifo
+alias nnn='nnn -e'
+
+export TZ_LIST="US/Eastern;Europe/London;Europe/Berlin;Europe/Stockholm;Israel;Asia/Kolkata,India;"
 
 eval "$(fnm env)"
 

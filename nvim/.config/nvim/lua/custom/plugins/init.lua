@@ -1,5 +1,28 @@
+require("impatient")
+
 require("packer").startup({
 	function(use)
+		use("wbthomason/packer.nvim")
+
+		use({ "lewis6991/impatient.nvim" })
+
+		-- use({ "numToStr/FTerm.nvim" })
+
+		use({
+			"akinsho/toggleterm.nvim",
+			config = function()
+				require("toggleterm").setup({})
+			end,
+		})
+
+		use({ "nathom/filetype.nvim" })
+
+		use({
+			"dstein64/vim-startuptime",
+			opt = true,
+			cmd = { "StartupTime" },
+		})
+
 		use({
 			"rcarriga/nvim-notify",
 			config = function()
@@ -7,7 +30,29 @@ require("packer").startup({
 			end,
 		})
 
-		use("wbthomason/packer.nvim")
+		-- use({ 
+		-- 	"gruvbox-community/gruvbox",
+		-- 	config = function ()
+		-- 		vim.cmd([[
+		-- 			set background=dark
+		-- 			" set background=light
+		-- 			colorscheme gruvbox
+		-- 		]])
+		-- 	end
+		-- })
+
+		-- use({
+		-- 	"projekt0n/github-nvim-theme",
+		-- 	config = function ()
+		-- 		require("github-theme").setup({
+		-- 		  theme_style = "dark",
+		-- 		  theme_style = "dimmed",
+		-- 		  theme_style = "dark_default",
+		-- 		  theme_style = "dark_colorblind",
+		-- 		  theme_style = "light",
+		-- 		})
+		-- 	end
+		-- })
 
 		use({
 			"dracula/vim",
@@ -81,6 +126,8 @@ require("packer").startup({
 
 		use({
 			"numToStr/Comment.nvim",
+			opt = true,
+			keys = { "gc", "gcc", "gbc" },
 			config = function()
 				require("Comment").setup()
 			end,
@@ -90,11 +137,13 @@ require("packer").startup({
 			"jose-elias-alvarez/null-ls.nvim",
 			config = function()
 				require("custom.plugins.null-ls")
-			end,
+			end
 		})
 
 		use({
 			"hrsh7th/nvim-cmp",
+			-- opt = true,
+			-- event = "InsertEnter",
 			requires = {
 				"hrsh7th/cmp-nvim-lsp",
 				"hrsh7th/cmp-buffer",
@@ -110,6 +159,9 @@ require("packer").startup({
 
 		use({
 			"nvim-lualine/lualine.nvim",
+			opt = true,
+			event = "VimEnter",
+			after = "nvim-treesitter",
 			config = function()
 				require("custom.plugins.lualine")
 			end,
@@ -124,22 +176,42 @@ require("packer").startup({
 		})
 
 		use({
-			"williamboman/nvim-lsp-installer",
-			requires = { "neovim/nvim-lspconfig" },
+			"neovim/nvim-lspconfig",
+			opt = true,
+			event = { "BufReadPre" },
+			wants = {
+				"nvim-lsp-installer",
+				"cmp-nvim-lsp",
+				"null-ls.nvim",
+			},
 			config = function()
 				require("custom.plugins.lsp")
 			end,
+			requires = {
+				"williamboman/nvim-lsp-installer",
+				"jose-elias-alvarez/null-ls.nvim",
+				{
+					"j-hui/fidget.nvim",
+					config = function()
+						require("fidget").setup({})
+					end,
+				},
+			},
 		})
 
 		use({
-			"phaazon/hop.nvim",
+			"ggandor/leap.nvim",
+			opt = true,
+			keys = { "s", "S" },
 			config = function()
-				require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
+				require("leap").set_default_keymaps()
 			end,
 		})
 
 		use({
 			"folke/which-key.nvim",
+			opt = true,
+			event = "VimEnter",
 			config = function()
 				require("which-key").setup({})
 			end,
@@ -173,17 +245,10 @@ require("packer").startup({
 				require("nvim-autopairs").setup({})
 			end,
 		})
-
-		use({
-			"j-hui/fidget.nvim",
-			config = function()
-				require("fidget").setup({})
-			end,
-		})
-
-		use({
-			"anuvyklack/pretty-fold.nvim",
-			config = function()
+		
+		use( { 'anuvyklack/pretty-fold.nvim',
+		   requires = 'anuvyklack/nvim-keymap-amend', -- only for preview
+		   config = function()
 				require("pretty-fold").setup({
 					keep_indentation = false,
 					fill_char = "━",
@@ -207,10 +272,19 @@ require("packer").startup({
 					},
 				})
 				require("pretty-fold.preview").setup()
+		   end
+		} )
+
+		use({ "nvim-pack/nvim-spectre" })
+
+		use({
+			"norcalli/nvim-colorizer.lua",
+			config = function()
+				require("colorizer").setup()
 			end,
 		})
 
-		use({ "nvim-pack/nvim-spectre" })
+		use({ "stevearc/dressing.nvim" })
 
 		use({
 			"sidebar-nvim/sidebar.nvim",

@@ -12,4 +12,5 @@ lualine.setup({
 		lualine_b = { "diff", "diagnostics" },
 		lualine_x = { "filetype" },
 	},
+	globalstatus = true
 })

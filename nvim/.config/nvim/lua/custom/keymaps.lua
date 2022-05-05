@@ -1,10 +1,37 @@
 local keymap = vim.keymap.set
 local options = { noremap = true, silent = true }
 
+local Terminal  = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new({
+  cmd = "lazygit",
+  dir = "git_dir",
+  direction = "float",
+  float_opts = {
+    border = "double",
+  },
+  -- function to run on opening the terminal
+  on_open = function(term)
+    vim.cmd("startinsert!")
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+  end,
+  -- function to run on closing the terminal
+  on_close = function(term)
+    vim.cmd("Closing terminal")
+  end,
+})
+
+-- function _lazygit_toggle()
+--   lazygit:toggle()
+-- end
+
+keymap("n", "<leader>lg", function() lazygit:toggle() end, options)
+
 keymap("n", "<C-h>", "<C-w>h", options)
 keymap("n", "<C-j>", "<C-w>j", options)
 keymap("n", "<C-k>", "<C-w>k", options)
 keymap("n", "<C-l>", "<C-w>l", options)
+
+keymap("n", "gp", "`[v`]", options)
 
 keymap("n", "<leader>wrap", "gggwGG", options)
 
@@ -17,6 +44,7 @@ end, options)
 
 keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", options)
 keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", options)
+keymap("n", "<leader>fgb", "<cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>", options)
 keymap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", options)
 keymap("n", "<leader>fh", "<cmd>lua require('telescope.builtin').oldfiles()<cr>", options)
 keymap("n", "<leader>fr", "<cmd>lua require('telescope.builtin').resume{}<cr>", options)
@@ -55,8 +83,6 @@ keymap("n", "<M-Right>", ":vertical resize -5<cr>", options)
 keymap("n", "<M-Up>", ":resize +5<cr>", options)
 keymap("n", "<M-Down>", ":resize -5<cr>", options)
 keymap("n", "<M-Left>", ":vertical resize +5<cr>", options)
-
-keymap("n", "s", ":HopChar2<cr>", options)
 
 keymap("n", "]b", ":bnext<cr>", options)
 keymap("n", "[b", ":bprev<cr>", options)
