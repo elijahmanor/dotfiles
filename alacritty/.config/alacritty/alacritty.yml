@@ -10,8 +10,10 @@
 # to the user's home directory starting with `~/`.
 #import:
 #  - /path/to/alacritty.yml
+#  https://github.com/aarowill/base16-alacritty
 import:
-  - ~/dotfiles/alacritty/dracula.yml
+  - ~/dotfiles/alarcitty/.config/alacritty/dracula.yml
+  # - ~/dotfiles/alacritty/.config/alacritty/gruvbox-light.yml
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables

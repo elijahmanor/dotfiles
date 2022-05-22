@@ -6,8 +6,6 @@ require("packer").startup({
 
 		use({ "lewis6991/impatient.nvim" })
 
-		-- use({ "numToStr/FTerm.nvim" })
-
 		use({
 			"akinsho/toggleterm.nvim",
 			config = function()
@@ -30,29 +28,28 @@ require("packer").startup({
 			end,
 		})
 
-		-- use({ 
-		-- 	"gruvbox-community/gruvbox",
-		-- 	config = function ()
-		-- 		vim.cmd([[
-		-- 			set background=dark
-		-- 			" set background=light
-		-- 			colorscheme gruvbox
-		-- 		]])
-		-- 	end
-		-- })
+		use({
+			"gruvbox-community/gruvbox",
+			config = function ()
+				vim.cmd([[
+					" set background=dark
+					" set background=light
+					" colorscheme gruvbox
+				]])
+			end
+		})
 
-		-- use({
-		-- 	"projekt0n/github-nvim-theme",
-		-- 	config = function ()
-		-- 		require("github-theme").setup({
-		-- 		  theme_style = "dark",
-		-- 		  theme_style = "dimmed",
-		-- 		  theme_style = "dark_default",
-		-- 		  theme_style = "dark_colorblind",
-		-- 		  theme_style = "light",
-		-- 		})
-		-- 	end
-		-- })
+		use({
+			"marko-cerovac/material.nvim",
+			config = function()
+				vim.g.material_style = "deep ocean"
+				-- vim.g.material_style = "oceanic"
+				-- vim.g.material_style = "palenight"
+				-- vim.g.material_style = "lighter"
+				-- vim.g.material_style = "darker"
+				-- vim.cmd 'colorscheme material'
+			end
+		})
 
 		use({
 			"dracula/vim",
@@ -61,6 +58,22 @@ require("packer").startup({
 				vim.g.dracula_italic = 1
 				vim.cmd("colorscheme dracula")
 			end,
+		})
+
+		use ({
+			'TimUntersberger/neogit',
+			requires = {
+				'nvim-lua/plenary.nvim',
+				'sindrets/diffview.nvim'
+			},
+			config = function()
+				local neogit = require('neogit')
+				neogit.setup({
+					  integrations = {
+						diffview = true
+					  }
+				})
+			end
 		})
 
 		use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
@@ -245,7 +258,7 @@ require("packer").startup({
 				require("nvim-autopairs").setup({})
 			end,
 		})
-		
+
 		use( { 'anuvyklack/pretty-fold.nvim',
 		   requires = 'anuvyklack/nvim-keymap-amend', -- only for preview
 		   config = function()
@@ -311,3 +324,4 @@ require("packer").startup({
 		},
 	},
 })
+

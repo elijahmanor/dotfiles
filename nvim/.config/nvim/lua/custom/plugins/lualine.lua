@@ -5,7 +5,7 @@ end
 
 lualine.setup({
 	options = {
-		theme = "dracula",
+		theme = "material",
 		disabled_types = { "NvimTree" },
 	},
 	sections = {

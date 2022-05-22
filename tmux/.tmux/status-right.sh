@@ -5,7 +5,8 @@ bkt_ttl='15s'
 
 white='#f8f8f2'
 gray='#44475a'
-dark_gray='#282a36'
+dark_gray='#282a36' # dracula
+# dark_gray='#504945' # gruvbox-light
 light_purple='#bd93f9'
 dark_purple='#6272a4'
 cyan='#8be9fd'
