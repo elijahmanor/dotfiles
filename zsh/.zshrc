@@ -110,3 +110,5 @@ eval "$(fnm env)"
 # begin lks completion
 . <(lks --completion)
 # end lks completion
+
+[ -f ~/.resh/shellrc ] && source ~/.resh/shellrc # this line was added by RESH (Rich Enchanced Shell History)
