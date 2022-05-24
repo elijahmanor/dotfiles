@@ -47,6 +47,7 @@ vim.opt.listchars = {             -- list of hidden characters
 }
 -- vim.opt.iskeyword:append("-")     -- add `-` to the set of characters for a word
 vim.opt.laststatus = 3
+vim.opt.winbar = "%=%m %f" 
 
 vim.cmd("highlight ColorColumn guibg=DarkGray")
 -- stylua: ignore end
