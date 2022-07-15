@@ -99,9 +99,9 @@ function spotify() {
 function main() {
 	cpu "$pink" "$dark_gray"
 	battery "$orange" "$dark_gray"
-	# node_npm_version "$yellow" "$dark_gray"
 	mrwatson "$yellow" "$dark_gray"
 	taskwarrior "$green" "$dark_gray"
+	node_npm_version "$cyan" "$dark_gray"
 	datetime "$light_purple" "$dark_gray"
 	printf " "
 }

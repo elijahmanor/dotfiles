@@ -23,10 +23,18 @@ require("packer").startup({
 
 		use({
 			"rcarriga/nvim-notify",
+			commit = "2cfd425",
 			config = function()
 				vim.notify = require("notify")
 			end,
 		})
+
+		-- use({ "github/copilot.vim" })
+
+		use {
+			"SmiteshP/nvim-navic",
+			requires = "neovim/nvim-lspconfig"
+		}
 
 		use({
 			"gruvbox-community/gruvbox",

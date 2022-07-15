@@ -48,6 +48,10 @@ vim.cmd([[
 autocmd BufNewFile,BufRead *.md,*.mdx,*.markdown :set filetype=markdown
 ]])
 
+vim.cmd([[ 
+autocmd BufEnter *.js,*.jsx :write | edit | TSBufEnable highlight
+]])
+
 vim.cmd([[ highlight WinSeparator guibg=None ]])
 -- vim.highlight.create( "WinSeparator", { guibg="None" }, false )
 
