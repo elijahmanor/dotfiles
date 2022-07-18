@@ -101,8 +101,8 @@ function main() {
 	battery "$orange" "$dark_gray"
 	mrwatson "$yellow" "$dark_gray"
 	taskwarrior "$green" "$dark_gray"
-	node_npm_version "$cyan" "$dark_gray"
-	datetime "$light_purple" "$dark_gray"
+	# node_npm_version "$cyan" "$dark_gray"
+	datetime "$cyan" "$dark_gray"
 	printf " "
 }
 

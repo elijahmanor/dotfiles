@@ -49,7 +49,7 @@ autocmd BufNewFile,BufRead *.md,*.mdx,*.markdown :set filetype=markdown
 ]])
 
 vim.cmd([[ 
-autocmd BufEnter *.js,*.jsx :write | edit | TSBufEnable highlight
+autocmd BufEnter *.js,*.jsx,*.ts,*.tsx :write | edit | TSBufEnable highlight
 ]])
 
 vim.cmd([[ highlight WinSeparator guibg=None ]])

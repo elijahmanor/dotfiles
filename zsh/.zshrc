@@ -84,8 +84,8 @@ alias dev='printf "%s\n" "${dev_commands[@]}" | fzf --height 20% --header Comman
 alias xkcd="kitty +kitten icat $(curl -s https://xkcd.com/ | sed -En 's/<meta property=\"og:image\" content=\"([^\"]+)\">/\1/p')"
 alias xkcdf="f() { echo "$1" && kitty +kitten icat $(curl -s "https://xkcd.com/$1" | sed -En 's/<meta property=\"og:image\" content=\"([^"]+)\">/\1/p') }; f"
 alias xkcdt="f() { echo $1 };f"
-
 alias example='f() { echo Your arg was $1. };f'
+alias lksconfig='vim ~/.lks/config.json'
 
 export GIT_EDITOR='nvim'
 export VISUAL='nvim'
@@ -107,8 +107,13 @@ eval "$(fnm env)"
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+[ -f ~/.resh/shellrc ] && source ~/.resh/shellrc # this line was added by RESH (Rich Enchanced Shell History)
+alias python=/usr/local/bin/python3.9
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 # begin lks completion
 . <(lks --completion)
 # end lks completion
-
-[ -f ~/.resh/shellrc ] && source ~/.resh/shellrc # this line was added by RESH (Rich Enchanced Shell History)
