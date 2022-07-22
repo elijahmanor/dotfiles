@@ -292,7 +292,6 @@ require("packer").startup({
 						},
 					},
 				})
-				require("pretty-fold.preview").setup()
 		   end
 		} )
 
