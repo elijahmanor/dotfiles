@@ -253,11 +253,14 @@ require("packer").startup({
 
 		use({ "godlygeek/tabular" })
 
+
 		use({
-			"blackCauldron7/surround.nvim",
+			"kylechui/nvim-surround",
 			config = function()
-				require("surround").setup({ mappings_style = "surround" })
-			end,
+				require("nvim-surround").setup({
+					-- Configuration here, or leave empty to use defaults
+				})
+			end
 		})
 
 		use({
@@ -310,13 +313,7 @@ require("packer").startup({
 			"sidebar-nvim/sidebar.nvim",
 			config = function()
 				require("sidebar-nvim").setup({
-					sections = {
-						"git",
-						"buffers",
-						"diagnostics",
-						"symbols",
-						"todos",
-					},
+					sections = { "datetime", "git", "diagnostics", "symbols", "todos", "containers", "buffers", "files" },
 				})
 			end,
 		})

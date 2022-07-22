@@ -28,7 +28,7 @@ create_autocmd("BufWritePost", {
 local set_toggle = create_augroup("set_toggle", { clear = true })
 create_autocmd("InsertEnter", {
 	callback = function()
-		if vim.bo.filetype ~= "alpha" then
+		if vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree" and vim.bo.filetype ~= "SidebarNvim" then
 			vim.opt.relativenumber = false
 		end
 	end,
@@ -36,7 +36,7 @@ create_autocmd("InsertEnter", {
 })
 create_autocmd({ "VimEnter", "BufEnter", "InsertLeave" }, {
 	callback = function()
-		if vim.bo.filetype ~= "alpha" then
+		if vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree" and vim.bo.filetype ~= "SidebarNvim" then
 			vim.opt.relativenumber = true
 			vim.opt.list = false
 		end
