@@ -42,7 +42,7 @@ keymap("n", "<leader>ww", function()
 	print('new thing')
 end, options)
 
-keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files({ hidden = true })<cr>", options)
+keymap("n", "<leader>ff", "<cmd>lua require('telescope.builtin').find_files({ path_display = { 'truncate' }, hidden = true })<cr>", options)
 keymap("n", "<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", options)
 keymap("n", "<leader>fgb", "<cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<cr>", options)
 keymap("n", "<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", options)

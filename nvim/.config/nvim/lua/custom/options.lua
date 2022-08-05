@@ -48,6 +48,7 @@ vim.opt.listchars = {             -- list of hidden characters
 -- vim.opt.iskeyword:append("-")     -- add `-` to the set of characters for a word
 vim.opt.laststatus = 3
 -- vim.opt.winbar = "%=%m %f" 
+vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 vim.opt.cmdheight = 0
 
 vim.cmd("highlight ColorColumn guibg=DarkGray")

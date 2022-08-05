@@ -154,12 +154,12 @@ require("packer").startup({
 			end,
 		})
 
-		use({
-			"jose-elias-alvarez/null-ls.nvim",
-			config = function()
-				require("custom.plugins.null-ls")
-			end
-		})
+		-- use({
+		-- 	"jose-elias-alvarez/null-ls.nvim",
+		-- 	config = function()
+		-- 		require("custom.plugins.null-ls")
+		-- 	end
+		-- })
 
 		use({
 			"hrsh7th/nvim-cmp",
@@ -176,6 +176,26 @@ require("packer").startup({
 			config = function()
 				require("custom.plugins.cmp")
 			end,
+		})
+
+		use({
+		  "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+		  config = function()
+			require("lsp_lines").setup()
+			vim.diagnostic.config({
+			  virtual_text = false,
+			})
+		  end,
+		})
+
+        use ( { 
+			"lukas-reineke/indent-blankline.nvim",
+			config = function()
+				require("indent_blankline").setup {
+					show_current_context = true,
+					show_current_context_start = true,
+				}
+			end
 		})
 
 		use({
@@ -197,28 +217,60 @@ require("packer").startup({
 		})
 
 		use({
-			"neovim/nvim-lspconfig",
-			opt = true,
-			event = { "BufReadPre" },
-			wants = {
-				"nvim-lsp-installer",
-				"cmp-nvim-lsp",
-				"null-ls.nvim",
+			"williamboman/mason.nvim",
+			requires = {
+			  "williamboman/mason-lspconfig.nvim",
+			  "neovim/nvim-lspconfig",
 			},
 			config = function()
-				require("custom.plugins.lsp")
+				require("custom.plugins.mason")
+				-- require("mason").setup()
+				-- mason_lspconfig = require("mason-lspconfig")
+				-- mason_lspconfig.setup({
+				--   ensure_installed = {
+				-- 	"eslint-lsp",
+				-- 	"rome",
+				-- 	"terraform-ls",
+				-- 	"tflint",
+				-- 	"typescript-language-server",
+				-- 	"yaml-language-server",
+				-- 	"yamllint",
+				--   }
+				-- })
+				-- mason_lspconfig.setup_handlers({
+				--   function (server_name)
+				-- 	require("lspconfig")[server_name].setup {
+				-- 	  on_attach = require("shared").on_attach,
+				-- 	}
+				--   end
+				-- })
 			end,
-			requires = {
-				"williamboman/nvim-lsp-installer",
-				"jose-elias-alvarez/null-ls.nvim",
-				{
-					"j-hui/fidget.nvim",
-					config = function()
-						require("fidget").setup({})
-					end,
-				},
-			},
 		})
+
+		use({
+			"j-hui/fidget.nvim",
+			config = function()
+				require("fidget").setup({})
+			end,
+		})
+
+		-- use({
+		-- 	"neovim/nvim-lspconfig",
+		-- 	opt = true,
+		-- 	event = { "BufReadPre" },
+		-- 	wants = {
+		-- 		"nvim-lsp-installer",
+		-- 		"cmp-nvim-lsp",
+		-- 		"null-ls.nvim",
+		-- 	},
+		-- 	config = function()
+		-- 		require("custom.plugins.lsp")
+		-- 	end,
+		-- 	requires = {
+		-- 		"williamboman/nvim-lsp-installer",
+		-- 		"jose-elias-alvarez/null-ls.nvim",
+		-- 	},
+		-- })
 
 		use({
 			"ggandor/leap.nvim",

@@ -38,8 +38,8 @@ cmp.setup({
 })
 
 -- vim.api.nvim_set_keymap('i', '<C-E>', '<cmd>lua require("luasnip").jump()<cr>', {})
-vim.api.nvim_set_keymap('i', '<C-k>', '<plug>luasnip-expand-or-jump', {})
-vim.api.nvim_set_keymap('s', '<C-k>', '<plug>luasnip-expand-or-jump', {})
+-- vim.api.nvim_set_keymap('i', '<C-k>', '<plug>luasnip-expand-or-jump', {})
+-- vim.api.nvim_set_keymap('s', '<C-k>', '<plug>luasnip-expand-or-jump', {})
 -- vim.api.nvim_set_keymap('i', '<C-j>', '<plug>luasnip-jump-prev', {})
 -- vim.api.nvim_set_keymap('s', '<C-j>', '<plug>luasnip-jump-prev', {})
 

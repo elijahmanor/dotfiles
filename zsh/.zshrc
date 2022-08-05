@@ -23,6 +23,9 @@ source $ZSH/oh-my-zsh.sh
 autoload -U promptinit; promptinit
 prompt pure
 
+# Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
 function time-zsh() {
   for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 }
@@ -72,6 +75,7 @@ alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad 
 alias zpacker='cd ~/.local/share/nvim/site/pack/packer/start'
 # taken from https://twitter.com/davidcrespo/status/1492958857479532549
 alias ghpr='gh pr list | fzf --height 20% --reverse | cut -f1 | xargs gh pr checkout -f'
+alias v='fd --type f --hidden --follow --exclude .git | fzf-tmux -p --reverse | xargs nvim'
 # alias dev="printf '%s\n' 'lazygit' 'task' 'tz' 'watson log -wGc' 'watson report -dcG' | fzf --height 20% --header Commands | bash"
 local dev_commands=(
 	'tz' 'task' 'watson' 'archey' 'ncdu'

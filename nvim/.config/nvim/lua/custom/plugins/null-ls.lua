@@ -13,8 +13,8 @@ null_ls.setup({
 		-- 	extra_args = { "--parser=@babel/eslint-parser" }
 		-- }),
 		-- npm install eslint -g
-		-- require("null-ls").builtins.diagnostics.eslint,
-		-- require("null-ls").builtins.formatting.eslint,
+		require("null-ls").builtins.diagnostics.eslint,
+		require("null-ls").builtins.formatting.eslint,
 		-- npm install -g write-good
 		-- require("null-ls").builtins.diagnostics.write_good,
 		-- npm install -g prettier_d_slim
