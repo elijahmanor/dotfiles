@@ -23,6 +23,6 @@ include dracula.conf
 
 
 # BEGIN_KITTY_THEME
-# Dracula
+# Cobalt2
 include current-theme.conf
 # END_KITTY_THEME

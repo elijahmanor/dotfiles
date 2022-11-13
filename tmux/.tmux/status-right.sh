@@ -96,13 +96,18 @@ function spotify() {
 	printf "#[fg=$1]#[fg=$2]#[bg=$1] ♫ #{music_status} #{artist}: #{track} #[bg=$1]"
 }
 
+function twitter() {
+	printf "#[fg=$1]#[fg=$2]#[bg=$1] @elijahmanor #[bg=$1]"
+}
+
 function main() {
 	cpu "$pink" "$dark_gray"
 	battery "$orange" "$dark_gray"
 	mrwatson "$yellow" "$dark_gray"
-	taskwarrior "$green" "$dark_gray"
+	# taskwarrior "$green" "$dark_gray"
 	# node_npm_version "$cyan" "$dark_gray"
 	datetime "$cyan" "$dark_gray"
+	# twitter "$cyan" "$dark_gray"
 	printf " "
 }
 

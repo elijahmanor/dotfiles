@@ -1,3 +1,5 @@
+# zmodload zsh/zprof # top of your .zshrc file
+
 export ZSH="/Users/$USER/.oh-my-zsh"
 
 ZSH_THEME=""
@@ -14,7 +16,9 @@ plugins=(
   brew
   zsh-autosuggestions
   fast-syntax-highlighting
-  vi-mode
+  # vi-mode
+  zsh-vi-mode
+  fzf
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -46,10 +50,14 @@ function time-zsh-plugins() {
 function shorten() {
   node ~/manorisms/open-source/etm.im/node_modules/.bin/netlify-shortener "$1" "$2"
 }
+function ghpr() {
+  GH_FORCE_TTY=100% gh pr list | fzf --query "$1" --ansi --preview 'GH_FORCE_TTY=100% gh pr view {1}' --preview-window down --header-lines 3 | awk '{print $1}' | xargs gh pr checkout -f  
+}
 
-# Where should I put you?
 bindkey -s ^f "tmux-sessionizer\n"
 
+
+alias cbr='git branch --sort=-committerdate | fzf --header "Checkout Recent Branch" --preview "git diff {1} --color=always" --pointer="" | xargs git checkout'
 alias weather="curl -4 wttr.in/nashville"
 alias rob="say 'How many Lowes could Rob Lowe rob if Rob Lowe could rob Lowes?'"
 alias git-init-commit="git reset $(git commit-tree HEAD^{tree} -m 'Initial commit')"
@@ -74,9 +82,11 @@ alias alert='notify -t "Status" -m "Finished" -s Glass'
 alias status='notify -t "Status" -m "$([ $? = 0 ] && echo Good News || echo Bad News)"'
 alias zpacker='cd ~/.local/share/nvim/site/pack/packer/start'
 # taken from https://twitter.com/davidcrespo/status/1492958857479532549
-alias ghpr='gh pr list | fzf --height 20% --reverse | cut -f1 | xargs gh pr checkout -f'
+alias ghpr-oldest='gh pr list | fzf --height 20% --reverse | cut -f1 | xargs gh pr checkout -f'
+alias ghpr-older='gh pr list | fzf-tmux --reverse --preview "gh pr view {1}" | cut -f1 | xargs gh pr checkout -f'
+alias ghpr-old='gh pr list | fzf --reverse --preview-window down,75%,border-horizontal --preview "gh pr view {1}" | cut -f1 | xargs gh pr checkout -f'
+alias ghpr-noworky="GH_FORCE_TTY=100% gh pr list | fzf --ansi --header-lines 3 --preview 'GH_FORCE_TTY=$FZF_PREVIEW_COLUMNS gh pr view {1}' --preview-window down,border-horizontal | awk '{print $1}' | xargs gh pr checkout"
 alias v='fd --type f --hidden --follow --exclude .git | fzf-tmux -p --reverse | xargs nvim'
-# alias dev="printf '%s\n' 'lazygit' 'task' 'tz' 'watson log -wGc' 'watson report -dcG' | fzf --height 20% --header Commands | bash"
 local dev_commands=(
 	'tz' 'task' 'watson' 'archey' 'ncdu'
 	'fkill' 'lazydocker' 'ntl' 'ranger'
@@ -84,12 +94,12 @@ local dev_commands=(
 	'lazygit' 'gitui' 'tig' 'tldr'
 )
 alias dev='printf "%s\n" "${dev_commands[@]}" | fzf --height 20% --header Commands | xargs bash'
-
 alias xkcd="kitty +kitten icat $(curl -s https://xkcd.com/ | sed -En 's/<meta property=\"og:image\" content=\"([^\"]+)\">/\1/p')"
 alias xkcdf="f() { echo "$1" && kitty +kitten icat $(curl -s "https://xkcd.com/$1" | sed -En 's/<meta property=\"og:image\" content=\"([^"]+)\">/\1/p') }; f"
 alias xkcdt="f() { echo $1 };f"
 alias example='f() { echo Your arg was $1. };f'
 alias lksconfig='vim ~/.lks/config.json'
+alias python=/usr/local/bin/python3.9
 
 export GIT_EDITOR='nvim'
 export VISUAL='nvim'
@@ -99,25 +109,10 @@ export DISABLE_AUTO_TITLE='true'
 export PATH=/Users/$USER/bin:$HOME/go/bin:$PATH
 export TERM=xterm-256color
 
-export NNN_PLUG=''
-export NNN_FCOLORS='0000E6310000000000000000'
-export NNN_FIFO=/tmp/nnn.fifo
-alias nnn='nnn -e'
-
 export TZ_LIST="US/Eastern;Europe/London;Europe/Berlin;Europe/Stockholm;Israel;Asia/Kolkata,India;"
 
-eval "$(fnm env)"
+eval "$(fnm env --use-on-cd --log-level=quiet)"
 
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-[ -f ~/.resh/shellrc ] && source ~/.resh/shellrc # this line was added by RESH (Rich Enchanced Shell History)
-alias python=/usr/local/bin/python3.9
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# begin lks completion
-. <(lks --completion)
-# end lks completion
