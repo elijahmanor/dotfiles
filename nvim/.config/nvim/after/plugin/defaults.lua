@@ -60,7 +60,6 @@ end, { desc = "[S]earch [W]ord" })
 
 vim.keymap.set("n", "<leader>l", require("lsp_lines").toggle, { desc = "Toggle lsp_lines" })
 vim.diagnostic.config({ virtual_text = false })
-vim.keymap.set("n", "<leader>ps", "<cmd>PackerSync<cr>", { desc = "[P]acker [S]ync" })
 
 vim.keymap.set("n", "<leader>=", function()
 	vim.lsp.buf.format({
