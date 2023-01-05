@@ -86,6 +86,11 @@ vim.keymap.set("n", "[b", ":bprev<cr>", { noremap = true, silent = true })
 vim.keymap.set("n", "[q", ":cprevious<cr>", { noremap = true, silent = true })
 vim.keymap.set("n", "]q", ":cnext<cr>", { noremap = true, silent = true })
 
+-- vim.keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
+-- vim.keymap.set("n", "n", "nzz", { noremap = true, silent = true })
+-- vim.keymap.set("n", "N", "Nzz", { noremap = true, silent = true })
+
 vim.keymap.del("n", "<leader>sd")
 vim.keymap.set("n", "<leader>sdg", "<cmd>Telescope dir live_grep<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>sdf", "<cmd>Telescope dir find_files<CR>", { noremap = true, silent = true })

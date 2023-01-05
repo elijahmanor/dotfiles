@@ -14,7 +14,7 @@ function plugins.setup(use)
 
 	use("Mofiqul/dracula.nvim")
 
-	use( 'editorconfig/editorconfig-vim' )
+	use( 'sgur/vim-editorconfig' )
 
 	use({ "christoomey/vim-tmux-navigator" })
 

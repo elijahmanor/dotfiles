@@ -100,6 +100,7 @@ alias xkcdt="f() { echo $1 };f"
 alias example='f() { echo Your arg was $1. };f'
 alias lksconfig='vim ~/.lks/config.json'
 alias python=/usr/local/bin/python3.9
+alias yarntest="yarn ui:build && yarn lerna run test --concurrency 4 --parallel --ignore server && yarn coverage:collect && yarn workspace server test"
 
 export GIT_EDITOR='nvim'
 export VISUAL='nvim'
@@ -116,3 +117,4 @@ eval "$(fnm env --use-on-cd --log-level=quiet)"
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export HOMEBREW_GITHUB_API_TOKEN=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
