@@ -10,7 +10,7 @@
 ## Clone this Repo
 
 ```
-git clone git@github.com:thnukid/dotfiles.git ~/.dotfiles
+git clone git@github.com:elijahmanor/dotfiles.git ~/.dotfiles
 ```
 
 ## List Files
@@ -28,6 +28,6 @@ brew bundle
 ### Symlink dotfiles
 
 ```
-stow bin kitty nvim tmux zsh
+stow bin kitty lazygit nvim tmux wezterm zsh
 ```
 
