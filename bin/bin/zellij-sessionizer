@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Credit to ThePrimeagen: https://github.com/ThePrimeagen/.dotfiles/blob/master/bin/.local/bin/tmux-sessionizer
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~ ~/github ~/manorism ~/manorisms -mindepth 1 -maxdepth 1 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+zellij_running=$(pgrep zellij)
+in_zellij=$(echo $TMUX)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t $selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
+
+if [[ -z $in_tmux ]]; then
+    tmux attach-session -t $selected_name
+else
+    tmux switch-client -t $selected_name
+fi
