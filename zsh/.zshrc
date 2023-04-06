@@ -11,11 +11,12 @@ ZSH_DISABLE_COMPFIX=true
 plugins=(
   git
   npm
-  z
+  # z
   node
   brew
   zsh-autosuggestions
   fast-syntax-highlighting
+  zsh-history-substring-search
   # vi-mode
   zsh-vi-mode
   fzf
@@ -30,33 +31,38 @@ prompt pure
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
 
-function time-zsh() {
-  for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
-}
-function time-zsh-plugins() {
-  # brew install coreutils
-  for plugin ($plugins); do
-    timer=$(($(gdate +%s%0N)/1000000))
-    if [ -f $ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh ]; then
-      source $ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh
-    elif [ $ZSH/plugins/$plugin/$plugin.plugin.zsh ]; then
-      source $ZSH/plugins/$plugin/$plugin.plugin.zsh
-    fi
-    now=$(($(gdate +%s%0N)/1000000))
-    elapsed=$(($now-$timer))
-    echo $elapsed":" $plugin
-  done
-}
-function shorten() {
-  node ~/manorisms/open-source/etm.im/node_modules/.bin/netlify-shortener "$1" "$2"
-}
 function ghpr() {
   GH_FORCE_TTY=100% gh pr list | fzf --query "$1" --ansi --preview 'GH_FORCE_TTY=100% gh pr view {1}' --preview-window down --header-lines 3 | awk '{print $1}' | xargs gh pr checkout -f  
 }
+function ghgist() {
+  GH_FORCE_TTY=100% gh gist list --limit 20 | fzf --ansi --preview 'GH_FORCE_TTY=100% gh gist view {1}' --preview-window down | awk '{print $1}' | xargs gh gist edit
+}
 
-bindkey -s ^f "tmux-sessionizer\n"
+# git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/AstroNvim
+# git clone git@github.com:nvim-lua/kickstart.nvim.git ~/.config/kickstart
+# git clone https://github.com/NvChad/NvChad ~/.config/NvChad --depth 1
+# git clone https://github.com/LazyVim/starter ~/.config/LazyVim
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+function nvims() {
+  items=("default" "kickstart" "LazyVim" "NvChad" "AstroNvim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+bindkey -s ^a "nvims\n"
 
+# bindkey -s ^f "tmux-sessionizer\n"
+bindkey -s ^f "zellij-switch\n"
 
+alias zz="zellij-switch"
 alias cbr='git branch --sort=-committerdate | fzf --header "Checkout Recent Branch" --preview "git diff {1} --color=always" --pointer="" | xargs git checkout'
 alias weather="curl -4 wttr.in/nashville"
 alias rob="say 'How many Lowes could Rob Lowe rob if Rob Lowe could rob Lowes?'"
@@ -100,17 +106,38 @@ alias xkcdt="f() { echo $1 };f"
 alias example='f() { echo Your arg was $1. };f'
 alias lksconfig='vim ~/.lks/config.json'
 alias python=/usr/local/bin/python3.9
-alias yarntest="yarn ui:build && yarn lerna run test --concurrency 4 --parallel --ignore server && yarn coverage:collect && yarn workspace server test"
+alias yarntest="yarn ui:build && yarn lerna run test --concurrency 4 --parallel --ignore server && yarn workspace server test && yarn coverage:collect"
+
+function time-zsh() {
+  for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
+}
+function time-zsh-plugins() {
+  # brew install coreutils
+  for plugin ($plugins); do
+    timer=$(($(gdate +%s%0N)/1000000))
+    if [ -f $ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh ]; then
+      source $ZSH_CUSTOM/plugins/$plugin/$plugin.plugin.zsh
+    elif [ $ZSH/plugins/$plugin/$plugin.plugin.zsh ]; then
+      source $ZSH/plugins/$plugin/$plugin.plugin.zsh
+    fi
+    now=$(($(gdate +%s%0N)/1000000))
+    elapsed=$(($now-$timer))
+    echo $elapsed":" $plugin
+  done
+}
+function shorten() {
+  node ~/manorisms/open-source/etm.im/node_modules/.bin/netlify-shortener "$1" "$2"
+}
 
 export GIT_EDITOR='nvim'
 export VISUAL='nvim'
 export EDITOR='nvim'
 export TMUXP_CONFIGDIR=$HOME/.config/tmuxp
 export DISABLE_AUTO_TITLE='true'
-export PATH=/Users/$USER/bin:$HOME/go/bin:$PATH
+export PATH=/Users/$USER/bin:$HOME/go/bin:/Users/$USER/.local/share/bob/nvim-bin:$PATH
 export TERM=xterm-256color
 
-export TZ_LIST="US/Eastern;Europe/London;Europe/Berlin;Europe/Stockholm;Israel;Asia/Kolkata,India;"
+export TZ_LIST="US/Central;Asia/Kolkata;"
 
 eval "$(fnm env --use-on-cd --log-level=quiet)"
 
@@ -118,3 +145,9 @@ eval "$(fnm env --use-on-cd --log-level=quiet)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export HOMEBREW_GITHUB_API_TOKEN=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
+
+eval "$(zoxide init zsh)"
+
+# begin lks completion
+. <(lks --completion)
+# end lks completion

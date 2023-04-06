@@ -13,7 +13,7 @@
 #  https://github.com/aarowill/base16-alacritty
 import:
   - ~/dotfiles/alarcitty/.config/alacritty/dracula.yml
-  # - ~/dotfiles/alacritty/.config/alacritty/gruvbox-light.yml
+  # - ~/dotfiles/alacritty/.config/alacritty/gruvbox-dark.yml
 
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
@@ -97,6 +97,10 @@ window:
   # and `light`. Set this to `None` to use the default theme variant.
   #gtk_theme_variant: None
 
+  opacity: 1.0
+
+  option_as_alt: Both
+
 #scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
@@ -105,27 +109,28 @@ window:
   # Scrolling distance multiplier.
   #multiplier: 3
 
-# Font configuration
+# Font font:
+# font:
+#   normal:
+#     family: "JetBrains Mono"
 font:
-  # Normal (roman) font face
   normal:
-    family: JetBrainsMono Nerd Font
-    style: Regular
+    family: "JetBrainsMono Nerd Font"
+    # family: "JetBrains Mono"
 
-  # Bold font face
-  bold:
-    family: JetBrainsMono Nerd Font
-    style: Bold
-
-  # Italic font face
-  italic:
-    family: JetBrainsMono Nerd Font
-    style: Italic
-
-  # Bold italic font face
-  bold_italic:
-    family: JetBrainsMono Nerd Font
-    style: Bold Italic
+# font:
+#   normal:
+#     family: JetBrainsMono Nerd Font
+#     style: Regular
+#   bold:
+#     family: JetBrainsMono Nerd Font
+#     style: Bold
+#   italic:
+#     family: JetBrainsMono Nerd Font
+#     style: Italic
+#   bold_italic:
+#     family: JetBrainsMono Nerd Font
+#     style: Bold Italic
 
   # Point size
   size: 14.0
@@ -331,12 +336,6 @@ font:
   #
   #command: None
 
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 1.8
-
 #selection:
   # This string contains all characters that are used as separators for
   # "semantic words" in Alacritty.
@@ -407,9 +406,6 @@ background_opacity: 1.8
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
 #working_directory: None
-
-# Send ESC (\x1b) before characters when alt is pressed.
-alt_send_esc: false
 
 #mouse:
   # Click settings
