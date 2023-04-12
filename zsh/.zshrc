@@ -31,6 +31,17 @@ prompt pure
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
 
+# https://gist.github.com/reegnz/b9e40993d410b75c2d866441add2cb55
+function jqf() {
+  echo "" | \
+    fzf \
+      --disabled \
+      --print-query
+      --preview "jq -C {q} $1" \
+      --prompt="Query  " \
+      --header="Interactive jq playground" \
+      --preview-window="down:90"
+}
 function tzf() {
   tz -list | fzf -m | awk '{print $4}' | tr "\n" ";" | xargs -I {} sh -c "TZ_LIST='{}' tz"
 }

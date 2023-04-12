@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+declare -A items=(
+	[default]=" default"
+	[kickstart]=" kickstart"
+	[LazyVim]="💤 LazyVim"
+	[NvChad]=" NvChad"
+	[AstroNvim]=" AstroNvim"
+)
+
+# echo ${items[kickstart]}
+# echo ${items[LazyVim]}
+# for val in "${items[@]}"; do echo $val; done
+# echo "${items[@]}"
+# for key in "${!items[@]}"; do echo "$key"; done
+# printf "%s\n" "${!items[@]}"
+
+printf "%s\n" "${!items[@]}"
+printf "%s\n" "${items[@]}"
+
+config=$(printf "%s\n" "${items[@]}" | fzf --with-nth=2.. --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+
+echo $config
+
+# if [[ -z $config ]]; then
+# 	echo "Nothing selected"
+# 	return 0
+# elif [[ $config == "default" ]]; then
+# 	config=""
+# fi
+#
+# NVIM_APPNAME=$config nvim $@
