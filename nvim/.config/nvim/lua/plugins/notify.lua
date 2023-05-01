@@ -1,9 +1,12 @@
 return {
   {
-    "nvim-notify",
-    opts = function(_, opts)
-      opts.background_colour = "#000000"
-    end,
+    "rcarriga/nvim-notify",
+    opts = {
+      background_colour = "#000000",
+      level = vim.log.levels.WARN, -- help vim.log.levels
+      render = "minimal",
+      stages = "static",
+    },
   },
 }
 
