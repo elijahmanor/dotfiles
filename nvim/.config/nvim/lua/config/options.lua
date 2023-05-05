@@ -12,3 +12,16 @@ opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.o.cmdheight = 0
 vim.o.showcmdloc = "statusline"
 vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+
+vim.opt.listchars = {
+  space = ".",
+  eol = "↲",
+  nbsp = "␣",
+  trail = "·",
+  precedes = "←",
+  extends = "→",
+  tab = "¬ ",
+  conceal = "※",
+}
+vim.opt.list = true
+

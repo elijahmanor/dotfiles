@@ -17,6 +17,9 @@ return {
   },
   {
     "hrsh7th/nvim-cmp",
+    -- use a forked local version in ~/projects
+    dev = false, -- true
+    -- … more code …
     dependencies = {
       { "roobert/tailwindcss-colorizer-cmp.nvim", config = true },
     },

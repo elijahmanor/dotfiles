@@ -36,3 +36,29 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged", "Insert
         conceal_html_class(vim.api.nvim_get_current_buf())
     end,
 })
+
+
+local create_augroup = vim.api.nvim_create_augroup
+local create_autocmd = vim.api.nvim_create_autocmd
+
+local set_toggle = create_augroup("set_toggle", { clear = true })
+create_autocmd("InsertEnter", {
+  callback = function()
+    if vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree" and vim.bo.filetype ~= "SidebarNvim" then
+      vim.opt.relativenumber = false
+      vim.opt.list = true
+    end
+  end,
+  group = set_toggle,
+})
+
+create_autocmd({ "VimEnter", "BufEnter", "InsertLeave" }, {
+  callback = function()
+    if vim.bo.filetype ~= "alpha" and vim.bo.filetype ~= "NvimTree" and vim.bo.filetype ~= "SidebarNvim" then
+      vim.opt.relativenumber = true
+      vim.opt.list = false
+    end
+  end,
+  group = set_toggle,
+})
+

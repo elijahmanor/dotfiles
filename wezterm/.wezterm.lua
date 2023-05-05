@@ -9,9 +9,9 @@ function scheme_for_appearance(appearance)
 end
 
 return {
-	-- color_scheme = "Catppuccin Frappe",
+	color_scheme = "Catppuccin Frappe",
 	-- color_scheme = "Catppuccin Latte",
-	color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
+	-- color_scheme = scheme_for_appearance(wezterm.gui.get_appearance()),
 	font = wezterm.font_with_fallback({
 		"JetBrains Mono",
 		{ family = "Symbols Nerd Font Mono", scale = 0.75 },
@@ -21,7 +21,8 @@ return {
 	force_reverse_video_cursor = true,
 	window_decorations = "RESIZE",
 	use_cap_height_to_scale_fallback_fonts = true,
-	font_size = 14,
+	-- font_size = 14,
+	font_size = 22,
 	scrollback_lines = 5000,
 	hide_tab_bar_if_only_one_tab = true,
 	window_close_confirmation = "NeverPrompt",
