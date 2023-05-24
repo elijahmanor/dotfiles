@@ -37,7 +37,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "TextChanged", "Insert
     end,
 })
 
-
 local create_augroup = vim.api.nvim_create_augroup
 local create_autocmd = vim.api.nvim_create_autocmd
 
@@ -61,4 +60,11 @@ create_autocmd({ "VimEnter", "BufEnter", "InsertLeave" }, {
   end,
   group = set_toggle,
 })
+
+vim.api.nvim_create_autocmd({ "RecordingEnter", "RecordingLeave" }, {
+  callback = function(match)
+    vim.o.cmdheight = match.event == "RecordingEnter" and 1 or 0
+  end
+})
+
 

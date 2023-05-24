@@ -27,8 +27,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # brew install pure
-autoload -U promptinit; promptinit
-prompt pure
+# autoload -U promptinit; promptinit
+# prompt pure
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
@@ -163,7 +163,6 @@ eval "$(fnm env --use-on-cd --log-level=quiet)"
 export HOMEBREW_GITHUB_API_TOKEN=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
 
 eval "$(zoxide init zsh)"
+eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/marcduiker.omp.json)"
 
-# begin lks completion
-. <(lks --completion)
-# end lks completion
+
