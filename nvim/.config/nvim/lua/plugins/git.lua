@@ -1,22 +1,32 @@
 return {
   {
     "TimUntersberger/neogit",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+    },
     cmd = "Neogit",
-    keys = {
-      { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" }
+    keys = { { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" } },
+    opts = {
+      integrations = {
+        diffview = true,
+      },
     },
   },
   {
-    "sindrets/diffview.nvim", dependencies = { "nvim-lua/plenary.nvim" },
+    "sindrets/diffview.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
     cmd = {
       "DiffviewOpen",
-      "DiffviewClose", "DiffviewToggleFiles",
+      "DiffviewClose",
+      "DiffviewToggleFiles",
       "DiffviewFocusFiles",
-      "DiffviewRefresh", "DiffviewFileHistory",
+      "DiffviewRefresh",
+      "DiffviewFileHistory",
     },
-    keys = {
-      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" }
-    },
+    keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" } },
+    -- opts = {
+    --   enhanced_diff_hl = true,
+    -- },
   },
 }
