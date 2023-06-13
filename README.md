@@ -1,4 +1,5 @@
 # dotfiles
+
 ========
 
 ## Install Brew
@@ -28,6 +29,5 @@ brew bundle
 ### Symlink dotfiles
 
 ```
-stow bin kitty lazygit nvim tmux wezterm zsh
+stow bin kitty lazygit nvim tmux wezterm zsh zellij bat
 ```
-

@@ -7,16 +7,16 @@ local os_is_dark = function()
 end
 
 return {
-  {
-    "folke/tokyonight.nvim",
-    opts = {
-      transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-      },
-    },
-  },
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   opts = {
+  --     transparent = true,
+  --     styles = {
+  --       sidebars = "transparent",
+  --       floats = "transparent",
+  --     },
+  --   },
+  -- },
   {
     -- https://github.com/catppuccin/nvim
     'catppuccin/nvim',
@@ -33,7 +33,8 @@ return {
     "LazyVim/LazyVim",
     opts = function(_, opts)
       if os_is_dark() then
-        opts.colorscheme = 'catppuccin-frappe'
+        -- colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha
+        opts.colorscheme = 'catppuccin-macchiato'
       else
         opts.colorscheme = 'catppuccin-latte'
       end
