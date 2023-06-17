@@ -25,8 +25,5 @@ return {
       "DiffviewFileHistory",
     },
     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" } },
-    -- opts = {
-    --   enhanced_diff_hl = true,
-    -- },
   },
 }
