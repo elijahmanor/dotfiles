@@ -160,8 +160,6 @@ eval "$(fnm env --use-on-cd --log-level=quiet)"
 [ -r ~/private/.zshrc ] && source ~/private/.zshrc
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export HOMEBREW_GITHUB_API_TOKEN=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
-
 eval "$(zoxide init zsh)"
 eval "$(oh-my-posh init zsh --config $(brew --prefix oh-my-posh)/themes/marcduiker.omp.json)"
 
