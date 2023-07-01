@@ -20,7 +20,9 @@ alias vimrc="vim ~/.config/nvim"
 alias tmuxrc="vim ~/.tmux.conf"
 alias lksconfig='vim ~/.lks/config.json'
 
-alias runr="jq -r '.scripts | keys[]' package.json | fzf | xargs -r npm run"
+function runr() { 
+  jq -r '.scripts | keys[]' package.json | fzf --preview "jq -r '.scripts | { .{1} } | join()' package.json" | xargs -r npm run
+}
 alias cb='git branch --sort=-committerdate | fzf --header "Checkout Recent Branch" --preview "git diff {1} --color=always" --pointer="" | xargs git checkout'
 alias yarntest="yarn ui:build && lerna run test && yarn jest && yarn coverage:collect"
 alias weather="curl -4 wttr.in/nashville"
@@ -31,6 +33,7 @@ alias tada='play-sound ~/manorisms/mp3s/tada.mp3'
 # npm i -g node-notifier-cli
 alias alert='notify -t "Status" -m "Finished" -s Glass'
 alias python=/usr/local/bin/python3.9
+alias hollywood='docker run --rm -it bcbcarl/hollywood'
 
 # https://gist.github.com/reegnz/b9e40993d410b75c2d866441add2cb55
 function jqf() {
@@ -72,7 +75,7 @@ function nvims() {
   fi
   NVIM_APPNAME=$config nvim $@
 }
-bindkey -s ^a "nvims\n"
+bindkey "^a" "nvims\n"
 
 local dev_commands=(
 	'tz' 'task' 'watson' 'archey' 'ncdu'
@@ -84,7 +87,7 @@ local dev_commands=(
 )
 alias dev='printf "%s\n" "${dev_commands[@]}" | fzf --height 20% --header Commands | bash'
 
-bindkey -s ^f "tmux-sessionizer\n"
+bindkey "^f" "tmux-sessionizer\n"
 # bindkey -s ^f "zellij-switch\n"
 
 export PATH=/Users/$USER/bin:$HOME/go/bin:/Users/$USER/.local/share/bob/nvim-bin:$PATH
