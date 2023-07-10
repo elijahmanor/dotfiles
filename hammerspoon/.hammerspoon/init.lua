@@ -1,0 +1,5 @@
+hs.loadSpoon("Screenkey")
+spoon.Screenkey:init()
+hs.hotkey.bind({ "cmd", "alt", "ctrl" }, "K", function()
+	spoon.Screenkey:toggleShow()
+end)
