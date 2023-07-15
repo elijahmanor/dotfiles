@@ -29,5 +29,5 @@ brew bundle
 ### Symlink dotfiles
 
 ```
-stow bin kitty lazygit nvim tmux wezterm zsh zellij bat lf
+stow bin kitty lazygit nvim tmux wezterm zsh zellij bat lf pistol
 ```
