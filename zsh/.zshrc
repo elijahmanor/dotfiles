@@ -103,7 +103,8 @@ bindkey "^f" "tmux-sessionizer\n"
 autoload -Uz compinit
 compinit
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+# eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(/usr/local/bin/brew shellenv)"
 eval "$(fnm env --use-on-cd --log-level=quiet)"
 eval "$(zoxide init zsh)"
 eval "$(github-copilot-cli alias -- "$0")"
