@@ -23,7 +23,7 @@ function runr() {
     fzf \
       --header="Select a script to run…" \
       --prompt="󰎙 Script  " \
-      --preview "jq -r '.scripts | { {1} } | .[]' package.json" \
+      --preview "jq -r '.scripts | { \"{1}\" } | .[]' package.json" \
       --preview-window="down,1,border-horizontal" \
       --height="50%" \
       --layout="reverse" | \
