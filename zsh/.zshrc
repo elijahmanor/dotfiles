@@ -16,8 +16,18 @@ alias vimrc="vim ~/.config/nvim"
 alias tmuxrc="vim ~/.tmux.conf"
 alias lksconfig='vim ~/.lks/config.json'
 
+alias dockerps="docker ps --format 'table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}'"
+
 function runr() { 
-  jq -r '.scripts | keys[]' package.json | fzf --preview "jq -r '.scripts | { .{1} } | join()' package.json" | xargs -r npm run
+  jq -r '.scripts | keys[]' package.json |
+    fzf \
+      --header="Select a script to run…" \
+      --prompt="󰎙 Script  " \
+      --preview "jq -r '.scripts | { {1} } | .[]' package.json" \
+      --preview-window="down,1,border-horizontal" \
+      --height="50%" \
+      --layout="reverse" | \
+    xargs -r npm run
 }
 alias cb='git branch --sort=-committerdate | fzf --header "Checkout Recent Branch" --preview "git diff {1} --color=always" --pointer="" | xargs git checkout'
 alias yarntest="yarn ui:build && lerna run test && yarn jest && yarn coverage:collect"

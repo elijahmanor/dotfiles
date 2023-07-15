@@ -3,9 +3,20 @@ set previewer ~/.config/lf/lf_kitty_preview
 set cleaner ~/.config/lf/lf_kitty_clean
 
 # Basic Settings
-set hidden true
+set shell zsh
+set scrolloff 10
+set dircounts
+set info size
+set period 1
+# set number true
+set drawbox
 set ignorecase true
 set icons true
+set preview true
+set hidden true
+set incsearch true
+set incfilter true
+set mouse true
 
 # Custom Functions
 cmd mkdir ${{
@@ -20,21 +31,19 @@ cmd mkfile ${{
   $EDITOR $ans
 }}
 
-cmd setwallpaper ${{
-    cp "$f" ~/.config/wall.jpg
-    xwallpaper --zoom "$f"
-    betterlockscreen -u "$f" --fx
+cmd z %lf -remote "send $id cd '$(zoxide query $1)'"
+
+cmd zi ${{
+    res="$(zoxide query -i "$1")"
+    lf -remote "send $id cd \"$res\""
 }}
 
-# Archive bindings
-cmd unarchive ${{
-  case "$f" in
-      *.zip) unzip "$f" ;;
-      *.tar.gz) tar -xzvf "$f" ;;
-      *.tar.bz2) tar -xjvf "$f" ;;
-      *.tar) tar -xvf "$f" ;;
-      *) echo "Unsupported format" ;;
-  esac
+cmd copy-dirname %{{
+    dirname -- "$f" | head -c-1 | xclip -i -selection clipboard
+}}
+
+cmd copy-path ${{
+    printf '%s' "$fx" | xclip -i -selection clipboard
 }}
 
 # Trash bindings
@@ -56,14 +65,34 @@ cmd restore_trash ${{
   trash-restore
 }}
 
+cmd disk-usage ${{
+	df -H $PWD
+	read -r -p "Press any key to continue..." null
+}}
+
+cmd edit-config ${{
+    $EDITOR ~/.config/lf/lfrc
+    lf -remote "send $id source ~/.config/lf/lfrc"
+}}
+
+map C edit-config
+
+cmd toggle_preview %{{
+    if [ "$lf_preview" = "true" ]; then
+        lf -remote "send $id :set preview false; set ratios 1:5"
+    else
+        lf -remote "send $id :set preview true; set ratios 1:2:3"
+    fi
+}}
+
+map zp toggle_preview
+
 # Bindings
 map d
 map m
 
-map c $vscodium "$f"
-
-map au unarchive
-map ae $wine "$f"
+# Editor
+map e $vim "$f"
 
 # Basic Functions
 map . set hidden!
@@ -76,8 +105,19 @@ map <enter> open
 map R reload
 map mf mkfile
 map md mkdir
-map bg setwallpaper
-map C clear
+# map C clear
+
+map Y :copy-path
+
+map du disk-usage
+
+map Z :zi
+
+# Go to symlink directory
+map gl &{{
+    origin="$(realpath -s -- "$(readlink -- "$f")")"
+    lf -remote "send $id select '$origin'"
+}}
 
 # Movement
 map gD cd ~/documents
@@ -88,3 +128,4 @@ map gr cd ~/repos
 map gv cd ~/videos
 map gs cd ~/.local/bin
 map gt cd ~/.local/share/Trash/files
+

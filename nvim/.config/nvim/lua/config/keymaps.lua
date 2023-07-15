@@ -4,11 +4,12 @@
 
 -- overwrite lazyvim mappings with vim-tmux-navigator mappings
 -- see: https://github.com/christoomey/vim-tmux-navigator/blob/master/plugin/tmux_navigator.vim
-vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>")
-vim.keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>")
-vim.keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>")
-vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>"     )
-vim.keymap.set("n", "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>") 
+-- https://github.com/LazyVim/LazyVim/discussions/322#discussioncomment-5548050
+vim.keymap.set("n", "<C-h>", ":<C-U>TmuxNavigateLeft<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", ":<C-U>TmuxNavigateRight<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-j>", ":<C-U>TmuxNavigateDown<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", ":<C-U>TmuxNavigateUp<cr>", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-\\>", ":<C-U>TmuxNavigatePrevious<cr>", { noremap = true, silent = true })
 
 -- Resize window using <ctrl> arrow keys
 vim.keymap.set("n", "<M-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
@@ -37,5 +38,3 @@ end, { desc = "Lazydocker" })
 
 vim.keymap.set("i", "jj", "<esc>", { noremap = true })
 
--- vim.keymap.del('n', 'j')
--- vim.keymap.del('n', 'k')
