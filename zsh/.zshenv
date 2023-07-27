@@ -12,3 +12,4 @@ export TERM=xterm-256color
 
 export TZ_LIST="US/Central;Asia/Kolkata;"
 
+. "$HOME/.cargo/env"
