@@ -27,7 +27,7 @@ function runr() {
       --preview-window="down,1,border-horizontal" \
       --height="50%" \
       --layout="reverse" | \
-    xargs -r npm run
+    xargs -o npm run
 }
 alias cb='git branch --sort=-committerdate | fzf --header "Checkout Recent Branch" --preview "git diff {1} --color=always" --pointer="" | xargs git checkout'
 alias yarntest="yarn ui:build && lerna run test && yarn jest && yarn coverage:collect"
