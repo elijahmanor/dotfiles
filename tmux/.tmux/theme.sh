@@ -15,13 +15,13 @@ get_system_mode() {
 # set -g @catppuccin_flavour 'latte' # or frappe, macchiato, mocha
 function get_theme() {
 	local mode=$(get_system_mode)
-	# tmux set-option -g @catppuccin_prepend "#[fg=${thm_yellow},bg=${thm_gray}]#[fg=${thm_bg},bg=${thm_yellow}] #[fg=${thm_fg},bg=${thm_bg}] #( ~/.tmux/watson.sh ) "
+	tmux set-option -g @catppuccin_prepend ""
 	# theme variables aren't available, so copy from catppuccin files
 	if [[ $mode == "dark" ]]; then
-		tmux set-option -g @catppuccin_prepend "#[fg=#e5c890,bg=#414559]#[fg=#303446,bg=#e5c890] #[fg=#c6d0f5,bg=#303446] #( ~/.tmux/watson.sh ) "
+		# tmux set-option -g @catppuccin_prepend "#[fg=#e5c890,bg=#414559]#[fg=#303446,bg=#e5c890] #[fg=#c6d0f5,bg=#303446] #( ~/.tmux/watson.sh ) "
 		echo "frappe"
 	else
-		tmux set-option -g @catppuccin_prepend "#[fg=#df8e1d,bg=#bcc0cc]#[fg=#dce0e8,bg=#df8e1d] #[fg=#4c4f69,bg=#dce0e8] #( ~/.tmux/watson.sh ) "
+		# tmux set-option -g @catppuccin_prepend "#[fg=#df8e1d,bg=#bcc0cc]#[fg=#dce0e8,bg=#df8e1d] #[fg=#4c4f69,bg=#dce0e8] #( ~/.tmux/watson.sh ) "
 		echo "latte"
 	fi
 }

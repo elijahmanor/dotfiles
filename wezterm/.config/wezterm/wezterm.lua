@@ -15,7 +15,7 @@ local config = {
 		-- "Rec Mono Duotone",
 		{ family = "Symbols Nerd Font Mono", scale = 0.75 },
 	}),
-	window_background_opacity = 0.9,
+	window_background_opacity = 1.9,
 	macos_window_background_blur = 10,
 	force_reverse_video_cursor = true,
 	window_decorations = "RESIZE",
@@ -31,7 +31,7 @@ local config = {
 	warn_about_missing_glyphs = false,
 }
 
-local isRecording = true
+local isRecording = false
 if isRecording then
 	config.color_scheme = "tokyonight_moon"
 	config.font_size = 24

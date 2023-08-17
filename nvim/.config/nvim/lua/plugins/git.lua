@@ -6,6 +6,7 @@ return {
       "sindrets/diffview.nvim",
     },
     cmd = "Neogit",
+    branch = "master",
     keys = { { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" } },
     opts = {
       integrations = {
