@@ -64,6 +64,7 @@ function ghgist() {
 
 # git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/AstroNvim
 # git clone git@github.com:nvim-lua/kickstart.nvim.git ~/.config/kickstart
+# git clone https://github.com/nvim-lua/kickstart.nvim.git ~/.config/kickstart
 # git clone https://github.com/NvChad/NvChad ~/.config/NvChad --depth 1
 # git clone https://github.com/LazyVim/starter ~/.config/LazyVim
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
